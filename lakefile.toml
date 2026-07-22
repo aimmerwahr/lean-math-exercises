@@ -1,0 +1,24 @@
+name = "lean-math-exercises"
+version = "0.1.0"
+defaultTargets = ["Meta", "Exercises", "Solutions"]
+
+# Shared metaprogramming support (e.g. the `assert_not_uses` ban checker) and the
+# internal ban-enforcement checks under `Meta.Checks.+`. Not exercise content.
+[[lean_lib]]
+name = "Meta"
+globs = ["Meta.+"]
+
+# Exercise sheets: statements with `sorry` (typecheck with only `sorry` warnings).
+[[lean_lib]]
+name = "Exercises"
+globs = ["Exercises.+"]
+
+# Solutions: complete, sorry-free proofs.
+[[lean_lib]]
+name = "Solutions"
+globs = ["Solutions.+"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "4851ebd9bfe9aae548388b92ebd13ded9332abba"
