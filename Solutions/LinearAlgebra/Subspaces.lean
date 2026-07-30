@@ -6,7 +6,6 @@ namespace Solutions.LinearAlgebra.Subspaces
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
-/-- A vector lies in `U ⊔ W` iff it is a sum `u + w` with `u ∈ U`, `w ∈ W`. -/
 theorem q1_mem_sup_iff (U W : Submodule K V) (x : V) :
     x ∈ U ⊔ W ↔ ∃ u ∈ U, ∃ w ∈ W, u + w = x := by
   constructor
@@ -32,7 +31,6 @@ theorem q1_mem_sup_iff (U W : Submodule K V) (x : V) :
     rintro ⟨u, hu, w, hw, rfl⟩
     exact add_mem (Submodule.mem_sup_left hu) (Submodule.mem_sup_right hw)
 
-/-- `U ⊔ W ≤ X` iff both `U ≤ X` and `W ≤ X` (the sum is the least upper bound). -/
 theorem q2_sup_le_iff (U W X : Submodule K V) :
     U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
   constructor
@@ -45,7 +43,6 @@ theorem q2_sup_le_iff (U W X : Submodule K V) :
     obtain ⟨u, hu, w, hw, rfl⟩ := hx
     exact add_mem (hU hu) (hW hw)
 
-/-- `U ⊔ W = W` iff `U ≤ W`. -/
 theorem q3_sup_eq_right_iff_le (U W : Submodule K V) :
     U ⊔ W = W ↔ U ≤ W := by
   constructor
@@ -57,7 +54,6 @@ theorem q3_sup_eq_right_iff_le (U W : Submodule K V) :
     intro h
     exact le_antisymm ((q2_sup_le_iff U W W).mpr ⟨h, le_rfl⟩) le_sup_right
 
-/-- If `u ∈ U \ W` and `w ∈ W \ U`, then `u + w ∉ ↑U ∪ ↑W`. -/
 theorem q4_add_notMem_union (U W : Submodule K V) {u w : V}
     (hu : u ∈ U) (hw : w ∈ W) (huW : u ∉ W) (hwU : w ∉ U) :
     u + w ∉ (↑U ∪ ↑W : Set V) := by
@@ -74,7 +70,6 @@ theorem q4_add_notMem_union (U W : Submodule K V) {u w : V}
     rw [this]
     exact W.sub_mem h hw
 
-/-- The union `↑U ∪ ↑W` is a subspace (i.e. equals `↑(U ⊔ W)`) iff `U ≤ W` or `W ≤ U`. -/
 theorem q5_union_isSubspace_iff_le (U W : Submodule K V) :
     (↑U ∪ ↑W : Set V) = ↑(U ⊔ W) ↔ U ≤ W ∨ W ≤ U := by
   constructor
@@ -102,7 +97,6 @@ theorem q5_union_isSubspace_iff_le (U W : Submodule K V) :
       rw [hsup, Set.union_eq_left]
       exact fun x hx => h hx
 
-/-- `Disjoint U W` iff the only common vector is `0`. -/
 theorem q6_disjoint_iff_forall_eq_zero (U W : Submodule K V) :
     Disjoint U W ↔ ∀ x, x ∈ U → x ∈ W → x = 0 := by
   -- Disjointness of subspaces means they meet only in the zero subspace `⊥ = {0}`; so a
@@ -118,7 +112,6 @@ theorem q6_disjoint_iff_forall_eq_zero (U W : Submodule K V) :
     rw [Submodule.mem_bot]
     exact h x hx.1 hx.2
 
-/-- The sum is direct iff decompositions `u + w` are unique. -/
 theorem q7_directSum_iff_unique_decomp (U W : Submodule K V) :
     Disjoint U W ↔
       ∀ u₁ ∈ U, ∀ u₂ ∈ U, ∀ w₁ ∈ W, ∀ w₂ ∈ W,
@@ -142,7 +135,6 @@ theorem q7_directSum_iff_unique_decomp (U W : Submodule K V) :
     have := h x hxU 0 U.zero_mem 0 W.zero_mem x hxW (by simp)
     exact this.1
 
-/-- Modular law: `U ≤ W → U ⊔ (X ⊓ W) = (U ⊔ X) ⊓ W`. -/
 theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     U ⊔ (X ⊓ W) = (U ⊔ X) ⊓ W := by
   apply le_antisymm
@@ -166,7 +158,6 @@ theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     rw [hyeq]
     exact W.sub_mem hxW huW
 
-/-- The set of vectors in `ℝ³` whose coordinates sum to `0` is a subspace. -/
 theorem q9_sumZero_isSubspace :
     ∃ U : Submodule ℝ (Fin 3 → ℝ),
       (U : Set (Fin 3 → ℝ)) = {v | v 0 + v 1 + v 2 = 0} := by
@@ -186,7 +177,6 @@ theorem q9_sumZero_isSubspace :
     simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul] at *
     linear_combination c * ha
 
-/-- The set of vectors in `ℝ³` with first coordinate `1` is not a subspace. -/
 theorem q10_firstCoordOne_notSubspace :
     ¬ ∃ U : Submodule ℝ (Fin 3 → ℝ),
       (U : Set (Fin 3 → ℝ)) = {v | v 0 = 1} := by
@@ -196,7 +186,6 @@ theorem q10_firstCoordOne_notSubspace :
   rw [← SetLike.mem_coe, hU] at h0
   simp at h0
 
-/-- The union of the two coordinate axes in `ℝ²` is not a subspace. -/
 theorem q11_axes_notSubspace :
     ¬ ∃ U : Submodule ℝ (Fin 2 → ℝ),
       (U : Set (Fin 2 → ℝ)) = {v | v 0 * v 1 = 0} := by
@@ -208,5 +197,18 @@ theorem q11_axes_notSubspace :
   have hsum : (![1, 0] + ![0, 1] : Fin 2 → ℝ) ∈ U := U.add_mem he0 he1
   rw [← SetLike.mem_coe, hU] at hsum
   simp at hsum
+
+theorem q12_modular_cancel (U W X : Submodule K V)
+    (hle : W ≤ X) (hsup : U ⊔ W = U ⊔ X) (hinf : U ⊓ W = U ⊓ X) :
+    W = X := by
+  -- One inclusion is the hypothesis. For the reverse, rewrite `X` using the modular law: absorbing
+  -- `X` into the join `U ⊔ X = U ⊔ W`, then applying `Question 8` (`W ≤ X`) turns the meet into
+  -- `W ⊔ (U ⊓ X) = W ⊔ (U ⊓ W) = W`.
+  symm
+  calc X = X ⊓ (U ⊔ X) := (inf_eq_left.mpr le_sup_right).symm
+    _ = (W ⊔ U) ⊓ X := by rw [← hsup, inf_comm, sup_comm]
+    _ = W ⊔ (U ⊓ X) := (q8_modular_law W X U hle).symm
+    _ = W ⊔ (U ⊓ W) := by rw [hinf]
+    _ = W := sup_eq_left.mpr inf_le_right
 
 end Solutions.LinearAlgebra.Subspaces

@@ -45,6 +45,9 @@ section
 #check @Matrix.det_apply'
 #check @Equiv.Perm.sign_inv
 
+-- The determinant of a negated matrix picks up `(-1)` per row.
+#check @Matrix.det_neg
+
 end
 
 /-- **Question 1.**
@@ -114,6 +117,21 @@ permutation-sum definition, reindexing the sum by `σ ↦ σ⁻¹`.)
 Prove without using `Matrix.det_transpose`. -/
 theorem q8_det_transpose {m : Type*} [Fintype m] [DecidableEq m] (A : Matrix m m ℝ) :
     Aᵀ.det = A.det := by
+  sorry
+
+/-- **Question 9.**
+
+The determinant of an inverse is the reciprocal: if `A B = I`, then `det A · det B = 1`. -/
+theorem q9_det_inv (A B : Matrix (Fin 2) (Fin 2) ℝ) (h : A * B = 1) :
+    A.det * B.det = 1 := by
+  sorry
+
+/-- **Question 10.**
+
+A matrix is **skew-symmetric** when `Aᵀ = -A`. Show that a skew-symmetric matrix of **odd** size is
+singular: for `A : ℝ³ˣ³` with `Aᵀ = -A`, `det A = 0`. -/
+theorem q10_skew_odd_singular (A : Matrix (Fin 3) (Fin 3) ℝ) (h : Aᵀ = -A) :
+    A.det = 0 := by
   sorry
 
 end Exercises.LinearAlgebra.Determinants

@@ -128,4 +128,12 @@ No single vector spans `ℝ²`. -/
 theorem q8_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
   sorry
 
+/-- **Question 9.**
+
+A linear map that carries a basis to a linearly independent family is injective: if the images
+`f (b₀), …, f (b_{n-1})` are linearly independent, then `f` is injective. -/
+theorem q9_indep_image_injective (f : V →ₗ[K] W)
+    (hf : LinearIndependent K fun i => f (b i)) : Function.Injective f := by
+  sorry
+
 end Exercises.LinearAlgebra.Basis

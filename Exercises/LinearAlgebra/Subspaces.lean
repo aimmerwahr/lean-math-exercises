@@ -176,4 +176,12 @@ theorem q11_axes_notSubspace :
       (U : Set (Fin 2 → ℝ)) = {v | v 0 * v 1 = 0} := by
   sorry
 
+/-- **Question 12.**
+
+If `W ⊆ X`, and `U ⊔ W = U ⊔ X` and `U ⊓ W = U ⊓ X`, then `W = X`. -/
+theorem q12_modular_cancel (U W X : Submodule K V)
+    (hle : W ≤ X) (hsup : U ⊔ W = U ⊔ X) (hinf : U ⊓ W = U ⊓ X) :
+    W = X := by
+  sorry
+
 end Exercises.LinearAlgebra.Subspaces

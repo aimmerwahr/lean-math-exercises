@@ -1,4 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
@@ -45,6 +46,11 @@ section
 -- Expanding `2×2` products and the identity, for the concrete computations.
 #check @Matrix.mul_fin_two
 #check @Matrix.one_fin_two
+
+-- The trace, and its cyclic property `tr (A B) = tr (B A)`.
+#check @Matrix.trace_mul_comm
+#check @Matrix.trace_sub
+#check @Matrix.trace_one
 
 end
 
@@ -109,6 +115,21 @@ a new basis. -/
 theorem q7_conjugation_concrete :
     (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) * !![2, 0; 0, 3] * !![1, -1; 0, 1]
       = !![2, 1; 0, 3] := by
+  sorry
+
+/-- **Question 8.**
+
+There are no real matrices `A, B` with `A B − B A = I`. -/
+theorem q8_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
+  sorry
+
+/-- **Question 9.**
+
+The **trace** of a square matrix is the sum of its diagonal entries. Show that it is a *similarity
+invariant*: if `Q P = I`, then `tr (P A Q) = tr A`, so `A` and its representation `P A Q` in
+another basis have the same trace. -/
+theorem q9_trace_conj_invariant (A P Q : Matrix (Fin 2) (Fin 2) ℝ) (h : Q * P = 1) :
+    Matrix.trace (P * A * Q) = Matrix.trace A := by
   sorry
 
 end Exercises.LinearAlgebra.Matrices

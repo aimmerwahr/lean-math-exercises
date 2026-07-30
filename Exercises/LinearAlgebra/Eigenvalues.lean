@@ -1,5 +1,7 @@
 import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.LinearAlgebra.Matrix.ConjTranspose
+import Mathlib.LinearAlgebra.Matrix.DotProduct
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Real.Basic
@@ -45,6 +47,16 @@ section
 -- A vanishing combination of a pair; `c • v = 0 ↔ c = 0 ∨ v = 0`.
 #check @LinearIndependent.pair_iff
 #check @smul_eq_zero
+
+-- Iterating an operator on an eigenvector; a power in a field vanishes only if the base does.
+#check @map_smul
+#check @pow_eq_zero_iff
+#check @Module.End.mul_apply
+
+-- The conjugate-transpose, and the standard Hermitian form `star v ⬝ᵥ v` (which is `0` only at `0`).
+#check @Matrix.star_mulVec
+#check @Matrix.dotProduct_mulVec
+#check @dotProduct_star_self_eq_zero
 
 end
 
@@ -121,6 +133,39 @@ theorem q7_diagonal_eigs :
 The two eigenvectors of `!![2,1;1,2]` found above are linearly independent. -/
 theorem q8_distinct_independent_concrete :
     LinearIndependent ℝ ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
+  sorry
+
+/-- **Question 9.**
+
+A complex square matrix `A` is **Hermitian** when it equals its own *conjugate-transpose* `Aᴴ` —
+the transpose with every entry replaced by its complex conjugate, so `Aᴴ i j = conj (A j i)`. Real
+symmetric matrices are the special case with real entries.
+
+Show that **every eigenvalue of a Hermitian matrix is real**: if `Aᴴ = A` and `A v = λ v` for a
+nonzero `v`, then `λ` equals its own conjugate, `star λ = λ`. -/
+theorem q9_hermitian_eigenvalue_real {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
+    (hA : A.conjTranspose = A) (l : ℂ) (v : Fin n → ℂ) (hv : v ≠ 0)
+    (hAv : A.mulVec v = l • v) :
+    star l = l := by
+  sorry
+
+/-- **Question 10.**
+
+An operator `f` is **nilpotent** when some power of it is the zero map: `f ^ k = 0` for some
+`k ≥ 1`. Show that a nilpotent operator has **no eigenvalue other than `0`**: if `f ^ k = 0` and
+`f v = λ v` with `v ≠ 0`, then `λ = 0`. -/
+theorem q10_nilpotent_only_zero (f : Module.End K V) (k : ℕ) (hk : f ^ k = 0)
+    (l : K) (v : V) (hv : v ≠ 0) (hfv : f v = l • v) : l = 0 := by
+  sorry
+
+/-- **Question 11.**
+
+Eigenvectors are inherited by every polynomial in `f`. Show that if `f v = λ v`, then `v` is again
+an eigenvector of `f² + c·f + d·id`, now with eigenvalue `λ² + c·λ + d`:
+`(f² + c • f + d • 1) v = (λ² + c·λ + d) • v`. -/
+theorem q11_poly_eigenvector (f : Module.End K V) (l c d : K) (v : V)
+    (hfv : f v = l • v) :
+    (f ^ 2 + c • f + d • 1 : Module.End K V) v = (l ^ 2 + c * l + d) • v := by
   sorry
 
 end Exercises.LinearAlgebra.Eigenvalues

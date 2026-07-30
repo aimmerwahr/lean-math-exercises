@@ -2,6 +2,9 @@ name = "lean-math-exercises"
 version = "0.1.0"
 defaultTargets = ["Meta", "Exercises", "Solutions"]
 
+[leanOptions]
+autoImplicit = false
+
 # Shared metaprogramming support (e.g. the `assert_not_uses` ban checker) and the
 # internal ban-enforcement checks under `Meta.Checks.+`. Not exercise content.
 [[lean_lib]]

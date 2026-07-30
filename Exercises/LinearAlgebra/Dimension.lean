@@ -102,4 +102,13 @@ theorem q7_finrank_span_singleton (v : V) (hv : v ≠ 0) :
     finrank K (Submodule.span K {v}) = 1 := by
   sorry
 
+/-- **Question 8.**
+
+The general principle behind Question 5. If the dimensions of `U` and `W` together exceed the
+dimension of the whole space, then `U` and `W` cannot meet only in `0`: their intersection has
+positive dimension. `dim V < dim U + dim W → 0 < dim (U ∩ W)`. -/
+theorem q8_dims_force_meet (h : finrank K V < finrank K U + finrank K W) :
+    0 < finrank K ↥(U ⊓ W) := by
+  sorry
+
 end Exercises.LinearAlgebra.Dimension

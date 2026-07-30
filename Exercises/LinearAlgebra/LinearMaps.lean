@@ -114,4 +114,20 @@ theorem q6_project_surj_not_inj :
     Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
   sorry
 
+/-- **Question 7.**
+
+Composing with an injective map on the outside does not change the kernel: if `g` is injective,
+then `ker (g ∘ f) = ker f`. -/
+theorem q7_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
+    (f : V →ₗ[K] W) (g : W →ₗ[K] U) (hg : Function.Injective g) :
+    ker (g ∘ₗ f) = ker f := by
+  sorry
+
+/-- **Question 8.**
+
+The quantitative form of Question 4: for any `f : V → W`, `dim V ≤ dim W + dim (ker f)`. -/
+theorem q8_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
+    (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
+  sorry
+
 end Exercises.LinearAlgebra.LinearMaps

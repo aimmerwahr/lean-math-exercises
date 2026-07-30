@@ -13,7 +13,6 @@ variable {K : Type*} [Field K] {V W : Type*}
   [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
   {n : ℕ} (b : Basis (Fin n) K V)
 
-/-- For a basis, coordinates are unique. -/
 theorem q1_coords_unique (c d : Fin n → K)
     (h : ∑ i, c i • b i = ∑ i, d i • b i) : c = d := by
   -- Linear independence says: a combination of the basis vectors that equals `0` has every
@@ -27,7 +26,6 @@ theorem q1_coords_unique (c d : Fin n → K)
   funext i
   exact sub_eq_zero.mp (hli (fun i => c i - d i) hzero i)
 
-/-- A linear map is determined by its values on a basis. -/
 theorem q2_map_determined (f g : V →ₗ[K] W) (h : ∀ i, f (b i) = g (b i)) : f = g := by
   -- Two maps that agree on a basis agree everywhere: expand an arbitrary `x` in the basis,
   -- then push each map through the sum and the scalars, where the values agree termwise.
@@ -36,13 +34,11 @@ theorem q2_map_determined (f g : V →ₗ[K] W) (h : ∀ i, f (b i) = g (b i)) :
   conv_rhs => rw [← b.sum_repr x]
   simp only [map_sum, map_smul, h]
 
-/-- The basis values may be prescribed arbitrarily. -/
 theorem q3_prescribe_map (w : Fin n → W) : ∃ f : V →ₗ[K] W, ∀ i, f (b i) = w i :=
   -- The map "extend `w` linearly off the basis" does the job, taking the prescribed value on
   -- each basis vector.
   ⟨b.constr K w, fun i => b.constr_basis K w i⟩
 
-/-- `(1,1)` and `(1,−1)` form a basis of `ℝ²`. -/
 theorem q4_isBasis_concrete :
     ∃ B : Basis (Fin 2) ℝ (Fin 2 → ℝ), ⇑B = ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
   -- The two vectors are independent (a vanishing combination forces both coefficients to `0`),
@@ -58,13 +54,11 @@ theorem q4_isBasis_concrete :
   exact ⟨basisOfLinearIndependentOfCardEqFinrank hli hcard,
     coe_basisOfLinearIndependentOfCardEqFinrank hli hcard⟩
 
-/-- The coordinates of `(3,1)` in `{(1,1),(1,−1)}` are `(2,1)`. -/
 theorem q5_coords_concrete :
     (2 : ℝ) • (![1, 1] : Fin 2 → ℝ) + (1 : ℝ) • ![1, -1] = ![3, 1] := by
   -- A direct check, coordinate by coordinate.
   funext i; fin_cases i <;> simp <;> norm_num
 
-/-- `(1,1,0)` extends to a basis of `ℝ³`. -/
 theorem q6_extend_concrete :
     ∃ B : Basis (Fin 3) ℝ (Fin 3 → ℝ), B 0 = ![1, 1, 0] := by
   -- Complete `(1,1,0)` with `(0,1,0)` and `(0,0,1)`. The three are independent, and three
@@ -81,7 +75,6 @@ theorem q6_extend_concrete :
   refine ⟨basisOfLinearIndependentOfCardEqFinrank hli hcard, ?_⟩
   rw [coe_basisOfLinearIndependentOfCardEqFinrank hli hcard]; rfl
 
-/-- Any three vectors in `ℝ²` are linearly dependent. -/
 theorem q7_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndependent ℝ v := by
   -- Independence would give `3` independent vectors in a `2`-dimensional space, but an
   -- independent family has at most `dim = 2` vectors.
@@ -89,12 +82,27 @@ theorem q7_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndepen
   have := h.fintype_card_le_finrank
   simp at this
 
-/-- No single vector spans `ℝ²`. -/
 theorem q8_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
   -- The span of one vector has dimension at most `1`, whereas `ℝ²` has dimension `2`.
   rintro ⟨v, hv⟩
   have h1 := finrank_span_le_card (R := ℝ) ({v} : Set (Fin 2 → ℝ))
   rw [hv] at h1
   simp [finrank_top] at h1
+
+theorem q9_indep_image_injective (f : V →ₗ[K] W)
+    (hf : LinearIndependent K fun i => f (b i)) : Function.Injective f := by
+  -- It suffices that `ker f = 0`. Take `z` with `f z = 0` and expand it in the basis:
+  -- `0 = f z = ∑ᵢ (repr z)ᵢ • f(bᵢ)`. Independence of the images forces every coordinate to
+  -- vanish, so `z = 0`.
+  rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
+  intro z hz
+  rw [LinearMap.mem_ker] at hz
+  have key : ∑ i, b.repr z i • f (b i) = 0 := by
+    have hsum : ∑ i, b.repr z i • f (b i) = f (∑ i, b.repr z i • b i) := by
+      rw [map_sum]; simp only [map_smul]
+    rw [hsum, b.sum_repr, hz]
+  have hcoef : ∀ i, b.repr z i = 0 := Fintype.linearIndependent_iff.mp hf _ key
+  have hzero : b.repr z = 0 := by ext i; exact hcoef i
+  exact b.repr.map_eq_zero_iff.mp hzero
 
 end Solutions.LinearAlgebra.Basis
