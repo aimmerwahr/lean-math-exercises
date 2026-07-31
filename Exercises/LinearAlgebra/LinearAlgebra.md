@@ -41,6 +41,3 @@ graph TD
   LinearMaps --> Eigenvalues
   Determinants --> Eigenvalues
 ```
-
-Status: **Subspaces** is available. The remaining nodes are the planned roadmap for this
-area and will be filled in as sheets land.
