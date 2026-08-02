@@ -24,7 +24,7 @@ lake build         # build the project
 
 ## Working an exercise
 
-1. Open a sheet under `Exercises/`, e.g. `Exercises/LinearAlgebra/Subspaces.lean`.
+1. Open a sheet under `Exercises/`, e.g. `Exercises/LinearAlgebra/01Subspaces.lean`.
 2. Each statement has its informal question in the docstring above it. Replace `sorry`
    with your proof.
 3. (Optional) When you finish — or if you get stuck — compare with the matching file under `Solutions/`.
@@ -43,7 +43,7 @@ Note: AI can trivialize almost any exercise here, but doing so defeats the point
 
 ## Fast iteration
 
-`lake env lean Exercises/LinearAlgebra/Subspaces.lean` typechecks one file against the
+`lake env lean Exercises/LinearAlgebra/01Subspaces.lean` typechecks one file against the
 cached Mathlib build — much faster than `lake build` while iterating a single proof.
 
 ## Contributing

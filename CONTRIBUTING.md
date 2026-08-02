@@ -6,11 +6,12 @@
 
 ## Structure
 
-Every `Exercises/A/B/C.lean` has a matching `Solutions/A/B/C.lean` at the same path.
+Every `Exercises/<Area>/<NNTopic>.lean` has a matching
+`Solutions/<Area>/<NNTopic>.lean` at the same path, where `NN` is the two-digit sheet index.
 Both trees mirror Mathlib's directory hierarchy.
 
 - Place files by Mathlib area: the area is a folder, the topic is a file under it —
-  e.g. `Exercises/LinearAlgebra/Determinants.lean`. Group by course topic, not by
+  e.g. `Exercises/LinearAlgebra/07Determinants.lean`. Group by course topic, not by
   Mathlib source file. Create an area folder only when you add an exercise for it.
 - Each area folder has one overview: `Exercises/<Area>/<Area>.md` (scope, references,
   corresponding Mathlib modules, topic dependency graph). Committed under `Exercises/`
@@ -18,7 +19,7 @@ Both trees mirror Mathlib's directory hierarchy.
 
 ## Conventions
 
-- **Namespace = module path.** `Exercises/LinearAlgebra/Determinants.lean` uses
+- **Namespace = topic name.** `Exercises/LinearAlgebra/07Determinants.lean` uses
   `namespace Exercises.LinearAlgebra.Determinants`; its solution uses
   `namespace Solutions.LinearAlgebra.Determinants`.
 - **Declaration names: `q<N>_<snake_case_name>`**, numbered per file from `q1`
@@ -34,7 +35,7 @@ Both trees mirror Mathlib's directory hierarchy.
 ## Lemma bans
 
 To ask for a result proved *without* a given lemma, add a check under
-`Meta/Checks/<Area>/<Topic>.lean` using `assert_not_uses` (see `Meta/BanCheck.lean`).
+`Meta/Checks/<Area>/<NNTopic>.lean` using `assert_not_uses` (see `Meta/BanCheck.lean`).
 It inspects the proof term, so `simp`/`omega`/`exact?` cannot smuggle a banned lemma
 past it. The check runs on `lake build`.
 
