@@ -45,6 +45,15 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := by
   · exact hQ
 ```
 
+Use `<;>` to run the tactic on its right on every goal produced by the tactic on its left:
+```lean
+example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := by
+  constructor <;> assumption
+```
+Here `constructor` creates two goals, and `assumption` is applied to each of them. This is useful
+after tactics such as `constructor`, `cases`, or `fin_cases` when the same next step solves every
+resulting goal.
+
 Use `refine` for the same situation when you can provide part of a proof and want Lean to leave
 the rest as an explicit goal:
 ```lean

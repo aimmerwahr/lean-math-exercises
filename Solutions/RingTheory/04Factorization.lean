@@ -25,8 +25,9 @@ theorem q3_division_identity {R : Type*} [EuclideanDomain R] (a b : R) :
   simpa [mul_comm, add_comm] using EuclideanDomain.div_add_mod a b
 
 
-theorem q4_polynomial_domain (K : Type*) [Field K] : IsDomain K[X] := by
-  infer_instance
+theorem q4_polynomial_zero_product (K : Type*) [Field K] (p q : K[X]) (hpq : p * q = 0) :
+    p = 0 ∨ q = 0 := by
+  exact eq_zero_or_eq_zero_of_mul_eq_zero hpq
 
 
 theorem q5_eisenstein {f : ℤ[X]} {P : Ideal ℤ} (hE : f.IsEisensteinAt P)
