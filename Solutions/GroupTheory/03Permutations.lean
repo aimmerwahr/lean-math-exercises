@@ -14,15 +14,18 @@ theorem q1_swap_product :
   -- forward: the result is the 4-cycle `0 → 1 → 2 → 3 → 0`.
   decide
 
+
 theorem q2_sign_swap : Perm.sign (swap (0 : Fin 4) 1) = -1 := by
   -- A single transposition swaps two points and fixes the rest, so it is odd.
   decide
+
 
 theorem q3_sign_cycle_length :
     Perm.sign (finRotate 4) = -1 ∧ Perm.sign (finRotate 5) = 1 := by
   -- A `k`-cycle is a product of `k - 1` transpositions, so its sign is `(-1)^{k-1}`: the 4-cycle
   -- is odd, the 5-cycle even.
   refine ⟨?_, ?_⟩ <;> decide
+
 
 theorem q4_swaps_generate (σ : Perm (Fin 4)) :
     σ ∈ Subgroup.closure {τ : Perm (Fin 4) | τ.IsSwap} := by
@@ -32,9 +35,11 @@ theorem q4_swaps_generate (σ : Perm (Fin 4)) :
   intro f x y hxy hf
   exact Subgroup.mul_mem _ (Subgroup.subset_closure ⟨x, y, hxy, rfl⟩) hf
 
+
 theorem q5_three_cycle_even : Perm.sign (swap (0 : Fin 5) 1 * swap 1 2) = 1 := by
   -- A 3-cycle is a product of two transpositions, hence even.
   decide
+
 
 theorem q6_alternating_index_two : (alternatingGroup (Fin 4)).index = 2 := by
   -- The alternating group is the kernel of `sign`, so its index is the size of the image of
@@ -44,6 +49,7 @@ theorem q6_alternating_index_two : (alternatingGroup (Fin 4)).index = 2 := by
     Nat.card_congr Subgroup.topEquiv.toEquiv, Nat.card_eq_fintype_card]
   rfl
 
+
 theorem q7_order_eq_lcm :
     orderOf (swap (0 : Fin 5) 1 * (swap 2 3 * swap 3 4)) = 6 := by
   -- This element is a disjoint 2-cycle and 3-cycle. The order of a permutation is the least common
@@ -51,16 +57,19 @@ theorem q7_order_eq_lcm :
   rw [← lcm_cycleType]
   decide
 
+
 theorem q8_cycle_decomp_concrete :
     (finRotate 4) ^ 2 = swap (0 : Fin 4) 2 * swap 1 3 := by
   -- Squaring the 4-cycle `0 → 1 → 2 → 3` sends `0 ↔ 2` and `1 ↔ 3`: it breaks into two disjoint
   -- transpositions.
   decide
 
+
 theorem q9_fifteen_puzzle_parity : Perm.sign (swap (3 : Fin 15) 4) = -1 := by
   -- The 15-puzzle's tiles sit in `Fin 15`; swapping two of them while fixing the blank is a single
   -- transposition, which is odd. Legal moves are even permutations, so this swap is unreachable.
   decide
+
 
 theorem q10_dihedral_in_S4 :
     ∃ f : DihedralGroup 4 →* Equiv.Perm (Fin 4), Function.Injective f := by

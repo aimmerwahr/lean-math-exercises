@@ -16,6 +16,7 @@ theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
   -- `(f - λ·id) v = f v - λ • v`, which is `0` exactly when `f v = λ • v`.
   simp [LinearMap.mem_ker, sub_eq_zero]
 
+
 theorem q2_eigenvalue_iff_not_injective (f : Module.End K V) (l : K) :
     (∃ v : V, v ≠ 0 ∧ f v = l • v) ↔ ¬ Function.Injective ⇑(f - l • 1) := by
   -- Not injective means the kernel is nonzero, i.e. there is a nonzero eigenvector (q1).
@@ -25,6 +26,7 @@ theorem q2_eigenvalue_iff_not_injective (f : Module.End K V) (l : K) :
     exact ⟨v, (q1_eigen_iff_ker f l v).mp hfv, hv⟩
   · rintro ⟨v, hmem, hv⟩
     exact ⟨v, hv, (q1_eigen_iff_ker f l v).mpr hmem⟩
+
 
 theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ : V)
     (h₁ : f v₁ = l₁ • v₁) (h₂ : f v₂ = l₂ • v₂)
@@ -53,12 +55,14 @@ theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ 
     exact (smul_eq_zero.mp hst).resolve_right hv₁
   exact ⟨hs0, ht0⟩
 
+
 theorem q4_eig_2x2 :
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 1] = (3 : ℝ) • ![1, 1] ∧
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, -1] = (1 : ℝ) • ![1, -1] := by
   constructor <;>
     · ext i; fin_cases i <;>
         simp [Matrix.toLin'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> norm_num
+
 
 theorem q5_rotation_field_dependence :
     (¬ ∃ (μ : ℝ) (v : Fin 2 → ℝ), v ≠ 0 ∧
@@ -83,6 +87,7 @@ theorem q5_rotation_field_dependence :
     ext i; fin_cases i <;>
       simp [Matrix.toLin'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
+
 theorem q6_shear_eigenspace (v : Fin 2 → ℝ) :
     Matrix.toLin' (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) v = v ↔ v 1 = 0 := by
   -- `A v = v` unfolds to `(v₀ + v₁, v₁) = (v₀, v₁)`, whose first coordinate says `v₁ = 0`.
@@ -95,12 +100,14 @@ theorem q6_shear_eigenspace (v : Fin 2 → ℝ) :
     funext i; fin_cases i <;>
       simp [Matrix.toLin'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two, hv1]
 
+
 theorem q7_diagonal_eigs :
     Matrix.toLin' (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 0] = (2 : ℝ) • ![1, 0] ∧
     Matrix.toLin' (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) ![0, 1] = (3 : ℝ) • ![0, 1] := by
   constructor <;>
     · ext i; fin_cases i <;>
         simp [Matrix.toLin'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
 
 theorem q8_distinct_independent_concrete :
     LinearIndependent ℝ ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
@@ -110,6 +117,7 @@ theorem q8_distinct_independent_concrete :
   have h1 := congrFun hg 1
   simp [Fin.sum_univ_two] at h0 h1
   intro i; fin_cases i <;> simp <;> linarith
+
 
 open scoped ComplexOrder in
 theorem q9_hermitian_eigenvalue_real {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
@@ -133,6 +141,7 @@ theorem q9_hermitian_eigenvalue_real {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
   have hzero : (star l - l) * (star v ⬝ᵥ v) = 0 := by rw [sub_mul, hq_real, sub_self]
   exact sub_eq_zero.mp ((mul_eq_zero.mp hzero).resolve_right hr_ne)
 
+
 theorem q10_nilpotent_only_zero (f : Module.End K V) (k : ℕ) (hk : f ^ k = 0)
     (l : K) (v : V) (hv : v ≠ 0) (hfv : f v = l • v) : l = 0 := by
   -- Applying `f` repeatedly to the eigenvector scales it by `λ` each time: `fᵐ v = λᵐ • v`.
@@ -148,6 +157,7 @@ theorem q10_nilpotent_only_zero (f : Module.End K V) (k : ℕ) (hk : f ^ k = 0)
   rcases Nat.eq_zero_or_pos k with hk0 | hkpos
   · rw [hk0, pow_zero] at hlk; exact absurd hlk one_ne_zero
   · exact (pow_eq_zero_iff hkpos.ne').mp hlk
+
 
 theorem q11_poly_eigenvector (f : Module.End K V) (l c d : K) (v : V)
     (hfv : f v = l • v) :

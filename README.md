@@ -10,6 +10,7 @@ This repo collects math exercises grouped by area, loosely following Mathlib's s
 Both trees mirror Mathlib's directory structure (e.g. `Exercises/LinearAlgebra/`).
 Each area folder has an overview file (`Exercises/<Area>/<Area>.md`) with its scope,
 references, and topic map. See for example [Linear Algebra](Exercises/LinearAlgebra/LinearAlgebra.md).
+For general Lean proof patterns used across the exercise areas, see [Exercises/Toolbox.lean](Exercises/Toolbox.lean).
 
 ## Setup
 
@@ -28,6 +29,9 @@ lake build         # build the project
 2. Each statement has its informal question in the docstring above it. Replace `sorry`
    with your proof.
 3. (Optional) When you finish — or if you get stuck — compare with the matching file under `Solutions/`.
+
+Keep two empty lines between consecutive exercise declarations in both `Exercises/` and
+`Solutions/` files.
 
 Each sheet opens with a **Potentially helpful results** section — hover any `#check`ed
 name to see its statement.

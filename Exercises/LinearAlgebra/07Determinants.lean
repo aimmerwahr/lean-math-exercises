@@ -56,12 +56,14 @@ Compute the determinant of `!![1,2;3,4]`. -/
 theorem q1_det_2x2 : (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det = -2 := by
   sorry
 
+
 /-- **Question 2.**
 
 Compute the determinant of `!![2,0,1;1,3,2;0,1,1]`. -/
 theorem q2_det_3x3 :
     (!![2, 0, 1; 1, 3, 2; 0, 1, 1] : Matrix (Fin 3) (Fin 3) ℝ).det = 3 := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -74,6 +76,7 @@ theorem q3_det_mul_concrete :
       = (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det * (!![5, 6; 7, 8]).det := by
   sorry
 
+
 /-- **Question 4.**
 
 The determinant of a triangular matrix is the product of its diagonal, and a shear has
@@ -82,6 +85,7 @@ theorem q4_det_triangular :
     (!![2, 5; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ).det = 2 * 3 ∧
     (!![1, 7; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ).det = 1 := by
   sorry
+
 
 /-- **Question 5.**
 
@@ -93,12 +97,14 @@ theorem q5_vandermonde (x y z : ℝ) :
       = (y - x) * (z - x) * (z - y) := by
   sorry
 
+
 /-- **Question 6.**
 
 Decide invertibility from the determinant: `!![2,1;1,1]` is invertible (its determinant is
 nonzero). -/
 theorem q6_invertible_iff_det : IsUnit (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) := by
   sorry
+
 
 /-- **Question 7.**
 
@@ -108,6 +114,7 @@ theorem q7_det_row_scale :
     (!![2, 4; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det
       = 2 * (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det := by
   sorry
+
 
 /-- **Question 8.**
 
@@ -119,12 +126,14 @@ theorem q8_det_transpose {m : Type*} [Fintype m] [DecidableEq m] (A : Matrix m m
     Aᵀ.det = A.det := by
   sorry
 
+
 /-- **Question 9.**
 
 The determinant of an inverse is the reciprocal: if `A B = I`, then `det A · det B = 1`. -/
 theorem q9_det_inv (A B : Matrix (Fin 2) (Fin 2) ℝ) (h : A * B = 1) :
     A.det * B.det = 1 := by
   sorry
+
 
 /-- **Question 10.**
 

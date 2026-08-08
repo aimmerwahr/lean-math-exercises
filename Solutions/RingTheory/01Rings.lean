@@ -17,11 +17,13 @@ open Exercises.RingTheory.Rings.Hamilton
 theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) := by
   exact neg_mul a b
 
+
 theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b = 0 := by
   rcases ha with ⟨u, rfl⟩
   -- Multiplying by the inverse of a unit cancels its nonzero factor.
   have h := congrArg (fun x : R => (↑(u⁻¹) : R) * x) hab
   simpa [mul_assoc] using h
+
 
 theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p = 0 := by
   -- If `p = mk`, then the product of the casts of `m` and `k` is zero.  In a domain one factor
@@ -62,13 +64,16 @@ theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p
         exact hp0 (hk.trans (by simp [hmzero]))
       omega
 
+
 theorem q4_zmod12_unit : IsUnit (5 : ZMod 12) := by
   -- The residue 5 is coprime to 12, so multiplication by it is reversible modulo 12.
   exact ZMod.isUnit_iff_coprime 5 12 |>.mpr (by decide)
 
+
 theorem q5_int_initial (f : ℤ →+* R) : f = Int.castRingHom R := by
   -- A ring map must preserve both `1` and repeated addition, so its value on every integer is fixed.
   exact RingHom.ext_int f (Int.castRingHom R)
+
 
 theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : IsUnit a := by
   -- Multiplication by `a` is injective: equal products differ by a product `a(x-y)` equal to zero.
@@ -85,6 +90,7 @@ theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : 
   refine ⟨b, hb, ?_⟩
   rw [mul_comm, hb]
 
+
 theorem q7_zmod12_two_zero_divisor :
     ¬ IsUnit (2 : ZMod 12) ∧ (2 : ZMod 12) * 6 = 0 ∧ (6 : ZMod 12) ≠ 0 := by
   constructor
@@ -100,6 +106,7 @@ theorem q7_zmod12_two_zero_divisor :
     have hdiv : 12 ∣ 6 := (ZMod.natCast_eq_zero_iff 6 12).mp h
     norm_num at hdiv
 
+
 theorem q8_zmod12_unit_iff (a : ZMod 12) :
     IsUnit a ↔ ∃ n : ℕ, a = n ∧ n.Coprime 12 := by
   constructor
@@ -108,6 +115,7 @@ theorem q8_zmod12_unit_iff (a : ZMod 12) :
     exact ⟨n, rfl, ZMod.isUnit_iff_coprime n 12 |>.mp ha⟩
   · rintro ⟨n, rfl, hn⟩
     exact ZMod.isUnit_iff_coprime n 12 |>.mpr hn
+
 
 theorem q9_boolean_two_torsion_and_comm {S : Type*} [Ring S]
     (h : ∀ x : S, x * x = x) (a b : S) : a + a = 0 ∧ a * b = b * a := by
@@ -139,6 +147,7 @@ theorem q9_boolean_two_torsion_and_comm {S : Type*} [Ring S]
       _ = a * b + (b * a + b * a) := by rw [htwo (b * a)]
       _ = (a * b + b * a) + b * a := by abel
       _ = b * a := by rw [hcross, zero_add]
+
 
 theorem q10_gaussian_no_zero_divisors (z w : GaussianInt) (hzw : z * w = 0) : z = 0 ∨ w = 0 := by
   -- Norms multiply.  Since an integer product is zero only when one factor is zero, one of the
@@ -181,12 +190,14 @@ private theorem hamilton_inv_mul (q : Hamilton) (hq : q ≠ zero) : mul (inv q) 
     field_simp [hnorm]
     ring
 
+
 theorem q11_hamilton_inverse_and_noncommutative (q : Hamilton) (hq : q ≠ zero) :
     (∃ r, mul q r = one ∧ mul r q = one) ∧ mul qi qj = neg (mul qj qi) := by
   -- Conjugation reverses the imaginary coordinates, and division by the positive squared norm
   -- makes it a two-sided inverse.  The coordinate multiplication also gives `ij = -ji`.
   refine ⟨⟨inv q, hamilton_mul_inv q hq, hamilton_inv_mul q hq⟩, ?_⟩
   simp [mul, qi, qj, neg]
+
 
 theorem q12_int_scalar_action_unique {A : Type*} [AddCommGroup A] (act : ℤ → A → A)
     (hact : IsIntScalarAction act) (n : ℤ) (a : A) : act n a = n • a := by
@@ -248,6 +259,7 @@ private theorem zmod_prime_iff_cast_no_zero_divisors (n : ℕ) (hn : 2 ≤ n) :
         omega
       omega
 
+
 theorem q13_zmod_no_zero_divisors_iff_prime (n : ℕ) (hn : 2 ≤ n) :
     n.Prime ↔ ∀ a b : ZMod n, a * b = 0 → a = 0 ∨ b = 0 := by
   constructor
@@ -262,6 +274,7 @@ theorem q13_zmod_no_zero_divisors_iff_prime (n : ℕ) (hn : 2 ≤ n) :
     apply zmod_prime_iff_cast_no_zero_divisors n hn |>.mpr
     intro a b hab
     exact h a b hab
+
 
 theorem q14_gaussian_units_exactly_four (z : GaussianInt) :
     IsUnit z ↔ z = 1 ∨ z = -1 ∨ z = ⟨0, 1⟩ ∨ z = ⟨0, -1⟩ := by

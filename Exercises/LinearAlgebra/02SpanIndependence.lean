@@ -47,11 +47,14 @@ section
 #check @Fintype.linearIndependent_iff
 #check @linearIndependent_iff
 #check @Finsupp.linearCombination
-#check @Finsupp.mapDomain_injective
+#check @Finsupp.single
+#check @Finsupp.single_ne_zero
+#check @linearIndependent_iff_eq_zero_of_smul_mem_span
 
 -- Read a polynomial coefficient after expanding a finite sum of scalar multiples.
 #check @Polynomial.finsetSum_coeff
 #check @Polynomial.coeff_X_pow
+#check @Finset.sum_eq_single
 
 end
 
@@ -62,6 +65,7 @@ theorem q1_mem_span_explicit : (![2, 5] : Fin 2 → ℝ) ∈
     Submodule.span ℝ {(![1, 0] : Fin 2 → ℝ), ![0, 1]} := by
   sorry
 
+
 /-- **Question 2.**
 
 For a subspace `W`, prove `span s ≤ W` if and only if every vector of `s` belongs to `W`.
@@ -70,6 +74,7 @@ Prove without using `Submodule.span_le`. -/
 theorem q2_span_universal (s : Set V) (W : Submodule K V) :
     Submodule.span K s ≤ W ↔ s ⊆ (W : Set V) := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -80,6 +85,7 @@ theorem q3_span_mono {s t : Set V} (h : s ⊆ t) :
     Submodule.span K s ≤ Submodule.span K t := by
   sorry
 
+
 /-- **Question 4.**
 
 A subspace is already its own span: `span W = W`.
@@ -88,40 +94,44 @@ Prove without using `Submodule.span_eq`. -/
 theorem q4_span_idempotent (W : Submodule K V) : Submodule.span K (W : Set V) = W := by
   sorry
 
-/-- **Question 5.**
 
-A family containing the zero vector is linearly dependent. -/
-theorem q5_zero_dependent {ι : Type*} (v : ι → V) (i : ι) (hvi : v i = 0) :
-    ¬ LinearIndependent K v := by
+/-- **Question 5.**
+To prove that a family is dependent, one can exhibit a nonzero coefficient function whose linear
+combination is zero. Let `δᵢ` be the coefficient function that is `1` at `i` and `0` elsewhere.
+First show that `δᵢ` is nonzero. -/
+theorem q5_single_nonzero {ι : Type*} (i : ι) : Finsupp.single i (1 : K) ≠ 0 := by
   sorry
+
 
 /-- **Question 6.**
 
-The one-vector family `(v)` is linearly independent if and only if `v ≠ 0`.
-
-Prove without using `linearIndependent_unique_iff`. -/
-theorem q6_singleton_independent (v : V) : LinearIndependent K ![v] ↔ v ≠ 0 := by
+A family containing the zero vector is linearly dependent. Use the coefficient function from
+Question 5: its linear combination with the family vanishes when `v i = 0`. -/
+theorem q6_zero_dependent {ι : Type*} (v : ι → V) (i : ι) (hvi : v i = 0) :
+    ¬ LinearIndependent K v := by
   sorry
+
 
 /-- **Question 7.**
-
-If `(vᵢ)` is linearly independent and `f` is injective, then the subfamily `(v_(f j))` is
-linearly independent.
-
-Prove without using `LinearIndependent.comp`. -/
-theorem q7_independent_comp {ι κ : Type*} (v : ι → V) (f : κ → ι) (hf : Function.Injective f)
-    (h : LinearIndependent K v) : LinearIndependent K (v ∘ f) := by
-  sorry
-
-/-- **Question 8.**
 
 A finite family is linearly dependent if and only if one of its vectors lies in the span of all
 the others.
 
 Prove without using `linearIndependent_iff_notMem_span`. -/
-theorem q8_dependent_mem_span {n : ℕ} (v : Fin (n + 1) → V) :
+theorem q7_dependent_mem_span {n : ℕ} (v : Fin (n + 1) → V) :
     ¬ LinearIndependent K v ↔ ∃ i, v i ∈ Submodule.span K (v '' {j | j ≠ i}) := by
   sorry
+
+
+/-- **Question 8.**
+
+To prove independence of the powers of `X`, extract the coefficient of `Xⁱ` from a vanishing
+linear combination. Show that if
+`∑ j, c j • Xʲ = 0`, then the coefficient `c i` is zero. -/
+theorem q8_polynomial_coeff_zero {n : ℕ} (c : Fin (n + 1) → K)
+    (hc : ∑ j, c j • (Polynomial.X : Polynomial K) ^ j.val = 0) (i : Fin (n + 1)) : c i = 0 := by
+  sorry
+
 
 /-- **Question 9.**
 

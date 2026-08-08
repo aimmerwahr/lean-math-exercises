@@ -47,6 +47,7 @@ theorem q1_orderOf_pow [Finite G] (g : G) (k : ℕ) :
       (mul_dvd_mul_iff_left (show (d : ℕ) ≠ 0 from hd0.ne')).mp h2
     exact hcop0.dvd_of_dvd_mul_left h3
 
+
 theorem q2_generator_iff_coprime [Finite G] (g : G) (k : ℕ) :
     orderOf (g ^ k) = orderOf g ↔ Nat.Coprime (orderOf g) k := by
   -- `gᵏ` has the same order as `g` (so it generates the same cyclic group) exactly when
@@ -58,11 +59,13 @@ theorem q2_generator_iff_coprime [Finite G] (g : G) (k : ℕ) :
     · exact h
   · intro h; exact Or.inr h
 
+
 theorem q3_generators_zmod :
     Finset.univ.filter (fun a : ZMod 12 => Nat.Coprime a.val 12) = {1, 5, 7, 11} := by
   -- A residue generates the additive group `ℤ/12` iff it is coprime to `12`; the coprime residues
   -- below `12` are `1, 5, 7, 11`.
   decide
+
 
 theorem q4_subgroup_isCyclic [IsCyclic G] (H : Subgroup G) : IsCyclic H := by
   -- Pick a generator `g` of `G`. If `H` is trivial it is cyclic. Otherwise let `m` be the least
@@ -108,6 +111,7 @@ theorem q4_subgroup_isCyclic [IsCyclic G] (H : Subgroup G) : IsCyclic H := by
         ⟨fun h => by simp only [Subgroup.mem_bot]; by_contra hne; exact hx ⟨x, h, hne⟩,
          fun h => by rw [Subgroup.mem_bot.1 h]; exact H.one_mem⟩
     rw [hbot]; exact Bot.isCyclic
+
 
 theorem q5_unique_subgroup_per_divisor [Finite G] [IsCyclic G] {d : ℕ}
     (hd : d ∣ Nat.card G) : ∃! H : Subgroup G, Nat.card H = d := by
@@ -168,6 +172,7 @@ theorem q5_unique_subgroup_per_divisor [Finite G] [IsCyclic G] {d : ℕ}
   · intro H hH
     rw [hchar H, hH]
 
+
 theorem q6_cyclic_iff_full_order [Fintype G] :
     IsCyclic G ↔ ∃ g : G, orderOf g = Fintype.card G := by
   -- Cyclic means a single element runs through the whole group — i.e. an element whose order
@@ -179,11 +184,13 @@ theorem q6_cyclic_iff_full_order [Fintype G] :
   · rintro ⟨g, hg⟩
     exact isCyclic_of_orderOf_eq_card g (by rw [hg, Nat.card_eq_fintype_card])
 
+
 theorem q7_card_generators_zmod :
     (Finset.univ.filter (fun a : ZMod 12 => Nat.Coprime a.val 12)).card = Nat.totient 12 := by
   -- The generators of `ℤ/12` are the residues coprime to `12` (q3 listed them); counting them gives
   -- Euler's totient `φ(12) = 4`.
   decide
+
 
 theorem q8_int_generators (a : ℤ) :
     AddSubgroup.zmultiples a = ⊤ ↔ a = 1 ∨ a = -1 := by
@@ -203,6 +210,7 @@ theorem q8_int_generators (a : ℤ) :
     refine AddSubgroup.mem_zmultiples_iff.mpr ⟨x * b, ?_⟩
     rw [zsmul_eq_mul, Int.cast_id, mul_assoc, mul_comm b a, hb, mul_one]
 
+
 theorem q9_klein_not_cyclic : ¬ IsAddCyclic (ZMod 2 × ZMod 2) := by
   -- A generator would have order `4`, but every element `x` satisfies `2 • x = 0`, so no element
   -- has order exceeding `2`.
@@ -215,6 +223,7 @@ theorem q9_klein_not_cyclic : ¬ IsAddCyclic (ZMod 2 × ZMod 2) := by
   rw [show Nat.card (ZMod 2 × ZMod 2) = 4 from by rw [Nat.card_eq_fintype_card]; decide] at hcard
   rw [hcard] at hdvd
   exact absurd hdvd (by decide)
+
 
 theorem q10_roots_of_unity (n : ℕ) [NeZero n] :
     IsCyclic (rootsOfUnity n ℂ) ∧ Nat.card (rootsOfUnity n ℂ) = n :=

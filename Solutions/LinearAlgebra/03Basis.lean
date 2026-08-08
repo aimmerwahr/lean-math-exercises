@@ -26,6 +26,7 @@ theorem q1_coords_unique (c d : Fin n → K)
   funext i
   exact sub_eq_zero.mp (hli (fun i => c i - d i) hzero i)
 
+
 theorem q2_map_determined (f g : V →ₗ[K] W) (h : ∀ i, f (b i) = g (b i)) : f = g := by
   -- Two maps that agree on a basis agree everywhere: expand an arbitrary `x` in the basis,
   -- then push each map through the sum and the scalars, where the values agree termwise.
@@ -34,10 +35,12 @@ theorem q2_map_determined (f g : V →ₗ[K] W) (h : ∀ i, f (b i) = g (b i)) :
   conv_rhs => rw [← b.sum_repr x]
   simp only [map_sum, map_smul, h]
 
+
 theorem q3_prescribe_map (w : Fin n → W) : ∃ f : V →ₗ[K] W, ∀ i, f (b i) = w i :=
   -- The map "extend `w` linearly off the basis" does the job, taking the prescribed value on
   -- each basis vector.
   ⟨b.constr K w, fun i => b.constr_basis K w i⟩
+
 
 theorem q4_isBasis_concrete :
     ∃ B : Basis (Fin 2) ℝ (Fin 2 → ℝ), ⇑B = ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
@@ -54,42 +57,40 @@ theorem q4_isBasis_concrete :
   exact ⟨basisOfLinearIndependentOfCardEqFinrank hli hcard,
     coe_basisOfLinearIndependentOfCardEqFinrank hli hcard⟩
 
-theorem q5_coords_concrete :
-    (2 : ℝ) • (![1, 1] : Fin 2 → ℝ) + (1 : ℝ) • ![1, -1] = ![3, 1] := by
-  -- A direct check, coordinate by coordinate.
-  funext i; fin_cases i <;> simp <;> norm_num
 
-theorem q6_extend_concrete :
-    ∃ B : Basis (Fin 3) ℝ (Fin 3 → ℝ), B 0 = ![1, 1, 0] := by
-  -- Complete `(1,1,0)` with `(0,1,0)` and `(0,0,1)`. The three are independent, and three
-  -- independent vectors in a `3`-dimensional space form a basis; its first vector is `(1,1,0)`.
-  have hli : LinearIndependent ℝ ![(![1, 1, 0] : Fin 3 → ℝ), ![0, 1, 0], ![0, 0, 1]] := by
+theorem q5_extend_concrete :
+    ∃ B : Basis (Fin 2) ℝ (Fin 2 → ℝ), B 0 = ![1, 2] := by
+  -- Complete `(1,2)` with `(0,1)`. The two vectors are independent, so they form a basis of
+  -- `ℝ²`; the first vector is the given one.
+  have hli : LinearIndependent ℝ ![(![1, 2] : Fin 2 → ℝ), ![0, 1]] := by
     rw [Fintype.linearIndependent_iff]
     intro g hg
     have h0 := congrFun hg 0
     have h1 := congrFun hg 1
-    have h2 := congrFun hg 2
-    simp [Fin.sum_univ_three] at h0 h1 h2
+    simp [Fin.sum_univ_two] at h0 h1
     intro i; fin_cases i <;> simp_all
-  have hcard : Fintype.card (Fin 3) = finrank ℝ (Fin 3 → ℝ) := by simp
+  have hcard : Fintype.card (Fin 2) = finrank ℝ (Fin 2 → ℝ) := by simp
   refine ⟨basisOfLinearIndependentOfCardEqFinrank hli hcard, ?_⟩
   rw [coe_basisOfLinearIndependentOfCardEqFinrank hli hcard]; rfl
 
-theorem q7_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndependent ℝ v := by
+
+theorem q6_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndependent ℝ v := by
   -- Independence would give `3` independent vectors in a `2`-dimensional space, but an
   -- independent family has at most `dim = 2` vectors.
   intro h
   have := h.fintype_card_le_finrank
   simp at this
 
-theorem q8_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
+
+theorem q7_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
   -- The span of one vector has dimension at most `1`, whereas `ℝ²` has dimension `2`.
   rintro ⟨v, hv⟩
   have h1 := finrank_span_le_card (R := ℝ) ({v} : Set (Fin 2 → ℝ))
   rw [hv] at h1
   simp [finrank_top] at h1
 
-theorem q9_indep_image_injective (f : V →ₗ[K] W)
+
+theorem q8_indep_image_injective (f : V →ₗ[K] W)
     (hf : LinearIndependent K fun i => f (b i)) : Function.Injective f := by
   -- It suffices that `ker f = 0`. Take `z` with `f z = 0` and expand it in the basis:
   -- `0 = f z = ∑ᵢ (repr z)ᵢ • f(bᵢ)`. Independence of the images forces every coordinate to

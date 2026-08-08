@@ -54,7 +54,8 @@ section
 #check @map_sum
 #check @map_smul
 
--- Build a linear map from prescribed values on the basis, and read those values back.
+-- `b.constr K w` is the linear map obtained by extending the prescribed values `w` from the
+-- basis to all of `V`; `constr_basis` says that this map has the prescribed value at each `b i`.
 #check @Basis.constr
 #check @Basis.constr_basis
 
@@ -77,6 +78,7 @@ theorem q1_coords_unique (c d : Fin n → K)
     (h : ∑ i, c i • b i = ∑ i, d i • b i) : c = d := by
   sorry
 
+
 /-- **Question 2.**
 
 A linear map is determined by its values on a basis: if `f (bᵢ) = g (bᵢ)` for every `i`, then
@@ -86,12 +88,14 @@ Prove without using `Basis.ext`. -/
 theorem q2_map_determined (f g : V →ₗ[K] W) (h : ∀ i, f (b i) = g (b i)) : f = g := by
   sorry
 
+
 /-- **Question 3.**
 
 The basis values may be prescribed arbitrarily: given any target vectors `(wᵢ)` in `W`, there is
 a linear map `f : V → W` with `f (bᵢ) = wᵢ` for every `i`. -/
 theorem q3_prescribe_map (w : Fin n → W) : ∃ f : V →ₗ[K] W, ∀ i, f (b i) = w i := by
   sorry
+
 
 /-- **Question 4.**
 
@@ -100,39 +104,35 @@ theorem q4_isBasis_concrete :
     ∃ B : Basis (Fin 2) ℝ (Fin 2 → ℝ), ⇑B = ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
   sorry
 
+
 /-- **Question 5.**
 
-The coordinates of `(3,1)` in the basis `{(1,1), (1,−1)}` are `(2,1)`: that is,
-`2 • (1,1) + 1 • (1,−1) = (3,1)`. -/
-theorem q5_coords_concrete :
-    (2 : ℝ) • (![1, 1] : Fin 2 → ℝ) + (1 : ℝ) • ![1, -1] = ![3, 1] := by
+The nonzero vector `(1,2)` extends to a basis of `ℝ²`: there is a basis of `ℝ²` whose first
+vector is `(1,2)`. -/
+theorem q5_extend_concrete :
+    ∃ B : Basis (Fin 2) ℝ (Fin 2 → ℝ), B 0 = ![1, 2] := by
   sorry
+
 
 /-- **Question 6.**
 
-The vector `(1,1,0)` extends to a basis of `ℝ³`: there is a basis of `ℝ³` whose first vector is
-`(1,1,0)`. -/
-theorem q6_extend_concrete :
-    ∃ B : Basis (Fin 3) ℝ (Fin 3 → ℝ), B 0 = ![1, 1, 0] := by
+Any three vectors in `ℝ²` are linearly dependent. -/
+theorem q6_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndependent ℝ v := by
   sorry
+
 
 /-- **Question 7.**
 
-Any three vectors in `ℝ²` are linearly dependent. -/
-theorem q7_too_many_dependent (v : Fin 3 → (Fin 2 → ℝ)) : ¬ LinearIndependent ℝ v := by
+No single vector spans `ℝ²`. -/
+theorem q7_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
   sorry
+
 
 /-- **Question 8.**
 
-No single vector spans `ℝ²`. -/
-theorem q8_too_few_dont_span : ¬ ∃ v : Fin 2 → ℝ, Submodule.span ℝ {v} = ⊤ := by
-  sorry
-
-/-- **Question 9.**
-
 A linear map that carries a basis to a linearly independent family is injective: if the images
 `f (b₀), …, f (b_{n-1})` are linearly independent, then `f` is injective. -/
-theorem q9_indep_image_injective (f : V →ₗ[K] W)
+theorem q8_indep_image_injective (f : V →ₗ[K] W)
     (hf : LinearIndependent K fun i => f (b i)) : Function.Injective f := by
   sorry
 

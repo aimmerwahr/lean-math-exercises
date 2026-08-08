@@ -18,11 +18,13 @@ theorem q1_inv_unique {a b c : G} (hb : a * b = 1) (hc : a * c = 1) : b = c := b
   have : a * b = a * c := by rw [hb, hc]
   exact mul_left_cancel this
 
+
 theorem q2_inv_mul_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
   -- The inverse of `a * b` is whatever undoes it on the right. Check that `b⁻¹ * a⁻¹` does:
   -- `(a * b) * (b⁻¹ * a⁻¹) = a * (b * b⁻¹) * a⁻¹ = a * a⁻¹ = 1`.
   apply inv_eq_of_mul_eq_one_right
   rw [mul_assoc, ← mul_assoc b, mul_inv_cancel, one_mul, mul_inv_cancel]
+
 
 theorem q3_center_isSubgroup :
     ∃ H : Subgroup G, (↑H : Set G) = {a | ∀ g, a * g = g * a} := by
@@ -39,6 +41,7 @@ theorem q3_center_isSubgroup :
               -- from `a * g = g * a`, conjugating gives `a⁻¹ * g = g * a⁻¹`
               rw [eq_mul_inv_iff_mul_eq, mul_assoc, ← ha, ← mul_assoc, inv_mul_cancel, one_mul] }, rfl⟩
 
+
 theorem q4_orderOf_concrete : addOrderOf (3 : ZMod 12) = 4 := by
   -- The additive order is the least `n > 0` with `n • 3 = 0`. Here `4 • 3 = 12 = 0`, and no
   -- smaller positive multiple vanishes.
@@ -46,6 +49,7 @@ theorem q4_orderOf_concrete : addOrderOf (3 : ZMod 12) = 4 := by
   refine ⟨by decide, ?_⟩
   intro m hm hlt
   interval_cases m <;> decide
+
 
 theorem q5_sq_eq_one_abelian (h : ∀ x : G, x * x = 1) : ∀ a b : G, a * b = b * a := by
   -- `x * x = 1` says every element is its own inverse. Then
@@ -55,6 +59,7 @@ theorem q5_sq_eq_one_abelian (h : ∀ x : G, x * x = 1) : ∀ a b : G, a * b = b
   calc a * b = (a * b)⁻¹ := key (a * b)
     _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
     _ = b * a := by rw [← key a, ← key b]
+
 
 theorem q6_union_isSubgroup_iff (H K : Subgroup G) :
     (↑H ∪ ↑K : Set G) = ↑(H ⊔ K) ↔ H ≤ K ∨ K ≤ H := by
@@ -79,6 +84,7 @@ theorem q6_union_isSubgroup_iff (H K : Subgroup G) :
     · rw [sup_eq_right.mpr h, Set.union_eq_right.mpr h]
     · rw [sup_eq_left.mpr h, Set.union_eq_left.mpr h]
 
+
 theorem q7_mul_sq_abelian (h : ∀ a b : G, (a * b) * (a * b) = (a * a) * (b * b)) :
     ∀ a b : G, a * b = b * a := by
   -- Expand `(ab)(ab) = (aa)(bb)`, then cancel `a` on the left and `b` on the right.
@@ -88,6 +94,7 @@ theorem q7_mul_sq_abelian (h : ∀ a b : G, (a * b) * (a * b) = (a * a) * (b * b
   have h2 := mul_left_cancel h1
   rw [← mul_assoc, ← mul_assoc] at h2
   exact (mul_right_cancel h2).symm
+
 
 theorem q8_even_order_involution [Fintype G] [DecidableEq G]
     (h : 2 ∣ Fintype.card G) : ∃ x : G, x ≠ 1 ∧ x * x = 1 := by
@@ -116,15 +123,18 @@ theorem q8_even_order_involution [Fintype G] [DecidableEq G]
   · have hbx : b.1⁻¹ = b.1 := (hmem b.1).mp b.2
     exact mul_eq_one_iff_eq_inv.mpr hbx.symm
 
+
 theorem q9_perm_noncommute : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ :=
   -- Two overlapping transpositions do not commute.
   ⟨Equiv.swap 0 1, Equiv.swap 0 2, by decide⟩
+
 
 theorem q10_q8_noncommutative :
     (QuaternionGroup.a 1 : QuaternionGroup 2) * QuaternionGroup.xa 0
       ≠ QuaternionGroup.xa 0 * QuaternionGroup.a 1 := by
   -- In `Q₈`, `i * j = k` but `j * i = -k`; the two products differ.
   decide
+
 
 theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
   -- An isomorphism preserves the solution set of `x * x = 1`. But that equation has `2`
@@ -144,6 +154,7 @@ theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := 
   rw [h2, h6] at hcard
   exact absurd hcard (by decide)
 
+
 theorem q12_opposite_iso :
     ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
   -- Sending `x` to `x⁻¹` in the opposite group is an isomorphism: reversing the product exactly
@@ -153,6 +164,7 @@ theorem q12_opposite_iso :
             left_inv := fun x => by simp
             right_inv := fun y => by simp
             map_mul' := fun x y => by simp [mul_inv_rev] }, fun x => rfl⟩
+
 
 theorem q13_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
     ∃ K : Subgroup G, (∀ i, K ≤ H i) ∧ (∀ L : Subgroup G, (∀ i, L ≤ H i) → L ≤ K) := by

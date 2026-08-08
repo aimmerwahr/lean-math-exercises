@@ -10,9 +10,11 @@ theorem q1_crt (m n : ℕ) (h : m.Coprime n) : Nonempty (ZMod (m * n) ≃+* ZMod
   -- Coprimality lets a residue be recovered uniquely from its two independent reductions.
   exact ⟨ZMod.chineseRemainder h⟩
 
+
 theorem q2_zmod6_crt : Nonempty (ZMod 6 ≃+* ZMod 2 × ZMod 3) := by
   -- The moduli 2 and 3 share no prime factor, so the two coordinates determine a residue mod 6.
   simpa using q1_crt 2 3 (by decide)
+
 
 theorem q3_zmod4_not_prod : ¬ Nonempty (ZMod 4 ≃+ ZMod 2 × ZMod 2) := by
   -- Doubling any pair of residues mod 2 gives zero.
@@ -32,10 +34,12 @@ theorem q3_zmod4_not_prod : ¬ Nonempty (ZMod 4 ≃+ ZMod 2 × ZMod 2) := by
   rw [ZMod.addOrderOf_one] at hdiv
   norm_num at hdiv
 
+
 theorem q4_prod_order {G H : Type*} [CommGroup G] [CommGroup H] (a : G) (b : H) :
     orderOf (a, b) = Nat.lcm (orderOf a) (orderOf b) := by
   -- Both coordinates return to the identity precisely at common multiples of their orders.
   exact Prod.orderOf_mk
+
 
 theorem q5_order_eight_models :
     Nat.card (ZMod 8) = 8 ∧ Nat.card (ZMod 4 × ZMod 2) = 8 ∧
@@ -43,9 +47,11 @@ theorem q5_order_eight_models :
   -- Cardinalities multiply in a direct product.
   norm_num [Nat.card_prod, Nat.card_zmod]
 
+
 theorem q6_cyclic_iff_full_order {G : Type*} [AddCommGroup G] [Fintype G] :
     IsAddCyclic G ↔ ∃ g : G, addOrderOf g = Nat.card G := by
   exact isAddCyclic_iff_exists_addOrderOf_eq_natCard (α := G)
+
 
 theorem q7_exponent_attained {G : Type*} [AddCommGroup G] [Fintype G] :
     ∃ g : G, addOrderOf g = AddMonoid.exponent G := by
@@ -57,11 +63,13 @@ theorem q7_exponent_attained {G : Type*} [AddCommGroup G] [Fintype G] :
   obtain ⟨g, -, hg⟩ := Finset.mem_image.mp (Finset.max'_mem orders horders)
   exact ⟨g, hg.trans AddMonoid.exponent_eq_max'_addOrderOf.symm⟩
 
+
 theorem q8_not_cyclic_iff_exponent_prime {G : Type*} [AddCommGroup G] {p : ℕ}
     (hp : p.Prime) (hG : Nat.card G = p ^ 2) :
     ¬ IsAddCyclic G ↔ AddMonoid.exponent G = p := by
   -- This is the prime-square case of the finite abelian classification dichotomy.
   exact not_isAddCyclic_iff_exponent_eq_prime hp hG
+
 
 theorem q9_order_eight_pairwise_not_equiv :
     ¬ Nonempty (ZMod 8 ≃+ ZMod 4 × ZMod 2) ∧

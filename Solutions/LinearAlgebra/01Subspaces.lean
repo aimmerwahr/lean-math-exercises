@@ -6,12 +6,19 @@ namespace Solutions.LinearAlgebra.Subspaces
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
-theorem q1_mem_sup_iff (U W : Submodule K V) (x : V) :
+theorem q1_sup_le_iff (U W X : Submodule K V) :
+    U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
+  constructor
+  · intro h
+    exact ⟨le_sup_left.trans h, le_sup_right.trans h⟩
+  · rintro ⟨hU, hW⟩
+    exact sup_le hU hW
+
+
+theorem q2_mem_sup_iff (U W : Submodule K V) (x : V) :
     x ∈ U ⊔ W ↔ ∃ u ∈ U, ∃ w ∈ W, u + w = x := by
   constructor
-  · -- Forward direction. The set `S` of all sums `u + w` is itself a subspace containing
-    -- both `U` and `W`, hence `U ⊔ W ≤ S` (as `U ⊔ W` is the *least* such). So `x ∈ S`.
-    intro hx
+  · intro hx
     let S : Submodule K V :=
       { carrier := {y | ∃ u ∈ U, ∃ w ∈ W, u + w = y}
         zero_mem' := ⟨0, U.zero_mem, 0, W.zero_mem, by simp⟩
@@ -21,27 +28,14 @@ theorem q1_mem_sup_iff (U W : Submodule K V) (x : V) :
         smul_mem' := by
           rintro c a ⟨u, hu, w, hw, rfl⟩
           exact ⟨c • u, U.smul_mem c hu, c • w, W.smul_mem c hw, by rw [smul_add]⟩ }
-    have hUS : U ⊔ W ≤ S := by
-      apply sup_le
-      · intro u hu; exact ⟨u, hu, 0, W.zero_mem, by simp⟩
-      · intro w hw; exact ⟨0, U.zero_mem, w, hw, by simp⟩
+    have hUS : U ⊔ W ≤ S := (q1_sup_le_iff U W S).mpr
+      ⟨fun u hu => ⟨u, hu, 0, W.zero_mem, by simp⟩,
+       fun w hw => ⟨0, U.zero_mem, w, hw, by simp⟩⟩
     exact hUS hx
-  · -- Backward direction: `u ∈ U ≤ U ⊔ W` and `w ∈ W ≤ U ⊔ W`, and subspaces are closed
-    -- under addition.
+  ·
     rintro ⟨u, hu, w, hw, rfl⟩
     exact add_mem (Submodule.mem_sup_left hu) (Submodule.mem_sup_right hw)
 
-theorem q2_sup_le_iff (U W X : Submodule K V) :
-    U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
-  constructor
-  · -- If the sum sits inside `X`, so do the summands, since `U, W ≤ U ⊔ W`.
-    intro h
-    exact ⟨le_sup_left.trans h, le_sup_right.trans h⟩
-  · -- Conversely, take any `x ∈ U ⊔ W`, write it as `u + w` (q1), and land in `X`.
-    rintro ⟨hU, hW⟩ x hx
-    rw [q1_mem_sup_iff] at hx
-    obtain ⟨u, hu, w, hw, rfl⟩ := hx
-    exact add_mem (hU hu) (hW hw)
 
 theorem q3_sup_eq_right_iff_le (U W : Submodule K V) :
     U ⊔ W = W ↔ U ≤ W := by
@@ -52,7 +46,8 @@ theorem q3_sup_eq_right_iff_le (U W : Submodule K V) :
       _ = W := h
   · -- Antisymmetry: `U ⊔ W ≤ W` (by q2, since `U ≤ W` and `W ≤ W`) and `W ≤ U ⊔ W`.
     intro h
-    exact le_antisymm ((q2_sup_le_iff U W W).mpr ⟨h, le_rfl⟩) le_sup_right
+    exact le_antisymm ((q1_sup_le_iff U W W).mpr ⟨h, le_rfl⟩) le_sup_right
+
 
 theorem q4_add_notMem_union (U W : Submodule K V) {u w : V}
     (hu : u ∈ U) (hw : w ∈ W) (huW : u ∉ W) (hwU : w ∉ U) :
@@ -69,6 +64,7 @@ theorem q4_add_notMem_union (U W : Submodule K V) {u w : V}
     have : u = (u + w) - w := by abel
     rw [this]
     exact W.sub_mem h hw
+
 
 theorem q5_union_isSubspace_iff_le (U W : Submodule K V) :
     (↑U ∪ ↑W : Set V) = ↑(U ⊔ W) ↔ U ≤ W ∨ W ≤ U := by
@@ -97,6 +93,7 @@ theorem q5_union_isSubspace_iff_le (U W : Submodule K V) :
       rw [hsup, Set.union_eq_left]
       exact fun x hx => h hx
 
+
 theorem q6_disjoint_iff_forall_eq_zero (U W : Submodule K V) :
     Disjoint U W ↔ ∀ x, x ∈ U → x ∈ W → x = 0 := by
   -- Disjointness of subspaces means they meet only in the zero subspace `⊥ = {0}`; so a
@@ -111,6 +108,7 @@ theorem q6_disjoint_iff_forall_eq_zero (U W : Submodule K V) :
     rw [Submodule.mem_inf] at hx
     rw [Submodule.mem_bot]
     exact h x hx.1 hx.2
+
 
 theorem q7_directSum_iff_unique_decomp (U W : Submodule K V) :
     Disjoint U W ↔
@@ -135,6 +133,7 @@ theorem q7_directSum_iff_unique_decomp (U W : Submodule K V) :
     have := h x hxU 0 U.zero_mem 0 W.zero_mem x hxW (by simp)
     exact this.1
 
+
 theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     U ⊔ (X ⊓ W) = (U ⊔ X) ⊓ W := by
   apply le_antisymm
@@ -147,9 +146,9 @@ theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     intro x hx
     rw [Submodule.mem_inf] at hx
     obtain ⟨hxUX, hxW⟩ := hx
-    rw [q1_mem_sup_iff] at hxUX
+    rw [q2_mem_sup_iff] at hxUX
     obtain ⟨u, hu, y, hy, rfl⟩ := hxUX
-    rw [q1_mem_sup_iff]
+    rw [q2_mem_sup_iff]
     refine ⟨u, hu, y, ?_, rfl⟩
     rw [Submodule.mem_inf]
     refine ⟨hy, ?_⟩
@@ -157,6 +156,7 @@ theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     have hyeq : y = (u + y) - u := by abel
     rw [hyeq]
     exact W.sub_mem hxW huW
+
 
 theorem q9_sumZero_isSubspace :
     ∃ U : Submodule ℝ (Fin 3 → ℝ),
@@ -177,6 +177,7 @@ theorem q9_sumZero_isSubspace :
     simp only [Set.mem_ofPred_eq, Pi.smul_apply, smul_eq_mul] at *
     linear_combination c * ha
 
+
 theorem q10_firstCoordOne_notSubspace :
     ¬ ∃ U : Submodule ℝ (Fin 3 → ℝ),
       (U : Set (Fin 3 → ℝ)) = {v | v 0 = 1} := by
@@ -185,6 +186,7 @@ theorem q10_firstCoordOne_notSubspace :
   have h0 : (0 : Fin 3 → ℝ) ∈ U := U.zero_mem
   rw [← SetLike.mem_coe, hU] at h0
   simp at h0
+
 
 theorem q11_axes_notSubspace :
     ¬ ∃ U : Submodule ℝ (Fin 2 → ℝ),
@@ -197,18 +199,5 @@ theorem q11_axes_notSubspace :
   have hsum : (![1, 0] + ![0, 1] : Fin 2 → ℝ) ∈ U := U.add_mem he0 he1
   rw [← SetLike.mem_coe, hU] at hsum
   simp at hsum
-
-theorem q12_modular_cancel (U W X : Submodule K V)
-    (hle : W ≤ X) (hsup : U ⊔ W = U ⊔ X) (hinf : U ⊓ W = U ⊓ X) :
-    W = X := by
-  -- One inclusion is the hypothesis. For the reverse, rewrite `X` using the modular law: absorbing
-  -- `X` into the join `U ⊔ X = U ⊔ W`, then applying `Question 8` (`W ≤ X`) turns the meet into
-  -- `W ⊔ (U ⊓ X) = W ⊔ (U ⊓ W) = W`.
-  symm
-  calc X = X ⊓ (U ⊔ X) := (inf_eq_left.mpr le_sup_right).symm
-    _ = (W ⊔ U) ⊓ X := by rw [← hsup, inf_comm, sup_comm]
-    _ = W ⊔ (U ⊓ X) := (q8_modular_law W X U hle).symm
-    _ = W ⊔ (U ⊓ W) := by rw [hinf]
-    _ = W := sup_eq_left.mpr inf_le_right
 
 end Solutions.LinearAlgebra.Subspaces

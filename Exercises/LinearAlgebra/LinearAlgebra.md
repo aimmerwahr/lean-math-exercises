@@ -2,7 +2,8 @@
 
 Exercises on linear algebra over a field, formalized in Lean 4 + Mathlib. Each sheet is a
 topic file under this folder; prove the statements yourself, then compare with
-`Solutions/LinearAlgebra/`.
+`Solutions/LinearAlgebra/`. For small Lean facts and tactics that recur between sheets, see the
+[shared toolbox](../Toolbox.lean).
 
 ## Scope
 

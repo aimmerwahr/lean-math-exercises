@@ -41,6 +41,7 @@ end
 theorem q1_map_inv (f : G →* H) (a : G) : f a⁻¹ = (f a)⁻¹ := by
   sorry
 
+
 /-- **Question 2.**
 
 A homomorphism is injective exactly when its kernel is trivial.
@@ -48,6 +49,7 @@ A homomorphism is injective exactly when its kernel is trivial.
 Prove without using `MonoidHom.ker_eq_bot_iff`. -/
 theorem q2_injective_iff_ker (f : G →* H) : Function.Injective f ↔ f.ker = ⊥ := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -57,6 +59,7 @@ Prove without using `MonoidHom.normal_ker`. -/
 theorem q3_ker_normal (f : G →* H) : f.ker.Normal := by
   sorry
 
+
 /-- **Question 4.**
 
 Cayley's theorem: every group embeds into the permutation group of its underlying set.
@@ -65,20 +68,24 @@ Prove without using `MulAction.toPermHom`. -/
 theorem q4_cayley : ∃ φ : G →* Equiv.Perm G, Function.Injective φ := by
   sorry
 
+
 /-- **Question 5.** A homomorphism out of a cyclic group is determined by the image of a generator. -/
 theorem q5_hom_cyclic_determined (g : G) (hg : Subgroup.zpowers g = ⊤) (f h : G →* H)
     (hgen : f g = h g) : f = h := by
   sorry
 
+
 /-- **Question 6.** An isomorphism preserves the order of every element. -/
 theorem q6_iso_preserves_orderOf (e : G ≃* H) (a : G) : orderOf (e a) = orderOf a := by
   sorry
+
 
 /-- **Question 7.** For reduction modulo `6`, the kernel is the multiples of `6` and the map is
 surjective. -/
 theorem q7_ker_range_concrete (n : ℤ) :
     n ∈ (Int.castAddHom (ZMod 6)).ker ↔ (6 : ℤ) ∣ n := by
   sorry
+
 
 /-- **Question 8.** Two cyclic groups with the same finite cardinality are isomorphic. -/
 theorem q8_cyclic_same_order_iso [IsCyclic G] [IsCyclic H]
@@ -92,6 +99,7 @@ structure GrpObj where
 
 attribute [instance] GrpObj.group
 
+
 /-- **Question 9.**
 
 A category has objects, morphisms between objects, identities, and associative composition. Show
@@ -102,6 +110,7 @@ theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
 /-- A bespoke one-object type used to view a group as a groupoid. -/
 inductive OneObj where
   | star
+
 
 /-- **Question 10.**
 

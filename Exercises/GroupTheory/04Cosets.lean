@@ -65,6 +65,7 @@ theorem q1_coset_card (g : G) (H : Subgroup G) :
     (g • (H : Set G)).ncard = (H : Set G).ncard := by
   sorry
 
+
 /-- **Question 2.**
 
 Lagrange's theorem: the order of a subgroup divides the order of the group.
@@ -73,6 +74,7 @@ Prove without using `Subgroup.card_subgroup_dvd_card`. -/
 theorem q2_lagrange [Finite G] (H : Subgroup G) : Nat.card H ∣ Nat.card G := by
   sorry
 
+
 /-- **Question 3.**
 
 The order of an element divides the order of the group.
@@ -80,6 +82,7 @@ The order of an element divides the order of the group.
 Prove without using `orderOf_dvd_card`. -/
 theorem q3_orderOf_dvd_card [Finite G] (g : G) : orderOf g ∣ Nat.card G := by
   sorry
+
 
 /-- **Question 4.**
 
@@ -90,6 +93,7 @@ theorem q4_prime_order_cyclic [Finite G] {p : ℕ} (hp : p.Prime)
     (hcard : Nat.card G = p) : IsCyclic G := by
   sorry
 
+
 /-- **Question 5.**
 
 Fermat's little theorem: for prime `p` and `a ≠ 0` in `ZMod p`, `a^(p-1) = 1`.
@@ -98,6 +102,7 @@ Prove without using `ZMod.pow_card_sub_one_eq_one`. -/
 theorem q5_fermat_little {p : ℕ} [Fact p.Prime] (a : ZMod p) (ha : a ≠ 0) :
     a ^ (p - 1) = 1 := by
   sorry
+
 
 /-- **Question 6.**
 
@@ -108,6 +113,7 @@ theorem q6_euler {n : ℕ} [NeZero n] (a : ZMod n) (ha : IsUnit a) :
     a ^ n.totient = 1 := by
   sorry
 
+
 /-- **Question 7.**
 
 A concrete Lagrange check: `S₃` has `6` elements and its alternating subgroup `A₃` has `3`, so `A₃`
@@ -115,6 +121,7 @@ has `6 / 3 = 2` cosets. -/
 theorem q7_cosets_count :
     Nat.card (Equiv.Perm (Fin 3)) = 6 ∧ Nat.card (alternatingGroup (Fin 3)) = 3 := by
   sorry
+
 
 /-- **Question 8.**
 

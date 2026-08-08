@@ -59,12 +59,14 @@ theorem q1_splitting_field_splits {K : Type*} [Field K] (p : K[X]) :
     (p.map (algebraMap K (SplittingField p))).Splits := by
   sorry
 
+
 /-- **Question 2.**
 
 Show that the roots of `p` generate its splitting field over `K`. -/
 theorem q2_generated_by_roots {K : Type*} [Field K] (p : K[X]) :
     Algebra.adjoin K (p.rootSet (SplittingField p)) = ⊤ := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -74,6 +76,7 @@ theorem q3_uniqueness {K L : Type*} [Field K] [Field L] [Algebra K L] (p : K[X])
     [IsSplittingField K L p] : Nonempty (L ≃ₐ[K] SplittingField p) := by
   sorry
 
+
 /-- **Question 4.**
 
 Every nonconstant polynomial has a root in its splitting field. -/
@@ -81,6 +84,7 @@ theorem q4_root_in_splitting_field {K : Type*} [Field K] (p : K[X])
     (hp : p.natDegree ≠ 0) :
     ∃ x : SplittingField p, p.eval₂ (algebraMap K (SplittingField p)) x = 0 := by
   sorry
+
 
 /-- **Question 5.**
 
@@ -91,6 +95,7 @@ theorem q5_roots_integral {K : Type*} [Field K] (p : K[X]) (x : SplittingField p
     (hx : x ∈ p.rootSet (SplittingField p)) : IsIntegral K x := by
   sorry
 
+
 /-- **Question 6.**
 
 Show that `p` already splits over `K` exactly when its splitting field adds no new elements.  In
@@ -100,11 +105,13 @@ theorem q6_splits_iff_no_extension {K : Type*} [Field K] (p : K[X]) :
     p.Splits ↔ (⊤ : Subalgebra K (SplittingField p)) = ⊥ := by
   sorry
 
+
 /-- **Question 7.**
 
 Prove that every complex polynomial splits into linear factors over `ℂ`. -/
 theorem q7_complex_splits (p : ℂ[X]) : p.Splits := by
   sorry
+
 
 /-- **Question 8.**
 
@@ -113,17 +120,20 @@ root. -/
 theorem q8_complex_root (p : ℂ[X]) (hp : 0 < p.degree) : ∃ z : ℂ, p.eval z = 0 := by
   sorry
 
+
 /-- **Question 9.**
 
 Verify directly that `i` is a root of `X² + 1` over `ℂ`. -/
 theorem q9_x_sq_add_one_root : ((X ^ 2 + 1 : ℂ[X]).eval Complex.I) = 0 := by
   sorry
 
+
 /-- **Question 10.**
 
 Verify directly that `-1` is a primitive second root of unity in `ℚ`. -/
 theorem q10_neg_one_primitive_root : IsPrimitiveRoot (-1 : ℚ) 2 := by
   sorry
+
 
 /-- **Question 11.**
 

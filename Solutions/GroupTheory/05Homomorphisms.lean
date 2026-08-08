@@ -16,6 +16,7 @@ theorem q1_map_inv (f : G →* H) (a : G) : f a⁻¹ = (f a)⁻¹ := by
   -- The image of an inverse must undo the image of the original element.
   exact f.map_inv a
 
+
 theorem q2_injective_iff_ker (f : G →* H) : Function.Injective f ↔ f.ker = ⊥ := by
   constructor
   · intro hinj
@@ -32,12 +33,14 @@ theorem q2_injective_iff_ker (f : G →* H) : Function.Injective f ↔ f.ker = �
     rw [hker, Subgroup.mem_bot] at hmem
     simpa [mul_inv_eq_one] using hmem
 
+
 theorem q3_ker_normal (f : G →* H) : f.ker.Normal := by
   constructor
   intro n hn g
   -- Conjugation changes the image to `f g * 1 * (f g)⁻¹`, so it stays in the kernel.
   rw [MonoidHom.mem_ker] at hn ⊢
   simp [f.map_mul, f.map_inv, hn]
+
 
 theorem q4_cayley : ∃ φ : G →* Equiv.Perm G, Function.Injective φ := by
   -- Let each element act by left multiplication; evaluating at the identity recovers that element.
@@ -50,6 +53,7 @@ theorem q4_cayley : ∃ φ : G →* Equiv.Perm G, Function.Injective φ := by
   have h := congrArg (fun p : Equiv.Perm G => p 1) hab
   simpa [φ] using h
 
+
 theorem q5_hom_cyclic_determined (g : G) (hg : Subgroup.zpowers g = ⊤) (f h : G →* H)
     (hgen : f g = h g) : f = h := by
   ext x
@@ -58,9 +62,11 @@ theorem q5_hom_cyclic_determined (g : G) (hg : Subgroup.zpowers g = ⊤) (f h : 
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx
   rw [← hk, f.map_zpow, h.map_zpow, hgen]
 
+
 theorem q6_iso_preserves_orderOf (e : G ≃* H) (a : G) : orderOf (e a) = orderOf a := by
   -- An isomorphism preserves exactly the powers that return to the identity.
   exact e.orderOf_eq a
+
 
 theorem q7_ker_range_concrete (n : ℤ) :
     n ∈ (Int.castAddHom (ZMod 6)).ker ↔ (6 : ℤ) ∣ n := by
@@ -68,6 +74,7 @@ theorem q7_ker_range_concrete (n : ℤ) :
   rw [AddMonoidHom.mem_ker]
   change (n : ZMod 6) = 0 ↔ (6 : ℤ) ∣ n
   exact ZMod.intCast_zmod_eq_zero_iff_dvd n 6
+
 
 theorem q8_cyclic_same_order_iso [IsCyclic G] [IsCyclic H]
     (hcard : Nat.card G = Nat.card H) : Nonempty (G ≃* H) := by
@@ -80,6 +87,7 @@ structure GrpObj where
 
 attribute [instance] GrpObj.group
 
+
 theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
   -- Homomorphisms compose as functions, with the identity homomorphism as a two-sided unit.
   refine ⟨{ Hom := fun X Y => X.carrier →* Y.carrier
@@ -91,6 +99,7 @@ theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
 
 inductive OneObj where
   | star
+
 
 theorem q10_group_as_groupoid (K : Type) [Group K] : Nonempty (Groupoid.{0} OneObj) := by
   -- Multiplication supplies composition, and the group inverse supplies an inverse arrow.

@@ -19,16 +19,19 @@ theorem q1_coset_card (g : G) (H : Subgroup G) :
   -- without changing its size.
   exact Set.ncard_smul_set g (H : Set G)
 
+
 theorem q2_lagrange [Finite G] (H : Subgroup G) : Nat.card H ∣ Nat.card G := by
   -- The cosets of `H` partition `G` into `[G : H]` blocks each the size of `H`, so
   -- `|G| = [G : H] · |H|` and `|H|` divides `|G|`.
   exact ⟨Nat.card (G ⧸ H), by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup H, Nat.mul_comm]⟩
 
+
 theorem q3_orderOf_dvd_card [Finite G] (g : G) : orderOf g ∣ Nat.card G := by
   -- The order of `g` is the size of the cyclic subgroup `⟨g⟩`, which divides `|G|` by Lagrange.
   rw [← Nat.card_zpowers g]
   exact q2_lagrange (Subgroup.zpowers g)
+
 
 theorem q4_prime_order_cyclic [Finite G] {p : ℕ} (hp : p.Prime)
     (hcard : Nat.card G = p) : IsCyclic G := by
@@ -41,6 +44,7 @@ theorem q4_prime_order_cyclic [Finite G] {p : ℕ} (hp : p.Prime)
   · exact absurd (orderOf_eq_one_iff.mp h1) hg
   · exact isCyclic_of_orderOf_eq_card g (by rw [hpe, hcard])
 
+
 theorem q5_fermat_little {p : ℕ} [Fact p.Prime] (a : ZMod p) (ha : a ≠ 0) :
     a ^ (p - 1) = 1 := by
   -- In the field `ZMod p`, `a ≠ 0` is a unit; the unit group has `p - 1` elements, so the order of
@@ -51,6 +55,7 @@ theorem q5_fermat_little {p : ℕ} [Fact p.Prime] (a : ZMod p) (ha : a ≠ 0) :
   have h1 : orderOf u ∣ (p - 1) := hcard ▸ q3_orderOf_dvd_card u
   have h2 : u ^ (p - 1) = 1 := orderOf_dvd_iff_pow_eq_one.mp h1
   rw [← Units.val_pow_eq_pow_val, h2, Units.val_one]
+
 
 theorem q6_euler {n : ℕ} [NeZero n] (a : ZMod n) (ha : IsUnit a) :
     a ^ n.totient = 1 := by
@@ -63,12 +68,14 @@ theorem q6_euler {n : ℕ} [NeZero n] (a : ZMod n) (ha : IsUnit a) :
   have h2 : u ^ n.totient = 1 := orderOf_dvd_iff_pow_eq_one.mp h1
   rw [← Units.val_pow_eq_pow_val, h2, Units.val_one]
 
+
 theorem q7_cosets_count :
     Nat.card (Equiv.Perm (Fin 3)) = 6 ∧ Nat.card (alternatingGroup (Fin 3)) = 3 := by
   -- `S₃` has `3! = 6` elements and its alternating subgroup `A₃` has `3`; Lagrange is the visible
   -- `6 = 3 · 2` (two cosets of `A₃`).
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   refine ⟨?_, ?_⟩ <;> decide
+
 
 theorem q8_no_proper_subgroups [Finite G] [Nontrivial G]
     (h : ∀ K : Subgroup G, K = ⊥ ∨ K = ⊤) : (Nat.card G).Prime := by

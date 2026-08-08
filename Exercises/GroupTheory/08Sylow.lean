@@ -43,10 +43,12 @@ theorem q1_sylow_exists {p n : ℕ} [Fact p.Prime] [Finite G] (hpow : p ^ n ∣ 
     ∃ K : Subgroup G, Nat.card K = p ^ n := by
   sorry
 
+
 /-- **Question 2.** The number of Sylow `p`-subgroups is congruent to `1` modulo `p`. -/
 theorem q2_card_sylow_mod_p {p : ℕ} [Fact p.Prime] [Fintype (Sylow p G)] :
     Nat.card (Sylow p G) ≡ 1 [MOD p] := by
   sorry
+
 
 /-- **Question 3.** A Sylow `p`-subgroup is normal exactly when it is the unique Sylow
 `p`-subgroup. -/
@@ -54,11 +56,13 @@ theorem q3_np_one_iff_normal {p : ℕ} [Fact p.Prime] [Finite G] [Fintype (Sylow
     (P : Sylow p G) : Nat.card (Sylow p G) = 1 ↔ (P : Subgroup G).Normal := by
   sorry
 
+
 /-- **Question 4.** A positive integer dividing `3` and congruent to `1` modulo `5` is `1`.
 This is the Sylow count calculation for the number of Sylow `5`-subgroups in a group of order
 `15`. -/
 theorem q4_count_n5_order_15 (n : ℕ) (hmod : n ≡ 1 [MOD 5]) (hdvd : n ∣ 3) : n = 1 := by
   sorry
+
 
 /-- **Question 5.** A positive integer dividing `10` and congruent to `1` modulo `3` is either
 `1` or `10`. This is the corresponding first restriction on the number of Sylow `3`-subgroups in
@@ -66,6 +70,7 @@ a group of order `30`. -/
 theorem q5_count_n3_order_30 (n : ℕ) (hmod : n ≡ 1 [MOD 3]) (hdvd : n ∣ 10) :
     n = 1 ∨ n = 10 := by
   sorry
+
 
 /-- **Question 6.** A Sylow `p`-subgroup has order equal to the largest power of `p` dividing the
 order of the group. -/

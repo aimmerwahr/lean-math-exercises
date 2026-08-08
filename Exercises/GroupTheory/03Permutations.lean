@@ -59,11 +59,13 @@ theorem q1_swap_product :
     swap (0 : Fin 4) 1 * swap 1 2 * swap 2 3 = finRotate 4 := by
   sorry
 
+
 /-- **Question 2.**
 
 A transposition is odd: `sign (swap 0 1) = -1` in `S₄`. -/
 theorem q2_sign_swap : Perm.sign (swap (0 : Fin 4) 1) = -1 := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -72,6 +74,7 @@ is even. -/
 theorem q3_sign_cycle_length :
     Perm.sign (finRotate 4) = -1 ∧ Perm.sign (finRotate 5) = 1 := by
   sorry
+
 
 /-- **Question 4.**
 
@@ -83,11 +86,13 @@ theorem q4_swaps_generate (σ : Perm (Fin 4)) :
     σ ∈ Subgroup.closure {τ : Perm (Fin 4) | τ.IsSwap} := by
   sorry
 
+
 /-- **Question 5.**
 
 A 3-cycle is even: `sign = 1`. -/
 theorem q5_three_cycle_even : Perm.sign (swap (0 : Fin 5) 1 * swap 1 2) = 1 := by
   sorry
+
 
 /-- **Question 6.**
 
@@ -97,6 +102,7 @@ Prove without using `alternatingGroup.index_eq_two`. -/
 theorem q6_alternating_index_two : (alternatingGroup (Fin 4)).index = 2 := by
   sorry
 
+
 /-- **Question 7.**
 
 The order of a permutation is the least common multiple of its cycle lengths. For the disjoint
@@ -104,6 +110,7 @@ The order of a permutation is the least common multiple of its cycle lengths. Fo
 theorem q7_order_eq_lcm :
     orderOf (swap (0 : Fin 5) 1 * (swap 2 3 * swap 3 4)) = 6 := by
   sorry
+
 
 /-- **Question 8.**
 
@@ -113,6 +120,7 @@ theorem q8_cycle_decomp_concrete :
     (finRotate 4) ^ 2 = swap (0 : Fin 4) 2 * swap 1 3 := by
   sorry
 
+
 /-- **Question 9.**
 
 The **15-puzzle** parity obstruction. The fifteen tiles occupy `Fin 15`; a single swap of two tiles
@@ -120,6 +128,7 @@ The **15-puzzle** parity obstruction. The fifteen tiles occupy `Fin 15`; a singl
 permutations (`sign = 1`), so a position differing from the start by one such swap is **unreachable**. -/
 theorem q9_fifteen_puzzle_parity : Perm.sign (swap (3 : Fin 15) 4) = -1 := by
   sorry
+
 
 /-- **Question 10.**
 

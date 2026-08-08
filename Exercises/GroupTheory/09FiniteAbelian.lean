@@ -37,20 +37,24 @@ end
 theorem q1_crt (m n : ℕ) (h : m.Coprime n) : Nonempty (ZMod (m * n) ≃+* ZMod m × ZMod n) := by
   sorry
 
+
 /-- **Question 2.** The concrete CRT decomposition `Z/6Z ≅ Z/2Z × Z/3Z`. -/
 theorem q2_zmod6_crt : Nonempty (ZMod 6 ≃+* ZMod 2 × ZMod 3) := by
   sorry
+
 
 /-- **Question 3.** `Z/4Z` is not additively isomorphic to `Z/2Z × Z/2Z`: every element of the
 latter is killed by two, whereas `1 : Z/4Z` is not. -/
 theorem q3_zmod4_not_prod : ¬ Nonempty (ZMod 4 ≃+ ZMod 2 × ZMod 2) := by
   sorry
 
+
 /-- **Question 4.** The order of an element in a direct product is the least common multiple of
 the orders of its two coordinates. -/
 theorem q4_prod_order {G H : Type*} [CommGroup G] [CommGroup H] (a : G) (b : H) :
     orderOf (a, b) = Nat.lcm (orderOf a) (orderOf b) := by
   sorry
+
 
 /-- **Question 5.** The three familiar abelian group models for groups of order eight all have
 the claimed cardinality.  The classification theorem distinguishes their structures further. -/
@@ -59,16 +63,19 @@ theorem q5_order_eight_models :
       Nat.card (ZMod 2 × ZMod 2 × ZMod 2) = 8 := by
   sorry
 
+
 /-- **Question 6.** A finite abelian group is cyclic exactly when one of its elements has order
 equal to the cardinality of the group. -/
 theorem q6_cyclic_iff_full_order {G : Type*} [AddCommGroup G] [Fintype G] :
     IsAddCyclic G ↔ ∃ g : G, addOrderOf g = Nat.card G := by
   sorry
 
+
 /-- **Question 7.** In a finite abelian group, some element realizes the exponent. -/
 theorem q7_exponent_attained {G : Type*} [AddCommGroup G] [Fintype G] :
     ∃ g : G, addOrderOf g = AddMonoid.exponent G := by
   sorry
+
 
 /-- **Question 8.** The order-`p²` case has the expected cyclic/noncyclic dichotomy: a
 noncyclic abelian group has exponent `p`. -/
@@ -76,6 +83,7 @@ theorem q8_not_cyclic_iff_exponent_prime {G : Type*} [AddCommGroup G] {p : ℕ}
     (hp : p.Prime) (hG : Nat.card G = p ^ 2) :
     ¬ IsAddCyclic G ↔ AddMonoid.exponent G = p := by
   sorry
+
 
 /-- **Question 9.** The three standard abelian groups of order eight are pairwise
 non-isomorphic.  Distinguish them by the orders of their elements. -/

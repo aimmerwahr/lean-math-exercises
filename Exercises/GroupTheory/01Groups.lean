@@ -74,6 +74,7 @@ Inverses are unique: if `a * b = 1` and `a * c = 1`, then `b = c`. -/
 theorem q1_inv_unique {a b c : G} (hb : a * b = 1) (hc : a * c = 1) : b = c := by
   sorry
 
+
 /-- **Question 2.**
 
 The inverse of a product reverses the factors: `(a * b)⁻¹ = b⁻¹ * a⁻¹`.
@@ -81,6 +82,7 @@ The inverse of a product reverses the factors: `(a * b)⁻¹ = b⁻¹ * a⁻¹`.
 Prove without using `mul_inv_rev`. -/
 theorem q2_inv_mul_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -92,6 +94,7 @@ theorem q3_center_isSubgroup :
     ∃ H : Subgroup G, (↑H : Set G) = {a | ∀ g, a * g = g * a} := by
   sorry
 
+
 /-- **Question 4.**
 
 In the additive group `ZMod 12`, the element `3` has order `4`.
@@ -100,11 +103,13 @@ In the additive group `ZMod 12`, the element `3` has order `4`.
 theorem q4_orderOf_concrete : addOrderOf (3 : ZMod 12) = 4 := by
   sorry
 
+
 /-- **Question 5.**
 
 If `x * x = 1` for every `x`, then `G` is abelian. -/
 theorem q5_sq_eq_one_abelian (h : ∀ x : G, x * x = 1) : ∀ a b : G, a * b = b * a := by
   sorry
+
 
 /-- **Question 6.**
 
@@ -118,12 +123,14 @@ theorem q6_union_isSubgroup_iff (H K : Subgroup G) :
     (↑H ∪ ↑K : Set G) = ↑(H ⊔ K) ↔ H ≤ K ∨ K ≤ H := by
   sorry
 
+
 /-- **Question 7.**
 
 If `(a * b) * (a * b) = (a * a) * (b * b)` for all `a, b`, then `G` is abelian. -/
 theorem q7_mul_sq_abelian (h : ∀ a b : G, (a * b) * (a * b) = (a * a) * (b * b)) :
     ∀ a b : G, a * b = b * a := by
   sorry
+
 
 /-- **Question 8.**
 
@@ -134,12 +141,14 @@ theorem q8_even_order_involution [Fintype G] [DecidableEq G]
     (h : 2 ∣ Fintype.card G) : ∃ x : G, x ≠ 1 ∧ x * x = 1 := by
   sorry
 
+
 /-- **Question 9.**
 
 The symmetric group on three points is non-abelian: exhibit two permutations of `Fin 3` that do not
 commute. -/
 theorem q9_perm_noncommute : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ := by
   sorry
+
 
 /-- **Question 10.**
 
@@ -153,6 +162,7 @@ theorem q10_q8_noncommutative :
       ≠ QuaternionGroup.xa 0 * QuaternionGroup.a 1 := by
   sorry
 
+
 /-- **Question 11.**
 
 The quaternion group `Q₈` (`QuaternionGroup 2`) and the dihedral group `D₄` (`DihedralGroup 4`, the
@@ -163,6 +173,7 @@ them. (Hint: an isomorphism preserves the number of solutions of `x * x = 1`.) -
 theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
   sorry
 
+
 /-- **Question 12.**
 
 The **opposite group** `Gᵐᵒᵖ` has the same underlying set as `G` but the product is reversed:
@@ -171,6 +182,7 @@ isomorphism whose underlying map sends `x` to `MulOpposite.op x⁻¹`. -/
 theorem q12_opposite_iso :
     ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
   sorry
+
 
 /-- **Question 13.**
 

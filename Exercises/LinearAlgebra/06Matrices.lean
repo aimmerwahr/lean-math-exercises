@@ -61,6 +61,7 @@ theorem q1_matmul_concrete :
     (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8] = !![19, 22; 43, 50] := by
   sorry
 
+
 /-- **Question 2.**
 
 Matrix multiplication is not commutative: for `A = !![1,1;0,1]` and `B = !![1,0;1,1]`,
@@ -70,6 +71,7 @@ theorem q2_noncommute :
       ≠ !![1, 0; 1, 1] * !![1, 1; 0, 1] := by
   sorry
 
+
 /-- **Question 3.**
 
 The matrix `!![0,-1;1,0]` acts as the `90°` rotation of `ℝ²`: it sends `(1,0)` to `(0,1)` and
@@ -78,6 +80,7 @@ theorem q3_rotation_action :
     Matrix.toLin' (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 0] = ![0, 1] ∧
     Matrix.toLin' (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) ℝ) ![0, 1] = ![-1, 0] := by
   sorry
+
 
 /-- **Question 4.**
 
@@ -89,6 +92,7 @@ theorem q4_comp_eq_mul (A B : Matrix (Fin 2) (Fin 2) ℝ) :
     Matrix.toLin' (A * B) = (Matrix.toLin' A).comp (Matrix.toLin' B) := by
   sorry
 
+
 /-- **Question 5.**
 
 For square matrices, a one-sided inverse is automatically two-sided: if `A * B = 1`, then
@@ -99,6 +103,7 @@ Prove without using `Matrix.mul_eq_one_comm`. -/
 theorem q5_one_sided_inverse (A B : Matrix (Fin 2) (Fin 2) ℝ) (hAB : A * B = 1) : B * A = 1 := by
   sorry
 
+
 /-- **Question 6.**
 
 Verify that `!![2,1;1,1]` is invertible with inverse `!![1,-1;-1,2]`, by checking their product
@@ -106,6 +111,7 @@ is the identity. -/
 theorem q6_inverse_concrete :
     (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) * !![1, -1; -1, 2] = 1 := by
   sorry
+
 
 /-- **Question 7.**
 
@@ -117,11 +123,13 @@ theorem q7_conjugation_concrete :
       = !![2, 1; 0, 3] := by
   sorry
 
+
 /-- **Question 8.**
 
 There are no real matrices `A, B` with `A B − B A = I`. -/
 theorem q8_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
   sorry
+
 
 /-- **Question 9.**
 

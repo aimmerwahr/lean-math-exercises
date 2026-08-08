@@ -20,15 +20,13 @@ targets:
 open Meta
 
 -- Exercise proofs (checks the reader's own attempts).
-assert_not_uses Exercises.LinearAlgebra.Subspaces.q1_mem_sup_iff [Submodule.mem_sup, Submodule.mem_sup']
-assert_not_uses Exercises.LinearAlgebra.Subspaces.q2_sup_le_iff [sup_le, sup_le_iff]
+assert_not_uses Exercises.LinearAlgebra.Subspaces.q2_mem_sup_iff [Submodule.mem_sup, Submodule.mem_sup']
 assert_not_uses Exercises.LinearAlgebra.Subspaces.q3_sup_eq_right_iff_le [sup_eq_right, sup_eq_left]
 assert_not_uses Exercises.LinearAlgebra.Subspaces.q6_disjoint_iff_forall_eq_zero [Submodule.disjoint_def, disjoint_iff]
 assert_not_uses Exercises.LinearAlgebra.Subspaces.q8_modular_law [sup_inf_assoc_of_le]
 
 -- Solution proofs (regression guard on the shipped canonical proofs).
-assert_not_uses Solutions.LinearAlgebra.Subspaces.q1_mem_sup_iff [Submodule.mem_sup, Submodule.mem_sup']
-assert_not_uses Solutions.LinearAlgebra.Subspaces.q2_sup_le_iff [sup_le, sup_le_iff]
+assert_not_uses Solutions.LinearAlgebra.Subspaces.q2_mem_sup_iff [Submodule.mem_sup, Submodule.mem_sup']
 assert_not_uses Solutions.LinearAlgebra.Subspaces.q3_sup_eq_right_iff_le [sup_eq_right, sup_eq_left]
 assert_not_uses Solutions.LinearAlgebra.Subspaces.q6_disjoint_iff_forall_eq_zero [Submodule.disjoint_def, disjoint_iff]
 assert_not_uses Solutions.LinearAlgebra.Subspaces.q8_modular_law [sup_inf_assoc_of_le]

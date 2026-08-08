@@ -70,6 +70,7 @@ theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
     f v = l • v ↔ v ∈ LinearMap.ker (f - l • 1) := by
   sorry
 
+
 /-- **Question 2.**
 
 `λ` is an eigenvalue of `f` exactly when `f - λ·id` fails to be injective:
@@ -77,6 +78,7 @@ theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
 theorem q2_eigenvalue_iff_not_injective (f : Module.End K V) (l : K) :
     (∃ v : V, v ≠ 0 ∧ f v = l • v) ↔ ¬ Function.Injective ⇑(f - l • 1) := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -90,6 +92,7 @@ theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ 
     LinearIndependent K ![v₁, v₂] := by
   sorry
 
+
 /-- **Question 4.**
 
 The matrix `!![2,1;1,2]` has eigenvalue `3` with eigenvector `(1,1)` and eigenvalue `1` with
@@ -98,6 +101,7 @@ theorem q4_eig_2x2 :
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 1] = (3 : ℝ) • ![1, 1] ∧
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, -1] = (1 : ℝ) • ![1, -1] := by
   sorry
+
 
 /-- **Question 5.**
 
@@ -110,6 +114,7 @@ theorem q5_rotation_field_dependence :
       = Complex.I • ![Complex.I, 1] := by
   sorry
 
+
 /-- **Question 6.**
 
 The shear `!![1,1;0,1]` has `1` as an eigenvalue, and its eigenvectors are exactly the vectors on
@@ -118,6 +123,7 @@ the `x`-axis: `toLin' A v = v ↔ v 1 = 0`. (So the eigenspace is the one-dimens
 theorem q6_shear_eigenspace (v : Fin 2 → ℝ) :
     Matrix.toLin' (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) v = v ↔ v 1 = 0 := by
   sorry
+
 
 /-- **Question 7.**
 
@@ -128,12 +134,14 @@ theorem q7_diagonal_eigs :
     Matrix.toLin' (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) ![0, 1] = (3 : ℝ) • ![0, 1] := by
   sorry
 
+
 /-- **Question 8.**
 
 The two eigenvectors of `!![2,1;1,2]` found above are linearly independent. -/
 theorem q8_distinct_independent_concrete :
     LinearIndependent ℝ ![(![1, 1] : Fin 2 → ℝ), ![1, -1]] := by
   sorry
+
 
 /-- **Question 9.**
 
@@ -149,6 +157,7 @@ theorem q9_hermitian_eigenvalue_real {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
     star l = l := by
   sorry
 
+
 /-- **Question 10.**
 
 An operator `f` is **nilpotent** when some power of it is the zero map: `f ^ k = 0` for some
@@ -157,6 +166,7 @@ An operator `f` is **nilpotent** when some power of it is the zero map: `f ^ k =
 theorem q10_nilpotent_only_zero (f : Module.End K V) (k : ℕ) (hk : f ^ k = 0)
     (l : K) (v : V) (hv : v ≠ 0) (hfv : f v = l • v) : l = 0 := by
   sorry
+
 
 /-- **Question 11.**
 

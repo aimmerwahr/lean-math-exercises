@@ -27,6 +27,8 @@ Both trees mirror Mathlib's directory hierarchy.
   paired exercise and solution files — they differ only by the namespace root.
 - Each exercise carries its informal statement in a `/-- … -/` docstring above the
   declaration, opening with a `**Question N.**` line.
+- Keep two empty lines between consecutive exercise declarations in both the `Exercises/` and
+  `Solutions/` trees.
 - Each sheet opens with a **Potentially helpful results** `#check` toolbox — usable
   library lemmas, never a banned one.
 - Import what you need at the top of each file (typically `import Mathlib.Tactic` plus

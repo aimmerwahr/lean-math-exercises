@@ -48,6 +48,7 @@ section
 #check @finrank_bot
 #check @finrank_top
 #check @finrank_span_singleton
+#check @Disjoint.eq_bot
 
 end
 
@@ -59,12 +60,14 @@ Prove without using `Submodule.eq_of_le_of_finrank_eq`. -/
 theorem q1_rigidity (h : U ≤ W) (hdim : finrank K U = finrank K W) : U = W := by
   sorry
 
+
 /-- **Question 2.**
 
 A subspace has the full dimension of the space iff it is the whole space:
 `dim U = dim V ↔ U = ⊤`. -/
 theorem q2_eq_top_iff : finrank K U = finrank K V ↔ U = ⊤ := by
   sorry
+
 
 /-- **Question 3.**
 
@@ -74,6 +77,7 @@ theorem q3_dim_directSum (h : Disjoint U W) :
     finrank K ↥(U ⊔ W) = finrank K U + finrank K W := by
   sorry
 
+
 /-- **Question 4.**
 
 If `dim U = 3`, `dim W = 4`, and `dim (U + W) = 5`, then `dim (U ∩ W) = 2`. -/
@@ -81,34 +85,13 @@ theorem q4_numeric_formula (hU : finrank K U = 3) (hW : finrank K W = 4)
     (hsup : finrank K ↥(U ⊔ W) = 5) : finrank K ↥(U ⊓ W) = 2 := by
   sorry
 
+
+omit [FiniteDimensional K V] in
 /-- **Question 5.**
 
-Two `2`-dimensional subspaces of a `3`-dimensional space must meet in at least a line: if
-`dim V = 3`, `dim U = 2`, and `dim W = 2`, then `1 ≤ dim (U ∩ W)`. -/
-theorem q5_planes_meet (hV : finrank K V = 3) (hU : finrank K U = 2)
-    (hW : finrank K W = 2) : 1 ≤ finrank K ↥(U ⊓ W) := by
-  sorry
-
-/-- **Question 6.**
-
-The space `ℝ³` has dimension `3`. -/
-theorem q6_finrank_pi : finrank ℝ (Fin 3 → ℝ) = 3 := by
-  sorry
-
-/-- **Question 7.**
-
 The line spanned by a nonzero vector has dimension `1`. -/
-theorem q7_finrank_span_singleton (v : V) (hv : v ≠ 0) :
+theorem q5_finrank_span_singleton (v : V) (hv : v ≠ 0) :
     finrank K (Submodule.span K {v}) = 1 := by
-  sorry
-
-/-- **Question 8.**
-
-The general principle behind Question 5. If the dimensions of `U` and `W` together exceed the
-dimension of the whole space, then `U` and `W` cannot meet only in `0`: their intersection has
-positive dimension. `dim V < dim U + dim W → 0 < dim (U ∩ W)`. -/
-theorem q8_dims_force_meet (h : finrank K V < finrank K U + finrank K W) :
-    0 < finrank K ↥(U ⊓ W) := by
   sorry
 
 end Exercises.LinearAlgebra.Dimension

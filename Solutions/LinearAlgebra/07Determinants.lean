@@ -10,9 +10,11 @@ open Matrix
 theorem q1_det_2x2 : (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det = -2 := by
   norm_num [Matrix.det_fin_two_of]
 
+
 theorem q2_det_3x3 :
     (!![2, 0, 1; 1, 3, 2; 0, 1, 1] : Matrix (Fin 3) (Fin 3) ℝ).det = 3 := by
   simp [Matrix.det_fin_three]; norm_num
+
 
 theorem q3_det_mul_concrete :
     ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8]).det
@@ -21,10 +23,12 @@ theorem q3_det_mul_concrete :
   -- Both come out to `4`.
   norm_num [Matrix.mul_fin_two, Matrix.det_fin_two_of]
 
+
 theorem q4_det_triangular :
     (!![2, 5; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ).det = 2 * 3 ∧
     (!![1, 7; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ).det = 1 := by
   constructor <;> norm_num [Matrix.det_fin_two_of]
+
 
 theorem q5_vandermonde (x y z : ℝ) :
     (!![1, x; 1, y] : Matrix (Fin 2) (Fin 2) ℝ).det = y - x ∧
@@ -34,6 +38,7 @@ theorem q5_vandermonde (x y z : ℝ) :
   -- Expand the `3×3` determinant and factor: the diagonal-difference structure comes out.
   simp [Matrix.det_fin_three]; ring
 
+
 theorem q6_invertible_iff_det : IsUnit (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) := by
   -- A square matrix is invertible iff its determinant is a unit; here `det = 1`.
   have hdet : (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ).det = 1 := by
@@ -41,10 +46,12 @@ theorem q6_invertible_iff_det : IsUnit (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) 
   rw [Matrix.isUnit_iff_isUnit_det, hdet]
   exact isUnit_one
 
+
 theorem q7_det_row_scale :
     (!![2, 4; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det
       = 2 * (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det := by
   norm_num [Matrix.det_fin_two_of]
+
 
 open Equiv Equiv.Perm in
 theorem q8_det_transpose {m : Type*} [Fintype m] [DecidableEq m] (A : Matrix m m ℝ) :
@@ -59,10 +66,12 @@ theorem q8_det_transpose {m : Type*} [Fintype m] [DecidableEq m] (A : Matrix m m
   apply Fintype.prod_equiv σ
   simp
 
+
 theorem q9_det_inv (A B : Matrix (Fin 2) (Fin 2) ℝ) (h : A * B = 1) :
     A.det * B.det = 1 := by
   -- Determinant is multiplicative, so `det A · det B = det (A B) = det I = 1`.
   rw [← Matrix.det_mul, h, Matrix.det_one]
+
 
 theorem q10_skew_odd_singular (A : Matrix (Fin 3) (Fin 3) ℝ) (h : Aᵀ = -A) :
     A.det = 0 := by

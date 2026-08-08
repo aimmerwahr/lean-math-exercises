@@ -2,17 +2,19 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import Exercises.LinearAlgebra.«04Dimension»
 
 /-!
 # Exercises — LinearAlgebra / LinearMaps
 
-A **linear map** `f : V → W` respects addition and scalar multiplication. Its **kernel**
-`ker f = {v : f v = 0}` and **range** `f(V)` are subspaces measuring how far `f` is from
-injective and surjective. The kernel does more than detect injectivity: every solution set
-`{x : f x = w}` is a *coset* of the kernel, so injectivity is decided at a single point —
-`f` is injective iff `ker f = ⊥`. The quantitative heart is **rank–nullity**,
-`dim (range f) + dim (ker f) = dim V`, from which, on a finite-dimensional space, an operator is
-injective iff it is surjective — a rigidity with no analogue for arbitrary maps.
+A **linear map** `f : V → W` respects addition and scalar multiplication. Its **kernel** is the
+subspace `ker f = {v : f v = 0}`, and its **range** is the subspace
+`range f = {w | ∃ v, f v = w}`. If `f x₀ = w`, then the fiber over `w` is precisely
+`{x | x - x₀ ∈ ker f}`; consequently, `f` is injective exactly when `ker f = ⊥`.
+
+When `V` is finite-dimensional, rank–nullity gives
+`dim (range f) + dim (ker f) = dim V`. Applied to an endomorphism `f : V →ₗ[K] V`, this implies
+that injectivity and surjectivity are equivalent.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/LinearAlgebra/05LinearMaps.lean`. Do **not** commit your proofs into this file.
@@ -39,11 +41,11 @@ section
 -- Membership in the kernel, and pushing a map through a subtraction; `x ∈ ⊥ ↔ x = 0`.
 #check @LinearMap.mem_ker
 #check @map_sub
+#check @map_zero
 #check @Submodule.mem_bot
 
--- Rank–nullity, and surjectivity as "range is everything".
+-- Rank–nullity, and the dimension bound for a range.
 #check @LinearMap.finrank_range_add_finrank_ker
-#check @LinearMap.range_eq_top
 #check @Submodule.finrank_le
 
 end
@@ -56,6 +58,7 @@ theorem q1_fiber_coset (f : V →ₗ[K] W) (x₀ : V) (w : W) (h : f x₀ = w) (
     f x = w ↔ x - x₀ ∈ ker f := by
   sorry
 
+
 /-- **Question 2.**
 
 A linear map is injective iff its kernel is trivial: `Injective f ↔ ker f = ⊥`.
@@ -65,21 +68,33 @@ theorem q2_injective_iff_ker (f : V →ₗ[K] W) :
     Function.Injective f ↔ ker f = ⊥ := by
   sorry
 
+
 /-- **Question 3.**
+
+A linear map is surjective iff its range is the whole codomain: `Surjective f ↔ range f = ⊤`.
+
+Prove without using `LinearMap.range_eq_top`. -/
+theorem q3_surjective_iff_range (f : V →ₗ[K] W) :
+    Function.Surjective f ↔ range f = ⊤ := by
+  sorry
+
+
+/-- **Question 4.**
 
 On a finite-dimensional space, an operator is injective iff it is surjective:
 for `f : V →ₗ[K] V`, `Injective f ↔ Surjective f`.
 
 Prove without using `LinearMap.injective_iff_surjective`. -/
-theorem q3_inj_iff_surj [FiniteDimensional K V] (f : V →ₗ[K] V) :
+theorem q4_inj_iff_surj [FiniteDimensional K V] (f : V →ₗ[K] V) :
     Function.Injective f ↔ Function.Surjective f := by
   sorry
 
-/-- **Question 4.**
+
+/-- **Question 5.**
 
 A linear map into a strictly lower-dimensional space cannot be injective — it must have nonzero
 kernel: if `dim W < dim V`, then `ker f ≠ ⊥`. -/
-theorem q4_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
+theorem q5_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
     (f : V →ₗ[K] W) (h : finrank K W < finrank K V) : ker f ≠ ⊥ := by
   sorry
 
@@ -89,6 +104,8 @@ def proj₁ : (Fin 2 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
   map_add' a b := by funext i; fin_cases i <;> simp
   map_smul' c a := by funext i; fin_cases i <;> simp
 
+-- Labels "projecting to the first coordinate" as a simp lemma so that `simp` can
+-- automatically unfold `proj₁ v` to `![v 0, 0]` in later proofs.
 @[simp] theorem proj₁_apply (v : Fin 2 → ℝ) : proj₁ v = ![v 0, 0] := rfl
 
 /-- The projection `ℝ³ → ℝ²`, `(x, y, z) ↦ (x, y)`. -/
@@ -97,36 +114,42 @@ def proj₃₂ : (Fin 3 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
   map_add' a b := by funext i; fin_cases i <;> simp
   map_smul' c a := by funext i; fin_cases i <;> simp
 
+-- Labels "projecting to the first two coordinates" as a simp lemma so that `simp` can
+-- automatically unfold `proj₃₂ v` to `![v 0, v 1]` in later proofs.
 @[simp] theorem proj₃₂_apply (v : Fin 3 → ℝ) : proj₃₂ v = ![v 0, v 1] := rfl
 
-/-- **Question 5.**
-
-The projection `p (x, y) = (x, 0)` on `ℝ²` is idempotent (`p ∘ p = p`) but is neither injective
-nor surjective. -/
-theorem q5_projection :
-    proj₁ ∘ₗ proj₁ = proj₁ ∧ ¬ Function.Injective proj₁ ∧ ¬ Function.Surjective proj₁ := by
-  sorry
 
 /-- **Question 6.**
 
-The projection `g (x, y, z) = (x, y)` from `ℝ³` to `ℝ²` is surjective but not injective. -/
-theorem q6_project_surj_not_inj :
-    Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
+The projection `p (x, y) = (x, 0)` on `ℝ²` is idempotent (`p ∘ p = p`) but is neither injective
+nor surjective. -/
+theorem q6_projection :
+    proj₁ ∘ₗ proj₁ = proj₁ ∧ ¬ Function.Injective proj₁ ∧ ¬ Function.Surjective proj₁ := by
   sorry
+
 
 /-- **Question 7.**
 
+The projection `g (x, y, z) = (x, y)` from `ℝ³` to `ℝ²` is surjective but not injective. -/
+theorem q7_project_surj_not_inj :
+    Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
+  sorry
+
+
+/-- **Question 8.**
+
 Composing with an injective map on the outside does not change the kernel: if `g` is injective,
 then `ker (g ∘ f) = ker f`. -/
-theorem q7_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
+theorem q8_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
     (f : V →ₗ[K] W) (g : W →ₗ[K] U) (hg : Function.Injective g) :
     ker (g ∘ₗ f) = ker f := by
   sorry
 
-/-- **Question 8.**
+
+/-- **Question 9.**
 
 The quantitative form of Question 4: for any `f : V → W`, `dim V ≤ dim W + dim (ker f)`. -/
-theorem q8_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
+theorem q9_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
     (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
   sorry
 

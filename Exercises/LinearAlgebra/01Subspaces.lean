@@ -10,13 +10,11 @@ is closed under addition and scalar multiplication — equivalently, a nonempty 
 under linear combinations. Subspaces are the sub-objects of linear algebra: kernels, images,
 solution sets of homogeneous systems, and spans are all subspaces.
 
-The subspaces of `V`, ordered by inclusion, form a **complete lattice**. The meet is
-intersection, `U ⊓ W = U ∩ W`, which is always a subspace; the join
-`U ⊔ W = U + W = { u + w | u ∈ U, w ∈ W }` is the *smallest* subspace containing both — note
-the set-theoretic union itself is usually **not** a subspace. The sum `U + W` and the
-interplay of `∩` and `+` are the workhorses of the topic. A sum is **direct**, written
-`U ⊕ W`, exactly when the two pieces meet only in `0`; then every vector of `U + W` has a
-*unique* decomposition `u + w`.
+Two basic operations on subspaces are intersection and sum. In Lean, their notation is
+`U ⊓ W` and `U ⊔ W`: the latter is the smallest subspace containing both `U` and `W`, and its
+vectors are exactly the sums `u + w` with `u ∈ U` and `w ∈ W`. Unlike `U ⊔ W`, the set-theoretic
+union is usually not a subspace. A sum is **direct**, written `U ⊕ W`, exactly when the two
+pieces meet only in `0`; then every vector in the sum has a unique decomposition.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/LinearAlgebra/01Subspaces.lean`. Do **not** commit your proofs into this file.
@@ -58,6 +56,9 @@ section
 #check @Submodule.mem_sup_left
 #check @Submodule.mem_sup_right
 #check @SetLike.mem_coe
+#check @Submodule.mem_inf
+#check @sup_le
+#check @le_trans
 
 -- `x ∈ ⊥ ↔ x = 0`, and one convenient way to unfold `Disjoint`.
 #check @Submodule.mem_bot
@@ -66,24 +67,24 @@ section
 end
 
 /-- **Question 1.**
+For a subspace `X`, the sum `U ⊔ W` is contained in `X` iff both `U` and `W` are. This is the
+universal property that characterizes `U ⊔ W` as the least subspace containing both. -/
+theorem q1_sup_le_iff (U W X : Submodule K V) :
+    U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
+  sorry
 
-A vector lies in the sum `U ⊔ W` iff it can be written as `u + w` with `u ∈ U` and
-`w ∈ W`.
+
+/-- **Question 2.**
+A vector lies in the sum `U ⊔ W` iff it can be written as `u + w` with `u ∈ U` and `w ∈ W`.
+
+For the forward implication, define the subspace `S` of vectors that have such a presentation.
+Show that `U ≤ S` and `W ≤ S`, then use Question 1 to conclude `U ⊔ W ≤ S`.
 
 Prove without using `Submodule.mem_sup` (or `Submodule.mem_sup'`). -/
-theorem q1_mem_sup_iff (U W : Submodule K V) (x : V) :
+theorem q2_mem_sup_iff (U W : Submodule K V) (x : V) :
     x ∈ U ⊔ W ↔ ∃ u ∈ U, ∃ w ∈ W, u + w = x := by
   sorry
 
-/-- **Question 2.**
-
-The sum `U ⊔ W` is contained in `X` iff both `U` and `W` are. (Universal property:
-`U ⊔ W` is the least subspace containing both.)
-
-Prove without using `sup_le` or `sup_le_iff`. -/
-theorem q2_sup_le_iff (U W X : Submodule K V) :
-    U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
-  sorry
 
 /-- **Question 3.**
 
@@ -93,6 +94,7 @@ Prove without using `sup_eq_right` or `sup_eq_left`. -/
 theorem q3_sup_eq_right_iff_le (U W : Submodule K V) :
     U ⊔ W = W ↔ U ≤ W := by
   sorry
+
 
 /-- **Question 4.**
 
@@ -105,6 +107,7 @@ theorem q4_add_notMem_union (U W : Submodule K V) {u w : V}
     (hu : u ∈ U) (hw : w ∈ W) (huW : u ∉ W) (hwU : w ∉ U) :
     u + w ∉ (↑U ∪ ↑W : Set V) := by
   sorry
+
 
 /-- **Question 5.**
 
@@ -119,6 +122,7 @@ theorem q5_union_isSubspace_iff_le (U W : Submodule K V) :
     (↑U ∪ ↑W : Set V) = ↑(U ⊔ W) ↔ U ≤ W ∨ W ≤ U := by
   sorry
 
+
 /-- **Question 6.**
 
 Two subspaces `U` and `W` are disjoint iff the only vector common to both is `0`.
@@ -127,6 +131,7 @@ Prove without using `Submodule.disjoint_def` or `disjoint_iff`. -/
 theorem q6_disjoint_iff_forall_eq_zero (U W : Submodule K V) :
     Disjoint U W ↔ ∀ x, x ∈ U → x ∈ W → x = 0 := by
   sorry
+
 
 /-- **Question 7.**
 
@@ -138,6 +143,7 @@ theorem q7_directSum_iff_unique_decomp (U W : Submodule K V) :
         u₁ + w₁ = u₂ + w₂ → u₁ = u₂ ∧ w₁ = w₂ := by
   sorry
 
+
 /-- **Question 8.**
 
 Modular law: if `U ⊆ W`, then `U ⊔ (X ⊓ W) = (U ⊔ X) ⊓ W`.
@@ -146,6 +152,7 @@ Prove without using `sup_inf_assoc_of_le`. -/
 theorem q8_modular_law (U W X : Submodule K V) (h : U ≤ W) :
     U ⊔ (X ⊓ W) = (U ⊔ X) ⊓ W := by
   sorry
+
 
 /-- **Question 9.**
 
@@ -158,6 +165,7 @@ theorem q9_sumZero_isSubspace :
       (U : Set (Fin 3 → ℝ)) = {v | v 0 + v 1 + v 2 = 0} := by
   sorry
 
+
 /-- **Question 10.**
 
 Show that the set of vectors in `ℝ³` whose first coordinate equals `1` is not a subspace: no
@@ -167,6 +175,7 @@ theorem q10_firstCoordOne_notSubspace :
       (U : Set (Fin 3 → ℝ)) = {v | v 0 = 1} := by
   sorry
 
+
 /-- **Question 11.**
 
 Show that the set `{v : ℝ² | v 0 * v 1 = 0}` — the union of the two coordinate axes — is not a
@@ -174,14 +183,6 @@ subspace. -/
 theorem q11_axes_notSubspace :
     ¬ ∃ U : Submodule ℝ (Fin 2 → ℝ),
       (U : Set (Fin 2 → ℝ)) = {v | v 0 * v 1 = 0} := by
-  sorry
-
-/-- **Question 12.**
-
-If `W ⊆ X`, and `U ⊔ W = U ⊔ X` and `U ⊓ W = U ⊓ X`, then `W = X`. -/
-theorem q12_modular_cancel (U W X : Submodule K V)
-    (hle : W ≤ X) (hsup : U ⊔ W = U ⊔ X) (hinf : U ⊓ W = U ⊓ X) :
-    W = X := by
   sorry
 
 end Exercises.LinearAlgebra.Subspaces
