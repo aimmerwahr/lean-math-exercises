@@ -1,6 +1,8 @@
 # lean-math-exercises
 
-This repo collects math exercises grouped by area, loosely following Mathlib's structure. The author created it in the hope of making mathematics more open and accessible to everyone — practice and feedback are an indispensable part of learning. Contributions are welcome.
+This repository collects mathematical exercises grouped by area, loosely following Mathlib's structure. The author created it with the hope of making mathematics more open and accessible to everyone — practice and feedback are indispensable parts of learning. We hope it benefits both students learning mathematics and people familiar with mathematics who are learning Lean.
+
+Contributions are welcome.
 
 ## Layout
 
@@ -53,3 +55,10 @@ cached Mathlib build — much faster than `lake build` while iterating a single 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the [Apache License, Version 2.0](LICENSE).
+Copyright 2026 aimmerwahr. Contributions intentionally submitted for inclusion in the
+project are licensed under the same terms. Dependencies, including Mathlib,
+remain under their own licenses.

@@ -1,5 +1,10 @@
 # Contributing
 
+By intentionally submitting a contribution for inclusion in this project, you
+agree to license it under the [Apache License, Version 2.0](LICENSE), unless you
+and the maintainer agree otherwise in writing. You must have the right to
+submit the contribution under these terms.
+
 - Corrections and improvements to existing exercises are always welcome.
 - Any new exercise must be created or approved by someone with adequate domain knowledge and qualifications. AI generation is fine as long as a human stays in the loop to maintain quality.
 - Prioritize standard undergraduate mathematics over advanced domains, and prefer areas with a solid foundation in Mathlib over those without.
