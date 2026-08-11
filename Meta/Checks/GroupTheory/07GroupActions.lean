@@ -1,9 +1,14 @@
 import Exercises.GroupTheory.«07GroupActions»
 import Solutions.GroupTheory.«07GroupActions»
 
-/-!
-# Internal checks — GroupTheory / Group Actions
+import Meta.BanCheck
 
-The orbit–stabilizer proof is deliberately expressed through the orbit/coset equivalence, which
-is the central mathematical construction of the sheet. There are no additional lemma bans.
--/
+open Meta
+
+assert_not_uses Solutions.GroupTheory.GroupActions.q4_conjugacy_classes_partition
+  [Group.sum_card_conj_classes_eq_card, Group.nat_card_center_add_sum_card_noncenter_eq_card]
+assert_not_uses Solutions.GroupTheory.GroupActions.q5_pgroup_center_nontrivial [IsPGroup.center_nontrivial]
+assert_not_uses Solutions.GroupTheory.GroupActions.q6_three_cycle_order [exists_prime_orderOf_dvd_card]
+assert_not_uses Solutions.GroupTheory.GroupActions.q8_permutation_representation [MulAction.toPermHom]
+assert_not_uses Exercises.GroupTheory.GroupActions.q11_even_order_involution [exists_prime_orderOf_dvd_card]
+assert_not_uses Solutions.GroupTheory.GroupActions.q11_even_order_involution [exists_prime_orderOf_dvd_card]

@@ -91,10 +91,7 @@ theorem q9_neg_one_square_examples :
       exact hne (by simpa [h] using hx)
     · have hne : (-1 : ZMod 3) ≠ 1 := by decide
       exact hne (by simpa [h] using hx)
-    · have hne : (-1 : ZMod 3) ≠ 4 := by decide
-      apply hne
-      calc
-        (-1 : ZMod 3) = (2 : ZMod 3) ^ 2 := by simpa [h] using hx
-        _ = 4 := by decide
+    · have hsq : ((2 : ℕ) : ZMod 3) * ((2 : ℕ) : ZMod 3) = 1 := by decide
+      exact (by decide : (-1 : ZMod 3) ≠ 1) (hx.trans hsq)
 
 end Solutions.FieldTheory.FiniteFields

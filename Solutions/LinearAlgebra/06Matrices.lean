@@ -32,29 +32,25 @@ theorem q4_comp_eq_mul (A B : Matrix (Fin 2) (Fin 2) ℝ) :
     Matrix.toLin' (A * B) = (Matrix.toLin' A).comp (Matrix.toLin' B) := by
   -- The whole content is that `(A * B) · v = A · (B · v)`: matrix multiplication is *defined* so
   -- that acting by a product is acting by the factors in turn.
-  apply LinearMap.ext; intro v
+  apply LinearMap.ext
+  intro v
   rw [Matrix.toLin'_apply, LinearMap.comp_apply, Matrix.toLin'_apply, Matrix.toLin'_apply,
     Matrix.mulVec_mulVec]
 
 
 theorem q5_one_sided_inverse (A B : Matrix (Fin 2) (Fin 2) ℝ) (hAB : A * B = 1) : B * A = 1 := by
-  -- Pass to the associated maps. `A * B = 1` makes `toLin' B` have a left inverse, hence it is
-  -- injective; in finite dimension injective forces surjective, so `toLin' B` is a bijection.
-  -- Its left inverse `toLin' A` is then a genuine two-sided inverse, giving `B * A = 1`.
-  have key : (Matrix.toLin' A).comp (Matrix.toLin' B) = LinearMap.id := by
-    rw [← Matrix.toLin'_mul, hAB, Matrix.toLin'_one]
-  have hL : Function.LeftInverse (Matrix.toLin' A) (Matrix.toLin' B) :=
-    fun v => by have := LinearMap.congr_fun key v; simpa using this
+  -- The equation `A B = I` makes the map of `B` injective. In finite dimension it is therefore
+  -- surjective, so its left inverse is also a right inverse.
+  have hL : Function.LeftInverse (Matrix.toLin' A) (Matrix.toLin' B) := fun v => by
+    rw [← Matrix.toLin'_mul_apply, hAB, Matrix.toLin'_one, LinearMap.id_apply]
   have hBsurj : Function.Surjective (Matrix.toLin' B) :=
     (LinearMap.injective_iff_surjective).mp hL.injective
   have hR : Function.RightInverse (Matrix.toLin' A) (Matrix.toLin' B) :=
     hL.rightInverse_of_surjective hBsurj
-  have hBA : (Matrix.toLin' B).comp (Matrix.toLin' A) = LinearMap.id := by
-    apply LinearMap.ext; intro v
-    simp only [LinearMap.comp_apply, LinearMap.id_apply]; exact hR v
-  have hmap : Matrix.toLin' (B * A) = Matrix.toLin' (1 : Matrix (Fin 2) (Fin 2) ℝ) := by
-    rw [Matrix.toLin'_mul, Matrix.toLin'_one]; exact hBA
-  exact Matrix.toLin'.injective hmap
+  apply Matrix.toLin'.injective
+  apply LinearMap.ext
+  intro v
+  simpa only [Matrix.toLin'_mul_apply, Matrix.toLin'_one, LinearMap.id_apply] using hR v
 
 
 theorem q6_inverse_concrete :
@@ -62,13 +58,18 @@ theorem q6_inverse_concrete :
   rw [Matrix.one_fin_two]; norm_num [Matrix.mul_fin_two]
 
 
-theorem q7_conjugation_concrete :
-    (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) * !![2, 0; 0, 3] * !![1, -1; 0, 1]
-      = !![2, 1; 0, 3] := by
-  norm_num [Matrix.mul_fin_two]
+theorem q7_trace_fin_two (A : Matrix (Fin 2) (Fin 2) ℝ) :
+    Matrix.trace A = A 0 0 + A 1 1 := by
+  simp [Matrix.trace]
 
 
-theorem q8_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
+theorem q8_trace_unique (f : Matrix (Fin 2) (Fin 2) ℝ → ℝ)
+    (h : ∀ A, f A = A 0 0 + A 1 1) : f = Matrix.trace := by
+  funext A
+  rw [h, q7_trace_fin_two]
+
+
+theorem q9_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
   -- Take the trace of both sides. By cyclicity `tr (A B) = tr (B A)`, so the left side has trace
   -- `0`; but `tr I = 2`. The equation would force `0 = 2`.
   intro h
@@ -78,7 +79,7 @@ theorem q8_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B *
   norm_num at htr
 
 
-theorem q9_trace_conj_invariant (A P Q : Matrix (Fin 2) (Fin 2) ℝ) (h : Q * P = 1) :
+theorem q10_trace_conj_invariant (A P Q : Matrix (Fin 2) (Fin 2) ℝ) (h : Q * P = 1) :
     Matrix.trace (P * A * Q) = Matrix.trace A := by
   -- Cyclicity moves `Q` to the front: `tr (P A Q) = tr (Q P A) = tr (1 · A) = tr A`.
   rw [Matrix.trace_mul_comm, ← mul_assoc, h, one_mul]

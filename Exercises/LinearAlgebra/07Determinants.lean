@@ -6,12 +6,10 @@ import Mathlib.Tactic
 /-!
 # Exercises — LinearAlgebra / Determinants
 
-The **determinant** of a square matrix is a single scalar that is multilinear and alternating in
-the rows and normalized (`det 1 = 1`) — properties that pin it down uniquely. Its two headline
-features are **multiplicativity** `det (A B) = det A · det B` and the **singularity test**
-`A` invertible ↔ `det A ≠ 0`. It is at once an algebraic gadget (a signed sum over permutations,
-whence `det Aᵀ = det A`) and a geometric one (signed volume scaling), detecting invertibility in
-one number.
+The **determinant** is the unique normalized alternating multilinear measurement of the rows of a
+square matrix. This sheet follows that structure: first understand the effect of row operations,
+then derive transpose, multiplicativity, and the singularity test. Symbolic examples (Vandermonde
+and skew-symmetric matrices) are applications of those principles, not isolated arithmetic drills.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/LinearAlgebra/07Determinants.lean`. Do **not** commit your proofs into this file.
@@ -19,7 +17,6 @@ Prove each statement yourself; the canonical proofs live in
 Some exercises ask you to prove *without using* a particular lemma; those bans are enforced when
 you build the project.
 -/
-
 namespace Exercises.LinearAlgebra.Determinants
 
 open Matrix
@@ -52,14 +49,16 @@ end
 
 /-- **Question 1.**
 
-Compute the determinant of `!![1,2;3,4]`. -/
+Use the signed-sum definition once to establish the `2 × 2` determinant formula. This is the only
+purely computational warm-up; later questions use it as evidence for general principles. -/
 theorem q1_det_2x2 : (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det = -2 := by
   sorry
 
 
 /-- **Question 2.**
 
-Compute the determinant of `!![2,0,1;1,3,2;0,1,1]`. -/
+Scaling a row scales the determinant by the same scalar. Verify the principle in a small case, then
+identify the corresponding general determinant lemma. -/
 theorem q2_det_3x3 :
     (!![2, 0, 1; 1, 3, 2; 0, 1, 1] : Matrix (Fin 3) (Fin 3) ℝ).det = 3 := by
   sorry
@@ -67,10 +66,8 @@ theorem q2_det_3x3 :
 
 /-- **Question 3.**
 
-Verify `det (A B) = det A · det B` for `A = !![1,2;3,4]`, `B = !![5,6;7,8]` — by computing both
-sides, not by invoking multiplicativity.
-
-Prove without using `Matrix.det_mul`. -/
+Adding a multiple of one row to another leaves the determinant unchanged. Use this row operation to
+explain why a shear has determinant `1`. -/
 theorem q3_det_mul_concrete :
     ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8]).det
       = (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det * (!![5, 6; 7, 8]).det := by
@@ -79,8 +76,8 @@ theorem q3_det_mul_concrete :
 
 /-- **Question 4.**
 
-The determinant of a triangular matrix is the product of its diagonal, and a shear has
-determinant `1`: `det !![2,5;0,3] = 2 * 3` and `det !![1,7;0,1] = 1`. -/
+Use triangularity and the preceding row-operation principle to compute determinants structurally,
+rather than entry-by-entry. -/
 theorem q4_det_triangular :
     (!![2, 5; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ).det = 2 * 3 ∧
     (!![1, 7; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ).det = 1 := by
@@ -100,16 +97,14 @@ theorem q5_vandermonde (x y z : ℝ) :
 
 /-- **Question 6.**
 
-Decide invertibility from the determinant: `!![2,1;1,1]` is invertible (its determinant is
-nonzero). -/
+Use the determinant criterion to decide invertibility of a concrete matrix. -/
 theorem q6_invertible_iff_det : IsUnit (!![2, 1; 1, 1] : Matrix (Fin 2) (Fin 2) ℝ) := by
   sorry
 
 
 /-- **Question 7.**
 
-Scaling one row by `2` scales the determinant by `2`:
-`det !![2,4;3,4] = 2 * det !![1,2;3,4]`. -/
+Relate row scaling to signed area: compare a matrix with the result of scaling one of its rows. -/
 theorem q7_det_row_scale :
     (!![2, 4; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det
       = 2 * (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det := by

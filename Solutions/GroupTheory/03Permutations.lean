@@ -8,23 +8,32 @@ namespace Solutions.GroupTheory.Permutations
 
 open Equiv Equiv.Perm
 
+private def q7Permutation : Perm (Fin 5) := swap 0 1 * (swap 2 3 * swap 3 4)
+
 theorem q1_swap_product :
     swap (0 : Fin 4) 1 * swap 1 2 * swap 2 3 = finRotate 4 := by
   -- Composing the three adjacent transpositions `(0 1)(1 2)(2 3)` threads every point one step
   -- forward: the result is the 4-cycle `0 → 1 → 2 → 3 → 0`.
-  decide
+  ext i
+  fin_cases i <;> rfl
 
 
 theorem q2_sign_swap : Perm.sign (swap (0 : Fin 4) 1) = -1 := by
   -- A single transposition swaps two points and fixes the rest, so it is odd.
-  decide
+  exact sign_swap (by norm_num)
 
 
 theorem q3_sign_cycle_length :
     Perm.sign (finRotate 4) = -1 ∧ Perm.sign (finRotate 5) = 1 := by
-  -- A `k`-cycle is a product of `k - 1` transpositions, so its sign is `(-1)^{k-1}`: the 4-cycle
-  -- is odd, the 5-cycle even.
-  refine ⟨?_, ?_⟩ <;> decide
+  -- Write each cycle as adjacent transpositions, then count the signs of those transpositions.
+  have h4 : finRotate 4 = swap (0 : Fin 4) 1 * swap 1 2 * swap 2 3 := by
+    ext i
+    fin_cases i <;> rfl
+  have h5 : finRotate 5 = swap (0 : Fin 5) 1 * swap 1 2 * swap 2 3 * swap 3 4 := by
+    ext i
+    fin_cases i <;> rfl
+  rw [h4, h5]
+  simp [Perm.sign_mul]
 
 
 theorem q4_swaps_generate (σ : Perm (Fin 4)) :
@@ -38,7 +47,7 @@ theorem q4_swaps_generate (σ : Perm (Fin 4)) :
 
 theorem q5_three_cycle_even : Perm.sign (swap (0 : Fin 5) 1 * swap 1 2) = 1 := by
   -- A 3-cycle is a product of two transpositions, hence even.
-  decide
+  simp [Perm.sign_mul]
 
 
 theorem q6_alternating_index_two : (alternatingGroup (Fin 4)).index = 2 := by
@@ -52,35 +61,68 @@ theorem q6_alternating_index_two : (alternatingGroup (Fin 4)).index = 2 := by
 
 theorem q7_order_eq_lcm :
     orderOf (swap (0 : Fin 5) 1 * (swap 2 3 * swap 3 4)) = 6 := by
-  -- This element is a disjoint 2-cycle and 3-cycle. The order of a permutation is the least common
-  -- multiple of its cycle lengths, here `lcm(2, 3) = 6`.
-  rw [← lcm_cycleType]
-  decide
+  -- The sixth power is the identity. The first five positive powers move a vertex.
+  change orderOf q7Permutation = 6
+  refine (orderOf_eq_iff (by norm_num)).mpr ⟨?_, ?_⟩
+  · ext i
+    fin_cases i <;> rfl
+  · intro m hm hm0
+    interval_cases m <;> try omega
+    · intro h
+      have he := DFunLike.congr_fun h (0 : Fin 5)
+      have hmove : (q7Permutation ^ 1) 0 = 1 := by rfl
+      rw [hmove] at he
+      norm_num at he
+    · intro h
+      have he := DFunLike.congr_fun h (2 : Fin 5)
+      have hmove : (q7Permutation ^ 2) 2 = 4 := by rfl
+      rw [hmove] at he
+      have hval := congrArg Fin.val he
+      norm_num at hval
+    · intro h
+      have he := DFunLike.congr_fun h (0 : Fin 5)
+      have hmove : (q7Permutation ^ 3) 0 = 1 := by rfl
+      rw [hmove] at he
+      norm_num at he
+    · intro h
+      have he := DFunLike.congr_fun h (2 : Fin 5)
+      have hmove : (q7Permutation ^ 4) 2 = 3 := by rfl
+      rw [hmove] at he
+      have hval := congrArg Fin.val he
+      norm_num at hval
+    · intro h
+      have he := DFunLike.congr_fun h (0 : Fin 5)
+      have hmove : (q7Permutation ^ 5) 0 = 1 := by rfl
+      rw [hmove] at he
+      norm_num at he
 
 
 theorem q8_cycle_decomp_concrete :
     (finRotate 4) ^ 2 = swap (0 : Fin 4) 2 * swap 1 3 := by
   -- Squaring the 4-cycle `0 → 1 → 2 → 3` sends `0 ↔ 2` and `1 ↔ 3`: it breaks into two disjoint
   -- transpositions.
-  decide
+  ext i
+  fin_cases i <;> rfl
 
 
 theorem q9_fifteen_puzzle_parity : Perm.sign (swap (3 : Fin 15) 4) = -1 := by
-  -- The 15-puzzle's tiles sit in `Fin 15`; swapping two of them while fixing the blank is a single
-  -- transposition, which is odd. Legal moves are even permutations, so this swap is unreachable.
-  decide
+  -- Swapping two distinct tiles is a single transposition, hence odd.
+  exact sign_swap (by omega)
 
 
-theorem q10_dihedral_in_S4 :
-    ∃ f : DihedralGroup 4 →* Equiv.Perm (Fin 4), Function.Injective f := by
-  -- Let the square's symmetries act on its four vertices `Fin 4`: a rotation is the 4-cycle
-  -- `finRotate 4`, a reflection is the diagonal swap `(1 3)`. This action is faithful, giving an
-  -- embedding of `D₄` into `S₄`.
-  refine ⟨{ toFun := fun g => match g with
-              | DihedralGroup.r i => (finRotate 4) ^ i.val
-              | DihedralGroup.sr i => (Equiv.swap 1 3) * (finRotate 4) ^ i.val
-            map_one' := by decide
-            map_mul' := by decide }, ?_⟩
-  decide
+theorem q10_square_dihedral_relations :
+    (finRotate 4) ^ 4 = 1 ∧ (swap (1 : Fin 4) 3) ^ 2 = 1 ∧
+      swap 1 3 * finRotate 4 * swap 1 3 = (finRotate 4)⁻¹ := by
+  refine ⟨?_, ?_, ?_⟩
+  · ext i
+    fin_cases i <;> rfl
+  · rw [pow_two, swap_mul_self]
+  · ext i
+    fin_cases i <;> rfl
+
+
+theorem q11_noncommutative : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ :=
+  -- Two overlapping transpositions send `0` to different points when composed in opposite orders.
+  ⟨Equiv.swap 0 1, Equiv.swap 0 2, by decide⟩
 
 end Solutions.GroupTheory.Permutations

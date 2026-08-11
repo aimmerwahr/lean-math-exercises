@@ -2,6 +2,9 @@ import Mathlib.Algebra.Group.Hom.Basic
 import Mathlib.Algebra.Group.Subgroup.Ker
 import Mathlib.GroupTheory.Perm.Basic
 import Mathlib.GroupTheory.SpecificGroups.Cyclic
+import Mathlib.GroupTheory.SpecificGroups.Quaternion
+import Mathlib.GroupTheory.SpecificGroups.Dihedral
+import Mathlib.Algebra.Group.Opposite
 import Mathlib.Data.ZMod.Basic
 import Mathlib.CategoryTheory.Groupoid
 import Mathlib.Tactic
@@ -13,8 +16,9 @@ open CategoryTheory
 variable {G H : Type*} [Group G] [Group H]
 
 theorem q1_map_inv (f : G →* H) (a : G) : f a⁻¹ = (f a)⁻¹ := by
-  -- The image of an inverse must undo the image of the original element.
-  exact f.map_inv a
+  -- The image of an inverse undoes the image of the original element.
+  apply eq_inv_of_mul_eq_one_left
+  rw [← f.map_mul, inv_mul_cancel, f.map_one]
 
 
 theorem q2_injective_iff_ker (f : G →* H) : Function.Injective f ↔ f.ker = ⊥ := by
@@ -64,22 +68,35 @@ theorem q5_hom_cyclic_determined (g : G) (hg : Subgroup.zpowers g = ⊤) (f h : 
 
 
 theorem q6_iso_preserves_orderOf (e : G ≃* H) (a : G) : orderOf (e a) = orderOf a := by
-  -- An isomorphism preserves exactly the powers that return to the identity.
-  exact e.orderOf_eq a
+  -- Each direction says that the image of an identity power is again an identity power.
+  apply Nat.dvd_antisymm
+  · rw [orderOf_dvd_iff_pow_eq_one, ← map_pow e, pow_orderOf_eq_one, map_one]
+  · rw [orderOf_dvd_iff_pow_eq_one]
+    apply e.injective
+    rw [map_pow, pow_orderOf_eq_one, map_one]
 
 
-theorem q7_ker_range_concrete (n : ℤ) :
-    n ∈ (Int.castAddHom (ZMod 6)).ker ↔ (6 : ℤ) ∣ n := by
-  -- An integer becomes zero modulo `6` exactly when it is divisible by `6`.
-  rw [AddMonoidHom.mem_ker]
-  change (n : ZMod 6) = 0 ↔ (6 : ℤ) ∣ n
-  exact ZMod.intCast_zmod_eq_zero_iff_dvd n 6
+theorem q7_mod_six_kernel_examples :
+    (12 : ℤ) ∈ (Int.castAddHom (ZMod 6)).ker ∧ (5 : ℤ) ∉ (Int.castAddHom (ZMod 6)).ker := by
+  constructor
+  · rw [AddMonoidHom.mem_ker]
+    change ((12 : ℤ) : ZMod 6) = ((0 : ℤ) : ZMod 6)
+    rw [ZMod.intCast_eq_intCast_iff']
+    norm_num
+  · rw [AddMonoidHom.mem_ker]
+    intro h
+    change ((5 : ℤ) : ZMod 6) = ((0 : ℤ) : ZMod 6) at h
+    rw [ZMod.intCast_eq_intCast_iff'] at h
+    norm_num at h
 
 
-theorem q8_cyclic_same_order_iso [IsCyclic G] [IsCyclic H]
-    (hcard : Nat.card G = Nat.card H) : Nonempty (G ≃* H) := by
-  -- A generator identifies each cyclic group with the same cyclic model of its cardinality.
-  exact ⟨mulEquivOfCyclicCardEq hcard⟩
+theorem q8_zmod_six_generated_by_one : AddSubgroup.zmultiples (1 : ZMod 6) = ⊤ := by
+  apply eq_top_iff.mpr
+  intro x _
+  obtain ⟨n, rfl⟩ := ZMod.intCast_surjective x
+  rw [AddSubgroup.mem_zmultiples_iff]
+  refine ⟨n, ?_⟩
+  simp
 
 structure GrpObj where
   carrier : Type
@@ -112,5 +129,31 @@ theorem q10_group_as_groupoid (K : Type) [Group K] : Nonempty (Groupoid.{0} OneO
             inv := fun f => f⁻¹
             inv_comp := by intro X Y f; exact inv_mul_cancel f
             comp_inv := by intro X Y f; exact mul_inv_cancel f }⟩
+
+
+theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
+  -- Isomorphisms carry the solution set of `x² = 1` bijectively to the corresponding solution set.
+  rw [isEmpty_iff]
+  intro e
+  have hcard : Fintype.card {x : QuaternionGroup 2 // x * x = 1}
+      = Fintype.card {y : DihedralGroup 4 // y * y = 1} :=
+    Fintype.card_congr
+      { toFun := fun x => ⟨e x, by rw [← map_mul, x.2, map_one]⟩
+        invFun := fun y => ⟨e.symm y, by rw [← map_mul, y.2, map_one]⟩
+        left_inv := fun x => by simp
+        right_inv := fun y => by simp }
+  have h2 : Fintype.card {x : QuaternionGroup 2 // x * x = 1} = 2 := by decide
+  have h6 : Fintype.card {y : DihedralGroup 4 // y * y = 1} = 6 := by decide
+  rw [h2, h6] at hcard
+  exact absurd hcard (by decide)
+
+
+theorem q12_opposite_iso :
+    ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
+  refine ⟨{ toFun := fun x => MulOpposite.op x⁻¹
+            invFun := fun y => (MulOpposite.unop y)⁻¹
+            left_inv := fun x => by simp
+            right_inv := fun y => by simp
+            map_mul' := fun x y => by simp [mul_inv_rev] }, fun x => rfl⟩
 
 end Solutions.GroupTheory.Homomorphisms

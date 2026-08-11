@@ -1,10 +1,6 @@
 import Mathlib.Algebra.Group.Subgroup.Lattice
 import Mathlib.GroupTheory.OrderOfElement
-import Mathlib.GroupTheory.Perm.Basic
-import Mathlib.GroupTheory.Perm.Cycle.Type
 import Mathlib.GroupTheory.SpecificGroups.Quaternion
-import Mathlib.GroupTheory.SpecificGroups.Dihedral
-import Mathlib.Algebra.Group.Opposite
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Tactic
 
@@ -20,10 +16,10 @@ theorem q1_inv_unique {a b c : G} (hb : a * b = 1) (hc : a * c = 1) : b = c := b
 
 
 theorem q2_inv_mul_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
-  -- The inverse of `a * b` is whatever undoes it on the right. Check that `b⁻¹ * a⁻¹` does:
-  -- `(a * b) * (b⁻¹ * a⁻¹) = a * (b * b⁻¹) * a⁻¹ = a * a⁻¹ = 1`.
-  apply inv_eq_of_mul_eq_one_right
-  rw [mul_assoc, ← mul_assoc b, mul_inv_cancel, one_mul, mul_inv_cancel]
+  -- Q1 says that right inverses are unique. Both displayed terms are right inverses of `a * b`.
+  apply q1_inv_unique
+  · exact mul_inv_cancel _
+  · rw [mul_assoc, ← mul_assoc b, mul_inv_cancel, one_mul, mul_inv_cancel]
 
 
 theorem q3_center_isSubgroup :
@@ -96,77 +92,14 @@ theorem q7_mul_sq_abelian (h : ∀ a b : G, (a * b) * (a * b) = (a * a) * (b * b
   exact (mul_right_cancel h2).symm
 
 
-theorem q8_even_order_involution [Fintype G] [DecidableEq G]
-    (h : 2 ∣ Fintype.card G) : ∃ x : G, x ≠ 1 ∧ x * x = 1 := by
-  -- Inversion `x ↦ x⁻¹` is an involution of `G`; its fixed points are exactly the solutions of
-  -- `x⁻¹ = x`. The number of fixed points of an involution has the same parity as `|G|`, which
-  -- is even, so the fixed-point set (which contains `1`) has an even size, hence at least two
-  -- elements — giving a nonidentity `x` with `x⁻¹ = x`, i.e. `x * x = 1`.
-  let f : Function.End G := fun x => x⁻¹
-  have hf : f ^ (2 ^ 1) = 1 := by
-    show f ^ 2 = 1
-    rw [pow_two]
-    show f ∘ f = id
-    funext x; simp [f]
-  have hmod := Equiv.Perm.card_fixedPoints_modEq (α := G) (f := f) (p := 2) (n := 1) hf
-  have hmem : ∀ x : G, x ∈ f.fixedPoints ↔ x⁻¹ = x := fun x => Iff.rfl
-  have hdvd : 2 ∣ Fintype.card f.fixedPoints := by
-    have h0 : Fintype.card G ≡ 0 [MOD 2] := (Nat.modEq_zero_iff_dvd).mpr h
-    exact (Nat.modEq_zero_iff_dvd).mp (hmod.symm.trans h0)
-  have h1mem : (1 : G) ∈ f.fixedPoints := by rw [hmem]; simp
-  have hpos : 0 < Fintype.card f.fixedPoints := Fintype.card_pos_iff.mpr ⟨⟨1, h1mem⟩⟩
-  have hle : 2 ≤ Fintype.card f.fixedPoints := Nat.le_of_dvd hpos hdvd
-  obtain ⟨b, hb⟩ :=
-    Fintype.exists_ne_of_one_lt_card (lt_of_lt_of_le one_lt_two hle) (⟨1, h1mem⟩ : f.fixedPoints)
-  refine ⟨b.1, ?_, ?_⟩
-  · intro hb1; exact hb (Subtype.ext hb1)
-  · have hbx : b.1⁻¹ = b.1 := (hmem b.1).mp b.2
-    exact mul_eq_one_iff_eq_inv.mpr hbx.symm
-
-
-theorem q9_perm_noncommute : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ :=
-  -- Two overlapping transpositions do not commute.
-  ⟨Equiv.swap 0 1, Equiv.swap 0 2, by decide⟩
-
-
-theorem q10_q8_noncommutative :
+theorem q8_q8_noncommutative :
     (QuaternionGroup.a 1 : QuaternionGroup 2) * QuaternionGroup.xa 0
       ≠ QuaternionGroup.xa 0 * QuaternionGroup.a 1 := by
   -- In `Q₈`, `i * j = k` but `j * i = -k`; the two products differ.
   decide
 
 
-theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
-  -- An isomorphism preserves the solution set of `x * x = 1`. But that equation has `2`
-  -- solutions in `Q₈` (namely `±1`) and `6` in `D₄` (the four reflections together with `1`
-  -- and the half-turn), so no isomorphism can exist.
-  rw [isEmpty_iff]
-  intro e
-  have hcard : Fintype.card {x : QuaternionGroup 2 // x * x = 1}
-      = Fintype.card {y : DihedralGroup 4 // y * y = 1} :=
-    Fintype.card_congr
-      { toFun := fun x => ⟨e x, by rw [← map_mul, x.2, map_one]⟩
-        invFun := fun y => ⟨e.symm y, by rw [← map_mul, y.2, map_one]⟩
-        left_inv := fun x => by simp
-        right_inv := fun y => by simp }
-  have h2 : Fintype.card {x : QuaternionGroup 2 // x * x = 1} = 2 := by decide
-  have h6 : Fintype.card {y : DihedralGroup 4 // y * y = 1} = 6 := by decide
-  rw [h2, h6] at hcard
-  exact absurd hcard (by decide)
-
-
-theorem q12_opposite_iso :
-    ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
-  -- Sending `x` to `x⁻¹` in the opposite group is an isomorphism: reversing the product exactly
-  -- compensates for `(x*y)⁻¹ = y⁻¹ * x⁻¹`.
-  refine ⟨{ toFun := fun x => MulOpposite.op x⁻¹
-            invFun := fun y => (MulOpposite.unop y)⁻¹
-            left_inv := fun x => by simp
-            right_inv := fun y => by simp
-            map_mul' := fun x y => by simp [mul_inv_rev] }, fun x => rfl⟩
-
-
-theorem q13_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
+theorem q9_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
     ∃ K : Subgroup G, (∀ i, K ≤ H i) ∧ (∀ L : Subgroup G, (∀ i, L ≤ H i) → L ≤ K) := by
   -- The intersection `⋂ᵢ Hᵢ`, built directly as a subgroup, is below every `Hᵢ`, and swallows
   -- any subgroup that is below every `Hᵢ` — that is exactly the greatest-lower-bound property.

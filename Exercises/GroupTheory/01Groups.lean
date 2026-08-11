@@ -1,10 +1,6 @@
 import Mathlib.Algebra.Group.Subgroup.Lattice
 import Mathlib.GroupTheory.OrderOfElement
-import Mathlib.GroupTheory.Perm.Basic
-import Mathlib.GroupTheory.Perm.Cycle.Type
 import Mathlib.GroupTheory.SpecificGroups.Quaternion
-import Mathlib.GroupTheory.SpecificGroups.Dihedral
-import Mathlib.Algebra.Group.Opposite
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Tactic
 
@@ -56,6 +52,7 @@ section
 #check @Subgroup.mem_sup_left
 #check @Subgroup.mem_sup_right
 #check @SetLike.not_le_iff_exists
+#check @SetLike.mem_coe
 
 -- Pinning down an additive order, and finding a second element once a finite type is large enough.
 #check @addOrderOf_eq_iff
@@ -134,57 +131,18 @@ theorem q7_mul_sq_abelian (h : ∀ a b : G, (a * b) * (a * b) = (a * a) * (b * b
 
 /-- **Question 8.**
 
-A finite group of even order has an element `x ≠ 1` with `x * x = 1`.
-
-Prove without using `exists_prime_orderOf_dvd_card`. -/
-theorem q8_even_order_involution [Fintype G] [DecidableEq G]
-    (h : 2 ∣ Fintype.card G) : ∃ x : G, x ≠ 1 ∧ x * x = 1 := by
-  sorry
-
-
-/-- **Question 9.**
-
-The symmetric group on three points is non-abelian: exhibit two permutations of `Fin 3` that do not
-commute. -/
-theorem q9_perm_noncommute : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ := by
-  sorry
-
-
-/-- **Question 10.**
-
 The **quaternion group** `Q₈` is the eight-element group `{±1, ±i, ±j, ±k}` with `i² = j² = k² = -1`
 and `i * j = k`. In Mathlib it is `QuaternionGroup 2`, whose elements are written `a m` and `xa m`
 (for `m : ZMod 4`); under this encoding `i = a 1` and `j = xa 0`.
 
 Show that `Q₈` is non-abelian by checking that `i` and `j` do not commute. -/
-theorem q10_q8_noncommutative :
+theorem q8_q8_noncommutative :
     (QuaternionGroup.a 1 : QuaternionGroup 2) * QuaternionGroup.xa 0
       ≠ QuaternionGroup.xa 0 * QuaternionGroup.a 1 := by
   sorry
 
 
-/-- **Question 11.**
-
-The quaternion group `Q₈` (`QuaternionGroup 2`) and the dihedral group `D₄` (`DihedralGroup 4`, the
-symmetries of the square) both have order `8` and are non-abelian, yet they are **not** isomorphic.
-
-`IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4)` states that there is no group isomorphism between
-them. (Hint: an isomorphism preserves the number of solutions of `x * x = 1`.) -/
-theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
-  sorry
-
-
-/-- **Question 12.**
-
-The **opposite group** `Gᵐᵒᵖ` has the same underlying set as `G` but the product is reversed:
-`op a * op b = op (b * a)`. Show that `x ↦ x⁻¹` is an isomorphism `G ≃* Gᵐᵒᵖ`: produce such an
-isomorphism whose underlying map sends `x` to `MulOpposite.op x⁻¹`. -/
-theorem q12_opposite_iso :
-    ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
-  sorry
-
-
-/-- **Question 13.**
+/-- **Question 9.**
 
 Given any family of subgroups `(Hᵢ)`, their intersection `⋂ᵢ Hᵢ` is a subgroup, and it is the
 **greatest lower bound** of the family: it lies below every `Hᵢ`, and any subgroup lying below every
@@ -192,7 +150,7 @@ Given any family of subgroups `(Hᵢ)`, their intersection `⋂ᵢ Hᵢ` is a su
 `G` a complete lattice.)
 
 Prove without using the packaged `CompleteLattice (Subgroup G)` structure or `Subgroup.instInfSet`. -/
-theorem q13_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
+theorem q9_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
     ∃ K : Subgroup G, (∀ i, K ≤ H i) ∧ (∀ L : Subgroup G, (∀ i, L ≤ H i) → L ≤ K) := by
   sorry
 

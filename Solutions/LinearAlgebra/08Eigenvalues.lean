@@ -17,39 +17,36 @@ theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
   simp [LinearMap.mem_ker, sub_eq_zero]
 
 
-theorem q2_eigenvalue_iff_not_injective (f : Module.End K V) (l : K) :
-    (∃ v : V, v ≠ 0 ∧ f v = l • v) ↔ ¬ Function.Injective ⇑(f - l • 1) := by
-  -- Not injective means the kernel is nonzero, i.e. there is a nonzero eigenvector (q1).
-  rw [← LinearMap.ker_eq_bot, ← ne_eq, Submodule.ne_bot_iff]
-  constructor
-  · rintro ⟨v, hv, hfv⟩
-    exact ⟨v, (q1_eigen_iff_ker f l v).mp hfv, hv⟩
-  · rintro ⟨v, hmem, hv⟩
-    exact ⟨v, hv, (q1_eigen_iff_ker f l v).mpr hmem⟩
+theorem q2_relation_second_coeff_zero (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ : V)
+    (h₁ : f v₁ = l₁ • v₁) (h₂ : f v₂ = l₂ • v₂) (hv₂ : v₂ ≠ 0) (hl : l₁ ≠ l₂)
+    (s t : K) (hst : s • v₁ + t • v₂ = 0) : t = 0 := by
+  -- Apply `f`, then subtract `λ₁` times the original relation. The `v₁` terms cancel and the
+  -- remaining nonzero scalar multiple of `v₂` forces `t = 0`.
+  have hf : (s * l₁) • v₁ + (t * l₂) • v₂ = 0 := by
+    have := congrArg f hst
+    simpa [h₁, h₂, map_add, map_smul, smul_smul] using this
+  have hl₁ : (s * l₁) • v₁ + (t * l₁) • v₂ = 0 := by
+    have := congrArg (l₁ • ·) hst
+    simp only [smul_add, smul_zero, smul_smul] at this
+    rw [mul_comm l₁ s, mul_comm l₁ t] at this
+    exact this
+  have hne : l₂ - l₁ ≠ 0 := sub_ne_zero.mpr (Ne.symm hl)
+  have e : (t * l₂) • v₂ = (t * l₁) • v₂ := add_left_cancel (hf.trans hl₁.symm)
+  have hz : (t * l₂ - t * l₁) • v₂ = 0 := by rw [sub_smul, e, sub_self]
+  rcases smul_eq_zero.mp hz with hc | hc
+  · rw [← mul_sub] at hc
+    exact (mul_eq_zero.mp hc).resolve_right hne
+  · exact absurd hc hv₂
 
 
 theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ : V)
     (h₁ : f v₁ = l₁ • v₁) (h₂ : f v₂ = l₂ • v₂)
     (hv₁ : v₁ ≠ 0) (hv₂ : v₂ ≠ 0) (hl : l₁ ≠ l₂) :
     LinearIndependent K ![v₁, v₂] := by
-  -- Suppose `s • v₁ + t • v₂ = 0`. Applying `f` gives `(s λ₁) • v₁ + (t λ₂) • v₂ = 0`, while
-  -- multiplying the relation by `λ₁` gives `(s λ₁) • v₁ + (t λ₁) • v₂ = 0`. Subtracting isolates
-  -- `t (λ₂ - λ₁) • v₂ = 0`; as `v₂ ≠ 0` and `λ₁ ≠ λ₂`, this forces `t = 0`, then `s = 0`.
+  -- The preparatory lemma eliminates `t`; the original relation then eliminates `s`.
   rw [LinearIndependent.pair_iff]
   intro s t hst
-  have hf : (s * l₁) • v₁ + (t * l₂) • v₂ = 0 := by
-    have := congrArg f hst; simpa [h₁, h₂, map_add, map_smul, smul_smul] using this
-  have hl₁ : (s * l₁) • v₁ + (t * l₁) • v₂ = 0 := by
-    have := congrArg (l₁ • ·) hst
-    simp only [smul_add, smul_zero, smul_smul] at this
-    rw [mul_comm l₁ s, mul_comm l₁ t] at this; exact this
-  have hne : l₂ - l₁ ≠ 0 := sub_ne_zero.mpr (Ne.symm hl)
-  have ht0 : t = 0 := by
-    have e : (t * l₂) • v₂ = (t * l₁) • v₂ := add_left_cancel (hf.trans hl₁.symm)
-    have hz : (t * l₂ - t * l₁) • v₂ = 0 := by rw [sub_smul, e, sub_self]
-    rcases smul_eq_zero.mp hz with hc | hc
-    · rw [← mul_sub] at hc; exact (mul_eq_zero.mp hc).resolve_right hne
-    · exact absurd hc hv₂
+  have ht0 := q2_relation_second_coeff_zero f l₁ l₂ v₁ v₂ h₁ h₂ hv₂ hl s t hst
   have hs0 : s = 0 := by
     rw [ht0, zero_smul, add_zero] at hst
     exact (smul_eq_zero.mp hst).resolve_right hv₁

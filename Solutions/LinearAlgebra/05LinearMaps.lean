@@ -63,7 +63,16 @@ theorem q4_inj_iff_surj [FiniteDimensional K V] (f : V →ₗ[K] V) :
     exact Submodule.finrank_eq_zero.mp (by omega)
 
 
-theorem q5_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
+theorem q5_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
+    (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
+  -- Rank–nullity reads `dim (range f) + dim (ker f) = dim V`, and the range, sitting inside `W`,
+  -- has dimension at most `dim W`. Substituting the bound gives the inequality.
+  have hrn := LinearMap.finrank_range_add_finrank_ker f
+  have hr := Submodule.finrank_le (LinearMap.range f)
+  omega
+
+
+theorem q6_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
     (f : V →ₗ[K] W) (h : finrank K W < finrank K V) : ker f ≠ ⊥ := by
   -- If the kernel were `⊥`, rank–nullity would give `dim range = dim V`; but the range sits
   -- inside `W`, so `dim range ≤ dim W < dim V` — a contradiction.
@@ -93,7 +102,7 @@ def proj₃₂ : (Fin 3 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
 @[simp] theorem proj₃₂_apply (v : Fin 3 → ℝ) : proj₃₂ v = ![v 0, v 1] := rfl
 
 
-theorem q6_projection :
+theorem q7_projection :
     proj₁ ∘ₗ proj₁ = proj₁ ∧ ¬ Function.Injective proj₁ ∧ ¬ Function.Surjective proj₁ := by
   refine ⟨?_, ?_, ?_⟩
   · -- Applying the projection twice is the same as once (the first coordinate is untouched).
@@ -110,7 +119,7 @@ theorem q6_projection :
     simp at this
 
 
-theorem q7_project_surj_not_inj :
+theorem q8_project_surj_not_inj :
     Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
   constructor
   · -- Any `(a, b)` is the image of `(a, b, 0)`.
@@ -123,7 +132,7 @@ theorem q7_project_surj_not_inj :
     simp at this
 
 
-theorem q8_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
+theorem q9_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
     (f : V →ₗ[K] W) (g : W →ₗ[K] U) (hg : Function.Injective g) :
     ker (g ∘ₗ f) = ker f := by
   -- `x ∈ ker (g ∘ f)` says `g (f x) = 0`; since `g` is injective it sends only `0` to `0`, so this
@@ -131,13 +140,5 @@ theorem q8_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
   ext x
   rw [mem_ker, mem_ker, comp_apply, map_eq_zero_iff g hg]
 
-
-theorem q9_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
-    (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
-  -- Rank–nullity reads `dim (range f) + dim (ker f) = dim V`, and the range, sitting inside `W`,
-  -- has dimension at most `dim W`. Substituting the bound gives the inequality.
-  have hrn := LinearMap.finrank_range_add_finrank_ker f
-  have hr := Submodule.finrank_le (LinearMap.range f)
-  omega
 
 end Solutions.LinearAlgebra.LinearMaps

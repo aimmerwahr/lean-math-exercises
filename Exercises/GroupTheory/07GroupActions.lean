@@ -2,6 +2,7 @@ import Mathlib.GroupTheory.GroupAction.Quotient
 import Mathlib.GroupTheory.ClassEquation
 import Mathlib.GroupTheory.PGroup
 import Mathlib.GroupTheory.Perm.Basic
+import Mathlib.GroupTheory.Perm.Cycle.Type
 import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.Tactic
 
@@ -38,7 +39,9 @@ section
 
 -- Permutation actions and prime-order elements.
 #check MulAction.orbit_eq_univ
-#check exists_prime_orderOf_dvd_card
+#check IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point
+#check ConjAct.fixedPoints_eq_center
+#check MulAction.toPerm
 
 end
 
@@ -61,11 +64,10 @@ theorem q3_orbit_stabilizer [Fintype G] (x : X) :
   sorry
 
 
-/-- **Question 4.** The class equation expresses the order of a finite group as the order of its
-centre plus the sizes of its noncentral conjugacy classes. -/
-theorem q4_class_equation [Finite G] :
-    Nat.card (Subgroup.center G) +
-      ∑ᶠ (x : ConjClasses G) (_ : x ∈ ConjClasses.noncenter G), Nat.card x.carrier = Nat.card G := by
+/-- **Question 4.** The first step of the class equation: conjugacy classes partition a group.
+The sigma type on the left records an element together with its conjugacy class. -/
+theorem q4_conjugacy_classes_partition :
+    Nat.card (Σ x : ConjClasses G, x.carrier) = Nat.card G := by
   sorry
 
 
@@ -75,10 +77,10 @@ theorem q5_pgroup_center_nontrivial {p : ℕ} [Fact p.Prime] [Finite G] [Nontriv
   sorry
 
 
-/-- **Question 6.** Cauchy's theorem: if a prime divides the order of a finite group, the group
-contains an element of that prime order. -/
-theorem q6_cauchy {p : ℕ} [Fact p.Prime] [Fintype G] (hp : p ∣ Fintype.card G) :
-    ∃ g : G, orderOf g = p := by
+/-- **Question 6.** The product `(0\;1)(1\;2)` in `S₃` has order `3`. This is a concrete
+instance of the phenomenon behind Cauchy's theorem. -/
+theorem q6_three_cycle_order :
+    orderOf (Equiv.swap (0 : Fin 3) 1 * Equiv.swap 1 2) = 3 := by
   sorry
 
 
@@ -88,10 +90,35 @@ theorem q7_permutation_orbit :
   sorry
 
 
-/-- **Question 8.** Every action of `G` on `X` gives a permutation representation: an element of
-`G` acts as a permutation of `X`. -/
+/-- **Question 8.** Every action of `G` gives a permutation representation: construct the
+homomorphism which sends `g` to the permutation `x ↦ g • x`. -/
 theorem q8_permutation_representation :
     ∃ ρ : G →* Equiv.Perm X, ∀ (g : G) (x : X), ρ g x = g • x := by
+  sorry
+
+
+/-- **Question 9.** A permutation is an **involution** if applying it twice is the identity.
+Show that inversion is an involution of a group. -/
+theorem q9_inversion_is_involution (x : G) : (x⁻¹)⁻¹ = x := by
+  sorry
+
+
+/-- **Question 10.** The fixed points of inversion are exactly the solutions of `x² = 1`.
+They are not usually a subgroup: in a non-abelian group, products of involutions need not be
+involutions. -/
+theorem q10_inversion_fixed_iff (x : G) : x⁻¹ = x ↔ x * x = 1 := by
+  sorry
+
+
+/-- **Question 11.**
+
+An involution partitions a finite set into fixed points and two-element orbits. Therefore its
+fixed-point set has the same parity as the whole set. Apply this to inversion: a finite group of
+even order has a nonidentity element `x` with `x² = 1`.
+
+Prove without using `exists_prime_orderOf_dvd_card`. -/
+theorem q11_even_order_involution [Fintype G] [DecidableEq G]
+    (h : 2 ∣ Fintype.card G) : ∃ x : G, x ≠ 1 ∧ x * x = 1 := by
   sorry
 
 end Exercises.GroupTheory.GroupActions

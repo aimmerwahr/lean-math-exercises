@@ -14,11 +14,11 @@ proofs the reader writes and the shipped solution proofs.
 open Meta
 
 -- Exercise proofs (checks the reader's own attempts).
-assert_not_uses Exercises.GroupTheory.Cyclic.q1_orderOf_pow [orderOf_pow]
-assert_not_uses Exercises.GroupTheory.Cyclic.q4_subgroup_isCyclic [Subgroup.isCyclic]
-assert_not_uses Exercises.GroupTheory.Cyclic.q5_unique_subgroup_per_divisor [Subgroup.isCyclic]
+assert_not_uses Exercises.GroupTheory.Cyclic.q2_orderOf_pow [orderOf_pow]
+assert_not_uses Exercises.GroupTheory.Cyclic.q5_subgroup_isCyclic [Subgroup.isCyclic]
+assert_not_uses Exercises.GroupTheory.Cyclic.q6_unique_subgroup_per_divisor [Subgroup.isCyclic]
 
 -- Solution proofs (regression guard on the shipped canonical proofs).
-assert_not_uses Solutions.GroupTheory.Cyclic.q1_orderOf_pow [orderOf_pow]
-assert_not_uses Solutions.GroupTheory.Cyclic.q4_subgroup_isCyclic [Subgroup.isCyclic]
-assert_not_uses Solutions.GroupTheory.Cyclic.q5_unique_subgroup_per_divisor [Subgroup.isCyclic]
+assert_not_uses Solutions.GroupTheory.Cyclic.q2_orderOf_pow [orderOf_pow]
+assert_not_uses Solutions.GroupTheory.Cyclic.q5_subgroup_isCyclic [Subgroup.isCyclic]
+assert_not_uses Solutions.GroupTheory.Cyclic.q6_unique_subgroup_per_divisor [Subgroup.isCyclic]

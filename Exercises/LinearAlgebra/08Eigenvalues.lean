@@ -10,12 +10,14 @@ import Mathlib.Tactic
 /-!
 # Exercises — LinearAlgebra / Eigenvalues
 
-An **eigenvector** of an operator `f : V → V` is a nonzero `v` with `f v = λ v`; the scalar `λ`
-is the **eigenvalue**. Rewriting `f v = λ v` as `(f - λ·id) v = 0` shows the λ-eigenvectors are
-exactly the nonzero elements of `ker (f - λ·id)`, so `λ` is an eigenvalue precisely when
-`f - λ·id` fails to be injective. A clean structural fact — provable *without* determinants — is
-that **eigenvectors for distinct eigenvalues are linearly independent**. Whether eigenvalues
-exist at all depends on the field: a rotation of `ℝ²` has none over `ℝ` but does over `ℂ`.
+An **eigenvector** of an operator `f : V → V` is a nonzero vector `v` for which
+`f v = λ • v`; the scalar `λ` is its **eigenvalue**. Thus eigenvectors are directions that the
+operator does not turn, only scales. Distinct scaling factors impose a strong constraint:
+eigenvectors belonging to distinct eigenvalues are linearly independent. This is a structural
+fact and does not require determinants.
+
+Whether eigenvalues exist depends on the field: a rotation of `ℝ²` has none over `ℝ` but does over
+`ℂ`.
 
 Here `Module.End K V` is the type of operators `V →ₗ[K] V`, and `Matrix.toLin' A` is the map
 `v ↦ A · v`.
@@ -62,8 +64,7 @@ end
 
 /-- **Question 1.**
 
-A vector is a `λ`-eigenvector exactly when it lies in the kernel of `f - λ·id`:
-`f v = λ • v ↔ v ∈ ker (f - λ • 1)`.
+A vector has eigenvalue `λ` exactly when subtracting `λ` times the identity sends it to zero.
 
 Prove without using `Module.End.mem_eigenspace_iff`. -/
 theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
@@ -73,17 +74,19 @@ theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
 
 /-- **Question 2.**
 
-`λ` is an eigenvalue of `f` exactly when `f - λ·id` fails to be injective:
-`(∃ v ≠ 0, f v = λ • v) ↔ ¬ Injective (f - λ • 1)`. -/
-theorem q2_eigenvalue_iff_not_injective (f : Module.End K V) (l : K) :
-    (∃ v : V, v ≠ 0 ∧ f v = l • v) ↔ ¬ Function.Injective ⇑(f - l • 1) := by
+Here is the key elimination step for two eigenvectors. If a linear relation
+`s • v₁ + t • v₂ = 0` holds between eigenvectors with distinct eigenvalues, then the coefficient
+of `v₂` must vanish. Apply `f` to the relation and compare it with the relation scaled by `λ₁`. -/
+theorem q2_relation_second_coeff_zero (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ : V)
+    (h₁ : f v₁ = l₁ • v₁) (h₂ : f v₂ = l₂ • v₂) (hv₂ : v₂ ≠ 0) (hl : l₁ ≠ l₂)
+    (s t : K) (hst : s • v₁ + t • v₂ = 0) : t = 0 := by
   sorry
 
 
 /-- **Question 3.**
 
-Eigenvectors for distinct eigenvalues are linearly independent: if `f v₁ = λ₁ v₁` and
-`f v₂ = λ₂ v₂` with `v₁, v₂` nonzero and `λ₁ ≠ λ₂`, then `v₁, v₂` are linearly independent.
+Use the elimination result to show that two nonzero eigenvectors with distinct eigenvalues are
+linearly independent.
 
 Prove without using `Module.End.eigenvectors_linearIndependent`. -/
 theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ : V)
@@ -95,8 +98,7 @@ theorem q3_distinct_independent (f : Module.End K V) (l₁ l₂ : K) (v₁ v₂ 
 
 /-- **Question 4.**
 
-The matrix `!![2,1;1,2]` has eigenvalue `3` with eigenvector `(1,1)` and eigenvalue `1` with
-eigenvector `(1,-1)`. -/
+Find two eigenpairs of the matrix `!![2,1;1,2]`. -/
 theorem q4_eig_2x2 :
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 1] = (3 : ℝ) • ![1, 1] ∧
     Matrix.toLin' (!![2, 1; 1, 2] : Matrix (Fin 2) (Fin 2) ℝ) ![1, -1] = (1 : ℝ) • ![1, -1] := by
@@ -105,8 +107,8 @@ theorem q4_eig_2x2 :
 
 /-- **Question 5.**
 
-Field dependence: the `90°` rotation `!![0,-1;1,0]` has **no** eigenvalue over `ℝ`, yet over `ℂ`
-the vector `(i, 1)` is an eigenvector with eigenvalue `i`. -/
+Compare the `90°` rotation over `ℝ` and over `ℂ`: it has no real eigenvalue, but over `ℂ` the vector
+`(i, 1)` is an eigenvector with eigenvalue `i`. -/
 theorem q5_rotation_field_dependence :
     (¬ ∃ (μ : ℝ) (v : Fin 2 → ℝ), v ≠ 0 ∧
       Matrix.toLin' (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) ℝ) v = μ • v) ∧
@@ -117,9 +119,7 @@ theorem q5_rotation_field_dependence :
 
 /-- **Question 6.**
 
-The shear `!![1,1;0,1]` has `1` as an eigenvalue, and its eigenvectors are exactly the vectors on
-the `x`-axis: `toLin' A v = v ↔ v 1 = 0`. (So the eigenspace is the one-dimensional line
-`span{(1,0)}`.) -/
+Describe the eigenspace of the shear `!![1,1;0,1]` for the eigenvalue `1`. -/
 theorem q6_shear_eigenspace (v : Fin 2 → ℝ) :
     Matrix.toLin' (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) v = v ↔ v 1 = 0 := by
   sorry
@@ -127,8 +127,7 @@ theorem q6_shear_eigenspace (v : Fin 2 → ℝ) :
 
 /-- **Question 7.**
 
-The eigenvalues of a diagonal matrix are its diagonal entries: for `!![2,0;0,3]`, the standard
-basis vectors are eigenvectors with eigenvalues `2` and `3`. -/
+Identify the evident eigenpairs of the diagonal matrix `!![2,0;0,3]`. -/
 theorem q7_diagonal_eigs :
     Matrix.toLin' (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) ![1, 0] = (2 : ℝ) • ![1, 0] ∧
     Matrix.toLin' (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℝ) ![0, 1] = (3 : ℝ) • ![0, 1] := by

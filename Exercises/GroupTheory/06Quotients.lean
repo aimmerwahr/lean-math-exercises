@@ -27,8 +27,12 @@ section
 #check Subgroup.Normal.conj_mem
 #check Subgroup.mul_mem_iff_of_index_two
 #check QuotientGroup.rangeKerLift
-#check QuotientGroup.quotientQuotientEquivQuotient
-#check Abelianization.lift
+#check QuotientGroup.lift
+#check QuotientGroup.map
+#check MonoidHom.toMulEquiv
+#check commutator_eq_closure
+#check Subgroup.closure_le
+#check QuotientGroup.eq_one_iff
 #check alternatingGroup_eq_sign_ker
 
 end
@@ -72,32 +76,40 @@ theorem q5_third_iso (N M : Subgroup G) [N.Normal] [M.Normal] (hNM : N ≤ M) :
   sorry
 
 
-/-- **Question 6.** Every homomorphism from `G` to an abelian group factors through the
-abelianization `G / [G,G]`. -/
-theorem q6_abelianization {A : Type*} [CommGroup A] (f : G →* A) :
+/-- **Question 6.** If `f : G →* A` has an abelian target, then every commutator lies in the
+kernel of `f`. This is the fact that makes the quotient by the commutator subgroup possible. -/
+theorem q6_commutator_le_ker {A : Type*} [CommGroup A] (f : G →* A) :
+    commutator G ≤ f.ker := by
+  sorry
+
+
+/-- **Question 7.** Use the preceding containment to construct the map from the abelianization
+`G / [G,G]` to an abelian target. It agrees with `f` on every element of `G`. -/
+theorem q7_abelianization {A : Type*} [CommGroup A] (f : G →* A) :
     ∃ F : Abelianization G →* A, ∀ g : G, F (Abelianization.of g) = f g := by
   sorry
 
 
-/-- **Question 7.** The alternating subgroup of `S₃` is the kernel of sign, so the corresponding
+/-- **Question 8.** The alternating subgroup of `S₃` is the kernel of sign, so the corresponding
 quotient is isomorphic to the image of sign. -/
-theorem q7_quotient_concrete :
+theorem q8_quotient_concrete :
     Nonempty (Equiv.Perm (Fin 3) ⧸ alternatingGroup (Fin 3) ≃*
       (Equiv.Perm.sign : Equiv.Perm (Fin 3) →* ℤˣ).range) := by
   sorry
 
 
-/-- **Question 8.** Quotienting by the trivial subgroup returns `G`, while quotienting by all of
+/-- **Question 9.** Quotienting by the trivial subgroup returns `G`, while quotienting by all of
 `G` produces a trivial group. -/
-theorem q8_quotient_trivial : Nonempty (G ⧸ (⊥ : Subgroup G) ≃* G) ∧
+theorem q9_quotient_trivial : Nonempty (G ⧸ (⊥ : Subgroup G) ≃* G) ∧
     Subsingleton (G ⧸ (⊤ : Subgroup G)) := by
   sorry
 
 
-/-- **Question 9.** If the quotient of a group by its center is cyclic, the group is abelian. -/
-theorem q9_quotient_center_cyclic_abelian [IsCyclic (G ⧸ Subgroup.center G)] (a b : G) :
+/-- **Question 10.** If the quotient of a group by its center is cyclic, the group is abelian. -/
+theorem q10_quotient_center_cyclic_abelian [IsCyclic (G ⧸ Subgroup.center G)] (a b : G) :
     a * b = b * a := by
   sorry
+
 
 /-- The inclusion of the first factor of a product. -/
 def firstFactor (A B : Type*) [Group A] [Group B] : A →* A × B where
@@ -111,12 +123,11 @@ def secondProjection (A B : Type*) [Group A] [Group B] : A × B →* B where
   map_one' := rfl
   map_mul' _ _ := rfl
 
-
-/-- **Question 10.**
+/-- **Question 11.**
 
 The maps `A → A × B → B` form a short exact sequence: the first map is injective, the second is
 surjective, and the image of the first is the kernel of the second. -/
-theorem q10_short_exact_sequence (A B : Type*) [Group A] [Group B] :
+theorem q11_short_exact_sequence (A B : Type*) [Group A] [Group B] :
     Function.Injective (firstFactor A B) ∧ Function.Surjective (secondProjection A B) ∧
       (firstFactor A B).range = (secondProjection A B).ker := by
   sorry

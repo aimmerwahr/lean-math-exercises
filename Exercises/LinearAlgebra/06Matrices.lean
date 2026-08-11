@@ -42,6 +42,7 @@ section
 -- `toLin'` is injective, and the finite-dimensional rigidity behind the one-sided inverse.
 #check @Matrix.toLin'
 #check @LinearMap.injective_iff_surjective
+#check @Function.LeftInverse.rightInverse_of_surjective
 
 -- Expanding `2×2` products and the identity, for the concrete computations.
 #check @Matrix.mul_fin_two
@@ -56,7 +57,8 @@ end
 
 /-- **Question 1.**
 
-Compute the matrix product `!![1,2;3,4] * !![5,6;7,8]`. -/
+Compute the product of the `2 × 2` matrices
+`[[1, 2], [3, 4]]` and `[[5, 6], [7, 8]]`. -/
 theorem q1_matmul_concrete :
     (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8] = !![19, 22; 43, 50] := by
   sorry
@@ -96,8 +98,7 @@ theorem q4_comp_eq_mul (A B : Matrix (Fin 2) (Fin 2) ℝ) :
 /-- **Question 5.**
 
 For square matrices, a one-sided inverse is automatically two-sided: if `A * B = 1`, then
-`B * A = 1`. (Pass to the associated maps and use `injective ↔ surjective` in finite dimension —
-*not* a direct matrix computation.)
+`B * A = 1`. (Pass to the associated maps and use `injective ↔ surjective` in finite dimension)
 
 Prove without using `Matrix.mul_eq_one_comm`. -/
 theorem q5_one_sided_inverse (A B : Matrix (Fin 2) (Fin 2) ℝ) (hAB : A * B = 1) : B * A = 1 := by
@@ -115,29 +116,43 @@ theorem q6_inverse_concrete :
 
 /-- **Question 7.**
 
-A conjugation (change of basis): with `P = !![1,1;0,1]`, its inverse `Q = !![1,-1;0,1]`, and the
-diagonal matrix `A = !![2,0;0,3]`, compute `P * A * Q = !![2,1;0,3]` — the matrix `A` written in
-a new basis. -/
-theorem q7_conjugation_concrete :
-    (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℝ) * !![2, 0; 0, 3] * !![1, -1; 0, 1]
-      = !![2, 1; 0, 3] := by
+The **trace** of a square matrix is the sum of its diagonal entries. For a `2 × 2` matrix `A`,
+show that `tr A = A₁₁ + A₂₂`. -/
+theorem q7_trace_fin_two (A : Matrix (Fin 2) (Fin 2) ℝ) :
+    Matrix.trace A = A 0 0 + A 1 1 := by
   sorry
 
 
 /-- **Question 8.**
 
-There are no real matrices `A, B` with `A B − B A = I`. -/
-theorem q8_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
+This begins a trace mini-sequence. Define a candidate trace on endomorphisms of `ℝ²` from its action
+on the standard basis; do not invoke Mathlib's packaged trace. The candidate should be a linear
+functional, vanish on commutators, and take the value `2` on the identity.
+
+The follow-up characterization uses matrix units: a cyclic linear functional kills off-diagonal
+units and takes the same value on every diagonal unit, hence is a multiple of trace; its value on
+the identity fixes that multiple. -/
+theorem q8_trace_unique (f : Matrix (Fin 2) (Fin 2) ℝ → ℝ)
+    (h : ∀ A, f A = A 0 0 + A 1 1) : f = Matrix.trace := by
   sorry
 
 
 /-- **Question 9.**
 
-The **trace** of a square matrix is the sum of its diagonal entries. Show that it is a *similarity
-invariant*: if `Q P = I`, then `tr (P A Q) = tr A`, so `A` and its representation `P A Q` in
-another basis have the same trace. -/
-theorem q9_trace_conj_invariant (A P Q : Matrix (Fin 2) (Fin 2) ℝ) (h : Q * P = 1) :
+There are no real matrices `A, B` with `A B − B A = I`.
+
+Hint: apply trace to the proposed equation. -/
+theorem q9_no_commutator_eq_one (A B : Matrix (Fin 2) (Fin 2) ℝ) : A * B - B * A ≠ 1 := by
+  sorry
+
+
+/-- **Question 10.**
+
+Show that trace is a *similarity invariant*: if `Q P = I`, then `tr (P A Q) = tr A`, so `A` and
+its representation `P A Q` in another basis have the same trace. -/
+theorem q10_trace_conj_invariant (A P Q : Matrix (Fin 2) (Fin 2) ℝ) (h : Q * P = 1) :
     Matrix.trace (P * A * Q) = Matrix.trace A := by
   sorry
+
 
 end Exercises.LinearAlgebra.Matrices

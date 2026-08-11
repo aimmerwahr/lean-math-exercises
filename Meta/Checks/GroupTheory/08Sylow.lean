@@ -1,9 +1,11 @@
 import Exercises.GroupTheory.«08Sylow»
 import Solutions.GroupTheory.«08Sylow»
 
-/-!
-# Internal checks — GroupTheory / Sylow
+import Meta.BanCheck
 
-Sylow's existence and counting theorems are the intended tools for this application sheet, so it
-has no lemma bans.
--/
+open Meta
+
+assert_not_uses Solutions.GroupTheory.Sylow.q3_normal_subgroup_order_five
+  [Sylow.exists_subgroup_card_pow_prime]
+assert_not_uses Solutions.GroupTheory.Sylow.q5_normal_subgroup_order_seven
+  [Sylow.exists_subgroup_card_pow_prime]

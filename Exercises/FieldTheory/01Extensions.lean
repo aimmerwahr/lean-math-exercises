@@ -7,7 +7,16 @@ import Mathlib.NumberTheory.Real.Irrational
 import Mathlib.FieldTheory.IntermediateField.Algebraic
 import Mathlib.Tactic
 
-/-! # Exercises — FieldTheory / Extensions and Degree -/
+/-!
+# Exercises — FieldTheory / Extensions and Degree
+
+An extension `L / K` is a vector space over `K`; its dimension is the degree `[L : K]`.
+Minimal polynomials calculate the degree of simple algebraic extensions, while degrees multiply in
+towers. These facts distinguish algebraic elements from transcendental ones.
+
+Prove each statement yourself; the canonical proofs live in
+`Solutions/FieldTheory/01Extensions.lean`. Do **not** commit your proofs into this file.
+-/
 
 namespace Exercises.FieldTheory.Extensions
 
@@ -19,6 +28,12 @@ section
 #check Complex.ext
 #check Submodule.subset_span
 #check Submodule.smul_mem
+#check Polynomial.monic_X_pow_add_C
+#check Module.finrank_eq_card_basis
+#check Module.finrank_mul_finrank
+#check IntermediateField.finrank_eq_one_iff
+#check IntermediateField.finrank_eq_one_iff_eq_top
+#check Polynomial.eval₂_C_X
 
 end
 
@@ -28,43 +43,77 @@ theorem q1_complex_coordinates (z : ℂ) :
     ∃! ab : ℝ × ℝ, z = (ab.1 : ℂ) + ab.2 * Complex.I := by sorry
 
 
-/-- **Question 2.** A simple integral extension has degree the degree of its minimal polynomial. -/
-theorem q2_adjoin_degree {K L : Type*} [Field K] [Field L] [Algebra K L]
-    (a : L) (ha : IsIntegral K a) :
-    Module.finrank K K⟮a⟯ = (minpoly K a).natDegree := by sorry
+/-- **Question 2.**
+
+If `a + bi = 0` with `a, b : ℝ`, then `a = b = 0`. -/
+theorem q2_one_i_linear_independent (a b : ℝ) :
+    (a : ℂ) + b * Complex.I = 0 → a = 0 ∧ b = 0 := by sorry
 
 
-/-- **Question 3.** Degrees multiply in a finite tower. -/
-theorem q3_tower_law {K F L : Type*} [Field K] [Field F] [Field L]
-    [Algebra K F] [Algebra F L] [Algebra K L] [IsScalarTower K F L]
-    [FiniteDimensional K F] [FiniteDimensional F L] :
-    Module.finrank K F * Module.finrank F L = Module.finrank K L := by sorry
+/-- **Question 3.**
+
+The vectors `1` and `i` span `ℂ` as a real vector space. -/
+theorem q3_one_i_spans_complex :
+    Submodule.span ℝ ({(1 : ℂ), Complex.I} : Set ℂ) = ⊤ := by sorry
 
 
-/-- **Question 4.** Every element of a finite extension is algebraic. -/
-theorem q4_finite_implies_algebraic {K L : Type*} [Field K] [Field L] [Algebra K L]
-    [FiniteDimensional K L] (a : L) : IsAlgebraic K a := by sorry
+/-- **Question 4.**
+
+The extension `ℂ / ℝ` has degree `2`. -/
+theorem q4_degree_complex_real : Module.finrank ℝ ℂ = 2 := by sorry
 
 
-/-- **Question 5.** A scalar from the base field has minimal polynomial `X - C a`. -/
-theorem q5_minpoly_base (K : Type*) [Field K] (a : K) :
-    minpoly K a = Polynomial.X - Polynomial.C a := by sorry
+/-- **Question 5.**
+
+The polynomial `X² + 1` vanishes at `i`. -/
+theorem q5_i_root :
+    (Polynomial.X ^ 2 + Polynomial.C 1 : ℝ[X]).eval₂ (algebraMap ℝ ℂ) Complex.I = 0 := by sorry
 
 
-theorem q6_intermediate_degree_dvd {K L : Type*} [Field K] [Field L] [Algebra K L]
-    [FiniteDimensional K L] (F : IntermediateField K L) :
-    Module.finrank K F ∣ Module.finrank K L := by sorry
+/-- **Question 6.**
+
+The element `i` is integral over `ℝ`. -/
+theorem q6_i_integral : IsIntegral ℝ Complex.I := by sorry
 
 
-theorem q7_sqrt2_irrational : Irrational (Real.sqrt 2) := by sorry
+/-- **Question 7.**
+
+Every `z ∈ ℂ` satisfies `z² - 2 Re(z) z + |z|² = 0`. -/
+theorem q7_complex_quadratic_relation (z : ℂ) :
+    z ^ 2 - ((2 * z.re : ℝ) : ℂ) * z + ((Complex.normSq z : ℝ) : ℂ) = 0 := by sorry
 
 
-/-- **Question 8.** The base field is generated over itself by the single element `1`. -/
-theorem q8_base_generated_by_one (K : Type*) [Field K] :
-    Submodule.span K ({(1 : K)} : Set K) = ⊤ := by sorry
+/-- **Question 8.**
+
+Every complex number is integral over `ℝ`. -/
+theorem q8_every_complex_integral (z : ℂ) : IsIntegral ℝ z := by sorry
 
 
-theorem q9_transcendental_X (K : Type*) [Field K] :
+/-- **Question 9.**
+
+Inside `ℂ / ℝ`, the simple extension `ℝ(i)` is all of `ℂ`. -/
+theorem q9_complex_is_generated_by_i :
+    IntermediateField.adjoin ℝ ({Complex.I} : Set ℂ) = ⊤ := by sorry
+
+
+/-- **Question 10.**
+
+If `ℝ ⊆ F ⊆ ℂ`, then `F = ℝ` or `F = ℂ`. -/
+theorem q10_quadratic_extension_has_no_proper_intermediate_field (F : IntermediateField ℝ ℂ) :
+    F = ⊥ ∨ F = ⊤ := by sorry
+
+
+/-- **Question 11.**
+
+A scalar `a` is a root of the linear polynomial `X - a`. -/
+theorem q11_root_of_linear_polynomial (K : Type*) [Field K] (a : K) :
+    (Polynomial.X - Polynomial.C a).eval a = 0 := by sorry
+
+
+/-- **Question 12.**
+
+The polynomial indeterminate `X ∈ K[X]` is transcendental over `K`. -/
+theorem q12_indeterminate_transcendental (K : Type*) [Field K] :
     Transcendental K (Polynomial.X : K[X]) := by sorry
 
 end Exercises.FieldTheory.Extensions

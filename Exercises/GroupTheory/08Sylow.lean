@@ -37,45 +37,47 @@ section
 
 end
 
-/-- **Question 1.** If `p^n` divides the order of a finite group, the group has a subgroup of
-order `p^n`. -/
-theorem q1_sylow_exists {p n : ℕ} [Fact p.Prime] [Finite G] (hpow : p ^ n ∣ Nat.card G) :
-    ∃ K : Subgroup G, Nat.card K = p ^ n := by
-  sorry
-
-
-/-- **Question 2.** The number of Sylow `p`-subgroups is congruent to `1` modulo `p`. -/
-theorem q2_card_sylow_mod_p {p : ℕ} [Fact p.Prime] [Fintype (Sylow p G)] :
-    Nat.card (Sylow p G) ≡ 1 [MOD p] := by
-  sorry
-
-
-/-- **Question 3.** A Sylow `p`-subgroup is normal exactly when it is the unique Sylow
+/-- **Question 1.** A Sylow `p`-subgroup is normal exactly when it is the unique Sylow
 `p`-subgroup. -/
-theorem q3_np_one_iff_normal {p : ℕ} [Fact p.Prime] [Finite G] [Fintype (Sylow p G)]
+theorem q1_np_one_iff_normal {p : ℕ} [Fact p.Prime] [Finite G] [Finite (Sylow p G)]
     (P : Sylow p G) : Nat.card (Sylow p G) = 1 ↔ (P : Subgroup G).Normal := by
   sorry
 
 
-/-- **Question 4.** A positive integer dividing `3` and congruent to `1` modulo `5` is `1`.
-This is the Sylow count calculation for the number of Sylow `5`-subgroups in a group of order
-`15`. -/
-theorem q4_count_n5_order_15 (n : ℕ) (hmod : n ≡ 1 [MOD 5]) (hdvd : n ∣ 3) : n = 1 := by
+/-- **Question 2.** A positive integer dividing `3` and congruent to `1` modulo `5` is `1`.
+This is the count calculation for the Sylow `5`-subgroups of a group of order `15`. -/
+theorem q2_count_n5_order_15 (n : ℕ) (hmod : n ≡ 1 [MOD 5]) (hdvd : n ∣ 3) : n = 1 := by
   sorry
 
 
-/-- **Question 5.** A positive integer dividing `10` and congruent to `1` modulo `3` is either
+/-- **Question 3.** Every group of order `15` has a normal subgroup of order `5`.
+
+Choose a Sylow `5`-subgroup. Its order determines that its index is `3`; use the Sylow count
+congruence and Question 2 to show it is unique. -/
+theorem q3_normal_subgroup_order_five [Finite G] (hcard : Nat.card G = 15) :
+    ∃ N : Subgroup G, N.Normal ∧ Nat.card N = 5 := by
+  sorry
+
+
+/-- **Question 4.** A positive integer dividing `3` and congruent to `1` modulo `7` is `1`.
+This is the count calculation for the Sylow `7`-subgroups of a group of order `21`. -/
+theorem q4_count_n7_order_21 (n : ℕ) (hmod : n ≡ 1 [MOD 7]) (hdvd : n ∣ 3) : n = 1 := by
+  sorry
+
+
+/-- **Question 5.** Every group of order `21` has a normal subgroup of order `7`.
+
+Follow the same chain of implications as in Question 3, now using Question 4. -/
+theorem q5_normal_subgroup_order_seven [Finite G] (hcard : Nat.card G = 21) :
+    ∃ N : Subgroup G, N.Normal ∧ Nat.card N = 7 := by
+  sorry
+
+
+/-- **Question 6.** A positive integer dividing `10` and congruent to `1` modulo `3` is either
 `1` or `10`. This is the corresponding first restriction on the number of Sylow `3`-subgroups in
 a group of order `30`. -/
-theorem q5_count_n3_order_30 (n : ℕ) (hmod : n ≡ 1 [MOD 3]) (hdvd : n ∣ 10) :
+theorem q6_count_n3_order_30 (n : ℕ) (hmod : n ≡ 1 [MOD 3]) (hdvd : n ∣ 10) :
     n = 1 ∨ n = 10 := by
-  sorry
-
-
-/-- **Question 6.** A Sylow `p`-subgroup has order equal to the largest power of `p` dividing the
-order of the group. -/
-theorem q6_sylow_order {p : ℕ} [Fact p.Prime] [Finite G] (P : Sylow p G) :
-    Nat.card (P : Subgroup G) = p ^ (Nat.card G).factorization p := by
   sorry
 
 end Exercises.GroupTheory.Sylow

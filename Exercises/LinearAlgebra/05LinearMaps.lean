@@ -2,7 +2,6 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
-import Exercises.LinearAlgebra.«04Dimension»
 
 /-!
 # Exercises — LinearAlgebra / LinearMaps
@@ -92,11 +91,20 @@ theorem q4_inj_iff_surj [FiniteDimensional K V] (f : V →ₗ[K] V) :
 
 /-- **Question 5.**
 
+The quantitative form of Question 4: for any `f : V → W`, `dim V ≤ dim W + dim (ker f)`. -/
+theorem q5_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
+    (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
+  sorry
+
+
+/-- **Question 6.**
+
 A linear map into a strictly lower-dimensional space cannot be injective — it must have nonzero
 kernel: if `dim W < dim V`, then `ker f ≠ ⊥`. -/
-theorem q5_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
+theorem q6_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
     (f : V →ₗ[K] W) (h : finrank K W < finrank K V) : ker f ≠ ⊥ := by
   sorry
+
 
 /-- The projection of `ℝ²` onto its first coordinate, `(x, y) ↦ (x, 0)`. -/
 def proj₁ : (Fin 2 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
@@ -118,39 +126,31 @@ def proj₃₂ : (Fin 3 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
 -- automatically unfold `proj₃₂ v` to `![v 0, v 1]` in later proofs.
 @[simp] theorem proj₃₂_apply (v : Fin 3 → ℝ) : proj₃₂ v = ![v 0, v 1] := rfl
 
-
-/-- **Question 6.**
+/-- **Question 7.**
 
 The projection `p (x, y) = (x, 0)` on `ℝ²` is idempotent (`p ∘ p = p`) but is neither injective
 nor surjective. -/
-theorem q6_projection :
+theorem q7_projection :
     proj₁ ∘ₗ proj₁ = proj₁ ∧ ¬ Function.Injective proj₁ ∧ ¬ Function.Surjective proj₁ := by
-  sorry
-
-
-/-- **Question 7.**
-
-The projection `g (x, y, z) = (x, y)` from `ℝ³` to `ℝ²` is surjective but not injective. -/
-theorem q7_project_surj_not_inj :
-    Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
   sorry
 
 
 /-- **Question 8.**
 
-Composing with an injective map on the outside does not change the kernel: if `g` is injective,
-then `ker (g ∘ f) = ker f`. -/
-theorem q8_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
-    (f : V →ₗ[K] W) (g : W →ₗ[K] U) (hg : Function.Injective g) :
-    ker (g ∘ₗ f) = ker f := by
+The projection `g (x, y, z) = (x, y)` from `ℝ³` to `ℝ²` is surjective but not injective. -/
+theorem q8_project_surj_not_inj :
+    Function.Surjective proj₃₂ ∧ ¬ Function.Injective proj₃₂ := by
   sorry
 
 
 /-- **Question 9.**
 
-The quantitative form of Question 4: for any `f : V → W`, `dim V ≤ dim W + dim (ker f)`. -/
-theorem q9_finrank_le_of_map [FiniteDimensional K V] [FiniteDimensional K W]
-    (f : V →ₗ[K] W) : finrank K V ≤ finrank K W + finrank K (ker f) := by
+Composing with an injective map on the outside does not change the kernel: if `g` is injective,
+then `ker (g ∘ f) = ker f`. -/
+theorem q9_ker_comp_injective {U : Type*} [AddCommGroup U] [Module K U]
+    (f : V →ₗ[K] W) (g : W →ₗ[K] U) (hg : Function.Injective g) :
+    ker (g ∘ₗ f) = ker f := by
   sorry
+
 
 end Exercises.LinearAlgebra.LinearMaps

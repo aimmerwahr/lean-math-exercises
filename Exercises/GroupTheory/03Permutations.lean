@@ -123,20 +123,28 @@ theorem q8_cycle_decomp_concrete :
 
 /-- **Question 9.**
 
-The **15-puzzle** parity obstruction. The fifteen tiles occupy `Fin 15`; a single swap of two tiles
-(fixing the blank) is the transposition `(3 4)`, which has `sign = -1`. Legal moves are even
-permutations (`sign = 1`), so a position differing from the start by one such swap is **unreachable**. -/
+One parity ingredient of the **15-puzzle**: swapping two tiles while fixing the blank is odd. The
+full puzzle obstruction additionally requires proving that legal moves preserve the relevant parity;
+that separate invariant is not formalized here. -/
 theorem q9_fifteen_puzzle_parity : Perm.sign (swap (3 : Fin 15) 4) = -1 := by
   sorry
 
 
 /-- **Question 10.**
 
-The **dihedral group** `D₄` is the group of the `8` symmetries of a square (four rotations and four
-reflections); in Mathlib it is `DihedralGroup 4`. Show that `D₄` embeds into `S₄` by its action on
-the square's four vertices: construct an injective homomorphism `DihedralGroup 4 →* Equiv.Perm (Fin 4)`. -/
-theorem q10_dihedral_in_S4 :
-    ∃ f : DihedralGroup 4 →* Equiv.Perm (Fin 4), Function.Injective f := by
+The rotation `r = (0 1 2 3)` and reflection `s = (1 3)` of a square obey the dihedral relations
+`r⁴ = 1`, `s² = 1`, and `srs = r⁻¹`. -/
+theorem q10_square_dihedral_relations :
+    (finRotate 4) ^ 4 = 1 ∧ (swap (1 : Fin 4) 3) ^ 2 = 1 ∧
+      swap 1 3 * finRotate 4 * swap 1 3 = (finRotate 4)⁻¹ := by
+  sorry
+
+
+/-- **Question 11.**
+
+The symmetric group on three points is non-abelian. Exhibit two overlapping transpositions that do
+not commute. This is the first concrete reminder that a permutation group need not be abelian. -/
+theorem q11_noncommutative : ∃ σ τ : Equiv.Perm (Fin 3), σ * τ ≠ τ * σ := by
   sorry
 
 end Exercises.GroupTheory.Permutations
