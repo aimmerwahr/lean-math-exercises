@@ -10,6 +10,7 @@ open Module
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   (U W : Submodule K V)
 
+
 theorem q1_rigidity (h : U ≤ W) (hdim : finrank K U = finrank K W) : U = W := by
   -- If `U` were a *proper* subspace of `W`, its dimension would be strictly smaller — but the
   -- dimensions are equal. So there is no room: `U = W`.
@@ -46,6 +47,8 @@ theorem q4_numeric_formula (hU : finrank K U = 3) (hW : finrank K W = 4)
 
 
 omit [FiniteDimensional K V] in
+
+
 theorem q5_finrank_span_singleton (v : V) (hv : v ≠ 0) :
     finrank K (Submodule.span K {v}) = 1 := by
   -- The span of one nonzero vector is a line.

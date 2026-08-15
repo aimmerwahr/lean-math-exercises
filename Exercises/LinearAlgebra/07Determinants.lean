@@ -47,6 +47,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Use the signed-sum definition once to establish the `2 × 2` determinant formula. This is the only
@@ -57,8 +58,8 @@ theorem q1_det_2x2 : (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det = -2 := b
 
 /-- **Question 2.**
 
-Scaling a row scales the determinant by the same scalar. Verify the principle in a small case, then
-identify the corresponding general determinant lemma. -/
+Evaluate one concrete `3 × 3` determinant from the closed determinant formula. Keep track of the
+signs in the two three-term cyclic sums. -/
 theorem q2_det_3x3 :
     (!![2, 0, 1; 1, 3, 2; 0, 1, 1] : Matrix (Fin 3) (Fin 3) ℝ).det = 3 := by
   sorry
@@ -66,8 +67,10 @@ theorem q2_det_3x3 :
 
 /-- **Question 3.**
 
-Adding a multiple of one row to another leaves the determinant unchanged. Use this row operation to
-explain why a shear has determinant `1`. -/
+Verify multiplicativity of the determinant on two concrete `2 × 2` matrices: the determinant of
+their product equals the product of their determinants.
+
+Prove without using `Matrix.det_mul`. -/
 theorem q3_det_mul_concrete :
     ((!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8]).det
       = (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det * (!![5, 6; 7, 8]).det := by

@@ -10,8 +10,10 @@ Contributions are welcome.
 - `Solutions/` — the same statements with complete proofs, to compare against.
 
 Both trees mirror Mathlib's directory structure (e.g. `Exercises/LinearAlgebra/`).
-Each area folder has an overview file (`Exercises/<Area>/<Area>.md`) with its scope,
-references, and topic map. See for example [Linear Algebra](Exercises/LinearAlgebra/LinearAlgebra.md).
+Each subject overview in an area folder has a `00`-prefixed filename
+(`Exercises/<Area>/00<Subject>.md`) so it sorts before the numbered sheets. It records the
+subject's scope, references, and topic map. See for example
+[Linear Algebra](Exercises/LinearAlgebra/00LinearAlgebra.md).
 For general Lean proof patterns used across the exercise areas, see [Exercises/Toolbox.lean](Exercises/Toolbox.lean).
 
 ## Setup

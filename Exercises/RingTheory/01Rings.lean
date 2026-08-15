@@ -78,81 +78,117 @@ def IsIntScalarAction {A : Type*} [AddCommGroup A] (act : ℤ → A → A) : Pro
 section
 
 -- Basic ring identities and cancellation.
-#check neg_mul
-#check IsUnit
-#check CharP.cast_eq_zero_iff
-#check isUnit_iff_exists
+#check @neg_mul
+#check @IsUnit
+#check @CharP.cast_eq_zero_iff
+#check @isUnit_iff_exists
 
 -- Residues, divisibility, and finite maps.
-#check Nat.Prime.dvd_mul
-#check ZMod.natCast_eq_zero_iff
-#check ZMod.natCast_zmod_surjective
-#check ZMod.isUnit_iff_coprime
-#check Finite.surjective_of_injective
+#check @Nat.Prime.dvd_mul
+#check @ZMod.natCast_eq_zero_iff
+#check @ZMod.natCast_zmod_surjective
+#check @ZMod.isUnit_iff_coprime
+#check @Finite.surjective_of_injective
 
 -- Norm arguments for Gaussian integers.
-#check Zsqrtd.norm_mul
-#check Zsqrtd.norm_def
-#check Zsqrtd.norm_nonneg
-#check GaussianInt.norm_eq_zero
-#check Int.eq_one_of_dvd_one
+#check @Zsqrtd.norm_mul
+#check @Zsqrtd.norm_def
+#check @Zsqrtd.norm_nonneg
+#check @GaussianInt.norm_eq_zero
+#check @Int.eq_one_of_dvd_one
 
 -- Induction over positive and negative integers.
-#check Int.induction_on
+#check @Int.induction_on
 
 end
 
-/-- **Question 1.** Negation distributes across multiplication on the left, and zero annihilates
+
+/-- **Question 1.**
+
+Negation distributes across multiplication on the left, and zero annihilates
 multiplication. -/
-theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) ∧ 0 * a = 0 := by sorry
+theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) ∧ 0 * a = 0 := by
+  sorry
 
 
-/-- **Question 2.** A unit cannot be a zero divisor: if `a` is a unit and `a*b = 0`, then `b = 0`. -/
-theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b = 0 := by sorry
+/-- **Question 2.**
+
+A unit cannot be a zero divisor: if `a` is a unit and `a*b = 0`, then `b = 0`. -/
+theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b = 0 := by
+  sorry
 
 
-/-- **Question 3.** In a ring of characteristic `p`, the characteristic is either prime or zero. -/
-theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p = 0 := by sorry
+/-- **Question 3.**
+
+In an integral domain of characteristic `p`, the characteristic is either prime or zero.
+
+Prove without using `CharP.char_is_prime_or_zero`. -/
+theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p = 0 := by
+  sorry
 
 
-/-- **Question 4.** The residue class of `5` is a unit modulo `12`. -/
-theorem q4_zmod12_unit : IsUnit (5 : ZMod 12) := by sorry
+/-- **Question 4.**
+
+The residue class of `5` is a unit modulo `12`. -/
+theorem q4_zmod12_unit : IsUnit (5 : ZMod 12) := by
+  sorry
 
 
-/-- **Question 5.** The integers are initial among rings: every ring homomorphism from `ℤ` to `R`
+/-- **Question 5.**
+
+The integers are initial among rings: every ring homomorphism from `ℤ` to `R`
 is the canonical integer-cast homomorphism. -/
-theorem q5_int_initial (f : ℤ →+* R) : f = Int.castRingHom R := by sorry
+theorem q5_int_initial (f : ℤ →+* R) : f = Int.castRingHom R := by
+  sorry
 
 
-/-- **Question 6.** Every nonzero element of a finite integral domain is a unit. -/
-theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : IsUnit a := by sorry
+/-- **Question 6.**
+
+Every nonzero element of a finite integral domain is a unit.
+
+Prove without using `IsLeftRegular.isUnit_of_finite`. -/
+theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : IsUnit a := by
+  sorry
 
 
-/-- **Question 7.** Modulo `12`, the class of `2` is a nonzero zero divisor and therefore not a
+/-- **Question 7.**
+
+Modulo `12`, the class of `2` is a nonzero zero divisor and therefore not a
 unit. -/
 theorem q7_zmod12_two_zero_divisor :
-    ¬ IsUnit (2 : ZMod 12) ∧ (2 : ZMod 12) * 6 = 0 ∧ (6 : ZMod 12) ≠ 0 := by sorry
+    ¬ IsUnit (2 : ZMod 12) ∧ (2 : ZMod 12) * 6 = 0 ∧ (6 : ZMod 12) ≠ 0 := by
+  sorry
 
 
-/-- **Question 8.** A residue class modulo `12` is a unit exactly when one (equivalently, every)
+/-- **Question 8.**
+
+A residue class modulo `12` is a unit exactly when one (equivalently, every)
 integer representative is coprime to `12`. -/
 theorem q8_zmod12_unit_iff (a : ZMod 12) :
-    IsUnit a ↔ ∃ n : ℕ, a = n ∧ n.Coprime 12 := by sorry
+    IsUnit a ↔ ∃ n : ℕ, a = n ∧ n.Coprime 12 := by
+  sorry
 
 
-/-- **Question 9.** In a Boolean ring (one satisfying `x² = x` for every `x`), every element has
+/-- **Question 9.**
+
+In a Boolean ring (one satisfying `x² = x` for every `x`), every element has
 additive order dividing two, and multiplication is commutative. -/
 theorem q9_boolean_two_torsion_and_comm {S : Type*} [Ring S]
-    (h : ∀ x : S, x * x = x) (a b : S) : a + a = 0 ∧ a * b = b * a := by sorry
+    (h : ∀ x : S, x * x = x) (a b : S) : a + a = 0 ∧ a * b = b * a := by
+  sorry
 
 
-/-- **Question 10.** The Gaussian integers `ℤ[i]` have no zero divisors: if `zw = 0`, then
+/-- **Question 10.**
+
+The Gaussian integers `ℤ[i]` have no zero divisors: if `zw = 0`, then
 `z = 0` or `w = 0`. -/
 theorem q10_gaussian_no_zero_divisors (z w : GaussianInt) (hzw : z * w = 0) : z = 0 ∨ w = 0 := by
   sorry
 
 
-/-- **Question 11.** In the coordinate model of the real quaternions, every nonzero quaternion
+/-- **Question 11.**
+
+In the coordinate model of the real quaternions, every nonzero quaternion
 has a displayed two-sided inverse.  The basic units `i` and `j` also anticommute, so quaternion
 multiplication is not commutative. -/
 theorem q11_hamilton_inverse_and_noncommutative (q : Hamilton) (hq : q ≠ Hamilton.zero) :
@@ -161,24 +197,33 @@ theorem q11_hamilton_inverse_and_noncommutative (q : Hamilton) (hq : q ≠ Hamil
   sorry
 
 
-/-- **Question 12.** An integer scalar action on an abelian group is forced to be repeated
+/-- **Question 12.**
+
+An integer scalar action on an abelian group is forced to be repeated
 addition: any action additive in the integer variable and taking `1 • a = a` agrees with the
 usual integer multiple `n • a`. -/
 theorem q12_int_scalar_action_unique {A : Type*} [AddCommGroup A] (act : ℤ → A → A)
-    (hact : IsIntScalarAction act) (n : ℤ) (a : A) : act n a = n • a := by sorry
+    (hact : IsIntScalarAction act) (n : ℤ) (a : A) : act n a = n • a := by
+  sorry
 
 
-/-- **Question 13.** For `n ≥ 2`, the residue ring `ℤ/nℤ` has no zero divisors exactly when
+/-- **Question 13.**
+
+For `n ≥ 2`, the residue ring `ℤ/nℤ` has no zero divisors exactly when
 `n` is prime. -/
 theorem q13_zmod_no_zero_divisors_iff_prime (n : ℕ) (hn : 2 ≤ n) :
-    n.Prime ↔ ∀ a b : ZMod n, a * b = 0 → a = 0 ∨ b = 0 := by sorry
+    n.Prime ↔ ∀ a b : ZMod n, a * b = 0 → a = 0 ∨ b = 0 := by
+  sorry
 
 
-/-- **Question 14.** The only units of the Gaussian integers are `1`, `-1`, `i`, and `-i`.
+/-- **Question 14.**
+
+The only units of the Gaussian integers are `1`, `-1`, `i`, and `-i`.
 Here `i` and `-i` are represented by the coordinate pairs `⟨0, 1⟩` and `⟨0, -1⟩`.
 
 Prove without using `Zsqrtd.norm_eq_one_iff'`. -/
 theorem q14_gaussian_units_exactly_four (z : GaussianInt) :
-    IsUnit z ↔ z = 1 ∨ z = -1 ∨ z = ⟨0, 1⟩ ∨ z = ⟨0, -1⟩ := by sorry
+    IsUnit z ↔ z = 1 ∨ z = -1 ∨ z = ⟨0, 1⟩ ∨ z = ⟨0, -1⟩ := by
+  sorry
 
 end Exercises.RingTheory.Rings

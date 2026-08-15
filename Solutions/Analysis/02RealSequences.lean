@@ -6,6 +6,7 @@ namespace Solutions.Analysis.RealSequences
 
 open Filter Set
 
+
 theorem q1_reciprocal_tends_to_zero :
     Tendsto (fun n : ℕ => (1 : ℝ) / (n + 1)) atTop (nhds 0) := by
   -- An index larger than the reciprocal of the requested error makes every later denominator

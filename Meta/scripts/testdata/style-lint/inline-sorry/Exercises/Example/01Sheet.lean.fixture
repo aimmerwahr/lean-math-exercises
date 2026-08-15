@@ -1,0 +1,7 @@
+#check @Nat.add
+
+
+/-- **Question 1.**
+
+A fixture with an inline placeholder. -/
+theorem q1 : True := by sorry

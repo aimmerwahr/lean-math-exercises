@@ -8,7 +8,9 @@ namespace Solutions.FieldTheory.SplittingFields
 open scoped Polynomial
 open Polynomial
 
+
 noncomputable def omega : ℂ := (-1 + (Real.sqrt 3 : ℂ) * Complex.I) / 2
+
 
 theorem q1_root_in_splitting_field {K : Type*} [Field K] (p : K[X])
     (hp : p.natDegree ≠ 0) :

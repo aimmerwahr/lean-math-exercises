@@ -12,6 +12,7 @@ variable {G X : Type*} [Group G] [MulAction G X]
 
 open MulAction ConjClasses
 
+
 theorem q1_mem_stabilizer_iff (g : G) (x : X) :
     g ∈ MulAction.stabilizer G x ↔ g • x = x := by
   rfl
@@ -59,6 +60,7 @@ theorem q5_pgroup_center_nontrivial {p : ℕ} [Fact p.Prime] [Finite G] [Nontriv
 
 private def q6ThreeCycle : Equiv.Perm (Fin 3) :=
   Equiv.swap 0 1 * Equiv.swap 1 2
+
 
 theorem q6_three_cycle_order : orderOf (Equiv.swap (0 : Fin 3) 1 * Equiv.swap 1 2) = 3 := by
   change orderOf q6ThreeCycle = 3

@@ -42,35 +42,36 @@ on the `#check` line and read the infoview) to see its exact statement.
 section
 
 -- Comparing integrals and simplifying the integral of a constant.
-#check intervalIntegral.integral_mono_on
-#check intervalIntegral.integral_add
-#check intervalIntegral.integral_neg
-#check intervalIntegral.integral_const
-#check intervalIntegral.integral_const_mul
-#check intervalIntegral.integral_congr
+#check @intervalIntegral.integral_mono_on
+#check @intervalIntegral.integral_add
+#check @intervalIntegral.integral_neg
+#check @intervalIntegral.integral_const
+#check @intervalIntegral.integral_const_mul
+#check @intervalIntegral.integral_congr
 
 -- Producing interval integrability from continuity.
-#check Continuous.intervalIntegrable
-#check ContinuousOn.intervalIntegrable
-#check IntervalIntegrable.norm
-#check IntervalIntegrable.continuousOn_mul
+#check @Continuous.intervalIntegrable
+#check @ContinuousOn.intervalIntegrable
+#check @IntervalIntegrable.norm
+#check @IntervalIntegrable.continuousOn_mul
 
 -- Fundamental-theorem and derivative tools.
-#check intervalIntegral.integral_eq_sub_of_hasDerivAt
-#check intervalIntegral.integral_deriv_eq_sub
-#check intervalIntegral.integral_deriv_eq_sub'
-#check deriv_mul
-#check HasDerivAt.add
-#check HasDerivAt.mul
-#check HasDerivAt.pow
+#check @intervalIntegral.integral_eq_sub_of_hasDerivAt
+#check @intervalIntegral.integral_deriv_eq_sub
+#check @intervalIntegral.integral_deriv_eq_sub'
+#check @deriv_mul
+#check @HasDerivAt.add
+#check @HasDerivAt.mul
+#check @HasDerivAt.pow
 
 -- Extrema and intermediate values on a closed interval.
-#check isCompact_Icc
-#check IsCompact.exists_isMinOn
-#check IsCompact.exists_isMaxOn
-#check intermediate_value_Icc
+#check @isCompact_Icc
+#check @IsCompact.exists_isMinOn
+#check @IsCompact.exists_isMaxOn
+#check @intermediate_value_Icc
 
 end
+
 
 /-- **Question 1.**
 

@@ -8,6 +8,7 @@ namespace Solutions.GroupTheory.Groups
 
 variable {G : Type*} [Group G]
 
+
 theorem q1_inv_unique {a b c : G} (hb : a * b = 1) (hc : a * c = 1) : b = c := by
   -- Both `b` and `c` are right inverses of `a`; multiplying `a * b = a * c` by `a⁻¹` on the
   -- left (cancellation) forces them equal.

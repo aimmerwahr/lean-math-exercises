@@ -8,7 +8,9 @@ namespace Solutions.GroupTheory.Permutations
 
 open Equiv Equiv.Perm
 
+
 private def q7Permutation : Perm (Fin 5) := swap 0 1 * (swap 2 3 * swap 3 4)
+
 
 theorem q1_swap_product :
     swap (0 : Fin 4) 1 * swap 1 2 * swap 2 3 = finRotate 4 := by

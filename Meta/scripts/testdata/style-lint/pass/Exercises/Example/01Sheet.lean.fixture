@@ -1,0 +1,8 @@
+#check @Nat.add
+
+
+/-- **Question 1.**
+
+A well-formatted exercise fixture. -/
+theorem q1 : True := by
+  sorry

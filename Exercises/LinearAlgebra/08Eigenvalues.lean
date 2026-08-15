@@ -62,6 +62,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 A vector has eigenvalue `λ` exactly when subtracting `λ` times the identity sends it to zero.

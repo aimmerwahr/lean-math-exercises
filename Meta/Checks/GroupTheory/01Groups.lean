@@ -21,9 +21,11 @@ open Meta
 -- Exercise proofs (checks the reader's own attempts).
 assert_not_uses Exercises.GroupTheory.Groups.q2_inv_mul_rev [mul_inv_rev]
 assert_not_uses Exercises.GroupTheory.Groups.q3_center_isSubgroup [Subgroup.center]
-assert_not_uses Exercises.GroupTheory.Groups.q9_subgroup_inter_glb [Subgroup.instInfSet]
+assert_not_uses Exercises.GroupTheory.Groups.q9_subgroup_inter_glb
+  [Subgroup.instCompleteLattice, Subgroup.instInfSet]
 
 -- Solution proofs (regression guard on the shipped canonical proofs).
 assert_not_uses Solutions.GroupTheory.Groups.q2_inv_mul_rev [mul_inv_rev]
 assert_not_uses Solutions.GroupTheory.Groups.q3_center_isSubgroup [Subgroup.center]
-assert_not_uses Solutions.GroupTheory.Groups.q9_subgroup_inter_glb [Subgroup.instInfSet]
+assert_not_uses Solutions.GroupTheory.Groups.q9_subgroup_inter_glb
+  [Subgroup.instCompleteLattice, Subgroup.instInfSet]

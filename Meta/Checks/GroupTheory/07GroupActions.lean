@@ -3,13 +3,24 @@ import Solutions.GroupTheory.«07GroupActions»
 
 import Meta.BanCheck
 
+/-!
+# Internal ban checks — GroupTheory / Group Actions
+
+**Not exercise content — you do not need to read or edit this file.**
+
+It enforces the "prove without …" bans stated in the exercise docstrings against both the
+exercise proofs and the shipped canonical solutions.
+-/
+
 open Meta
 
+-- Exercise proofs (checks the reader's own attempts).
 assert_not_uses Exercises.GroupTheory.GroupActions.q4_conjugacy_classes_partition
   [Group.sum_card_conj_classes_eq_card, Group.nat_card_center_add_sum_card_noncenter_eq_card]
 assert_not_uses Exercises.GroupTheory.GroupActions.q5_pgroup_center_nontrivial [IsPGroup.center_nontrivial]
 assert_not_uses Exercises.GroupTheory.GroupActions.q8_permutation_representation [MulAction.toPermHom]
 
+-- Solution proofs (regression guard on the shipped canonical proofs).
 assert_not_uses Solutions.GroupTheory.GroupActions.q4_conjugacy_classes_partition
   [Group.sum_card_conj_classes_eq_card, Group.nat_card_center_add_sum_card_noncenter_eq_card]
 assert_not_uses Solutions.GroupTheory.GroupActions.q5_pgroup_center_nontrivial [IsPGroup.center_nontrivial]

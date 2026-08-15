@@ -34,21 +34,21 @@ cursor on the `#check` line and read the infoview) to see its exact statement.
 section
 
 -- The epsilon--`N` form of convergence of a scalar sequence.
-#check Metric.tendsto_atTop
-#check tendsto_pow_atTop_nhds_zero_of_lt_one
+#check @Metric.tendsto_atTop
+#check @tendsto_pow_atTop_nhds_zero_of_lt_one
 
 -- Continuity at a point relative to a specified domain.
-#check Metric.continuousWithinAt_iff
-#check ContinuousOn.continuousWithinAt
+#check @Metric.continuousWithinAt_iff
+#check @ContinuousOn.continuousWithinAt
 
 -- A finite geometric sum and the intermediate-value principle.
-#check geom_sum_mul
-#check intermediate_value_Icc
+#check @geom_sum_mul
+#check @intermediate_value_Icc
 
 -- Square-root order facts and derivatives.
-#check Real.sqrt_lt'
-#check Real.sq_sqrt
-#check DifferentiableAt.sqrt
+#check @Real.sqrt_lt'
+#check @Real.sq_sqrt
+#check @DifferentiableAt.sqrt
 
 end
 
@@ -69,12 +69,12 @@ noncomputable def geometricPartialSum (n : ℕ) (x : ℝ) : ℝ :=
 noncomputable def smoothAbs (n : ℕ) (x : ℝ) : ℝ :=
   √(x ^ 2 + 1 / ((n : ℝ) + 1))
 
+
 /-- **Question 1.**
 
 If `0 ≤ a < 1`, then `x ↦ x^n` converges uniformly to `0` on `[0,a]`.
 
-Prove the uniform statement from the bound `0 ≤ x^n ≤ a^n`; do not use a theorem precomputed for
-this family of functions. -/
+Prove the uniform statement from the bound `0 ≤ x^n ≤ a^n`. -/
 theorem q1_powers_uniform_on_smaller_interval {a : ℝ} (ha₀ : 0 ≤ a) (ha₁ : a < 1) :
     UniformlyConvergesOn (fun n x => x ^ n) (fun _ => 0) (Icc 0 a) := by
   sorry
@@ -94,7 +94,7 @@ theorem q2_powers_pointwise :
 
 The pointwise convergence in Question 2 is not uniform on `[0,1]`.
 
-Use the explicit epsilon--`N` definition rather than an abstract uniform-convergence API. -/
+Use the explicit epsilon--`N` definition of `UniformlyConvergesOn`. -/
 theorem q3_powers_not_uniform :
     ¬ UniformlyConvergesOn (fun n x => x ^ (n + 1)) powersLimit (Icc 0 1) := by
   sorry
@@ -120,7 +120,7 @@ theorem q4_uniform_limit_continuous_on {K : Set ℝ} {u : ℕ → ℝ → ℝ} {
 If `0 ≤ a < 1`, then the geometric partial sums converge uniformly on `[-a,a]` to
 `x ↦ (1-x)⁻¹`.
 
-First derive an explicit tail bound; do not replace the argument by an exact `tsum` evaluator. -/
+First derive an explicit tail bound. -/
 theorem q5_geometric_function_series {a : ℝ} (ha₀ : 0 ≤ a) (ha₁ : a < 1) :
     UniformlyConvergesOn geometricPartialSum (fun x => 1 / (1 - x)) (Icc (-a) a) := by
   sorry

@@ -55,6 +55,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Every finite subset of a topological space is compact.

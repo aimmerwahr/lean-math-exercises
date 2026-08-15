@@ -7,6 +7,7 @@ namespace Solutions.Analysis.RiemannIntegration
 open MeasureTheory Set
 open scoped Interval
 
+
 theorem q1_integral_triangle_inequality {f : ℝ → ℝ} {a b : ℝ} (hab : a ≤ b)
     (hfi : IntervalIntegrable f volume a b) :
     |∫ x in a..b, f x| ≤ ∫ x in a..b, |f x| := by

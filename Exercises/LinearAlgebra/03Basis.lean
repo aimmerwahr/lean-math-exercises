@@ -68,6 +68,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 For a basis `(bᵢ)`, coordinates are unique: if `∑ᵢ cᵢ bᵢ = ∑ᵢ dᵢ bᵢ`, then `cᵢ = dᵢ` for every

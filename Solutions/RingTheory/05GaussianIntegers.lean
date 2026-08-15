@@ -7,14 +7,17 @@ namespace Solutions.RingTheory.GaussianIntegers
 
 open scoped GaussianInt
 
+
 def i : GaussianInt := ⟨0, 1⟩
+
 
 private theorem norm_product_direct (z w : GaussianInt) :
     z * star z = (z.norm : GaussianInt) ∧ (z * w).norm = z.norm * w.norm := by
   constructor
-  · ext <;> simp [Zsqrtd.norm, Zsqrtd.re_mul, Zsqrtd.im_mul] <;> ring
+  · ext <;> simp [Zsqrtd.norm, Zsqrtd.re_mul, Zsqrtd.im_mul] ; ring
   · simp [Zsqrtd.norm, Zsqrtd.re_mul, Zsqrtd.im_mul]
     ring
+
 
 theorem q1_conjugate_norm_product (z w : GaussianInt) :
     z * star z = (z.norm : GaussianInt) ∧ (z * w).norm = z.norm * w.norm ∧
@@ -22,11 +25,13 @@ theorem q1_conjugate_norm_product (z w : GaussianInt) :
   refine ⟨(norm_product_direct z w).1, (norm_product_direct z w).2, ?_, ?_, ?_⟩ <;>
     norm_num [i, Zsqrtd.norm]
 
+
 private theorem norm_one_unit (z : GaussianInt) (hz : z.norm = 1) : IsUnit z := by
   apply isUnit_iff_dvd_one.mpr
   refine ⟨star z, ?_⟩
   rw [show z * star z = (z.norm : GaussianInt) from (norm_product_direct z z).1, hz]
   rfl
+
 
 theorem q2_norm_prime_irreducible (p : ℕ) (hp : p.Prime) (z : GaussianInt)
     (hz : z.norm = p) : Irreducible z := by
@@ -64,6 +69,7 @@ theorem q2_norm_prime_irreducible (p : ℕ) (hp : p.Prime) (z : GaussianInt)
       rw [← Int.natAbs_of_nonneg hnb, hb]
       norm_num
 
+
 private theorem not_unit_of_norm_ne_one {z : GaussianInt} (hz : z.norm ≠ 1) : ¬ IsUnit z := by
   intro hu
   rcases isUnit_iff_dvd_one.mp hu with ⟨w, hw⟩
@@ -71,6 +77,7 @@ private theorem not_unit_of_norm_ne_one {z : GaussianInt} (hz : z.norm ≠ 1) : 
     rw [← (norm_product_direct z w).2, ← hw]
     norm_num [Zsqrtd.norm]
   exact hz <| Int.eq_one_of_dvd_one (Zsqrtd.norm_nonneg (by norm_num) z) ⟨w.norm, hprod.symm⟩
+
 
 theorem q3_two_ramifies :
     (2 : GaussianInt) = -i * (1 + i) ^ 2 ∧ Irreducible (1 + i) ∧ ¬ Irreducible (2 : GaussianInt) := by
@@ -81,6 +88,7 @@ theorem q3_two_ramifies :
   · exact not_unit_of_norm_ne_one (by norm_num [i, Zsqrtd.norm]) hu
   · exact not_unit_of_norm_ne_one (by norm_num [i, Zsqrtd.norm]) hu
 
+
 private theorem five_not_associated : ¬ Associated (2 + i) (2 - i) := by
   rintro ⟨u, hu⟩
   rcases (Solutions.RingTheory.Rings.q14_gaussian_units_exactly_four (u : GaussianInt)).mp u.isUnit with h | h | h | h
@@ -89,6 +97,7 @@ private theorem five_not_associated : ¬ Associated (2 + i) (2 - i) := by
   all_goals have him := congrArg Zsqrtd.im hu
   all_goals norm_num [i, Zsqrtd.re_mul] at hre
   all_goals norm_num [i, Zsqrtd.im_mul] at him
+
 
 private theorem thirteen_not_associated : ¬ Associated (3 + 2 * i) (3 - 2 * i) := by
   rintro ⟨u, hu⟩
@@ -99,6 +108,7 @@ private theorem thirteen_not_associated : ¬ Associated (3 + 2 * i) (3 - 2 * i) 
   all_goals norm_num [i, Zsqrtd.re_mul] at hre
   all_goals norm_num [i, Zsqrtd.im_mul] at him
 
+
 theorem q4_five_splits :
     (5 : GaussianInt) = (2 + i) * (2 - i) ∧ Irreducible (2 + i) ∧ Irreducible (2 - i) ∧
       ¬ Associated (2 + i) (2 - i) := by
@@ -106,12 +116,14 @@ theorem q4_five_splits :
     q2_norm_prime_irreducible 5 (by norm_num) _ (by norm_num [i, Zsqrtd.norm]), five_not_associated⟩
   ext <;> norm_num [i, Zsqrtd.re_mul, Zsqrtd.im_mul]
 
+
 theorem q5_thirteen_splits :
     (13 : GaussianInt) = (3 + 2 * i) * (3 - 2 * i) ∧
       Irreducible (3 + 2 * i) ∧ Irreducible (3 - 2 * i) ∧ ¬ Associated (3 + 2 * i) (3 - 2 * i) := by
   refine ⟨?_, q2_norm_prime_irreducible 13 (by norm_num) _ (by norm_num [i, Zsqrtd.norm]),
     q2_norm_prime_irreducible 13 (by norm_num) _ (by norm_num [i, Zsqrtd.norm]), thirteen_not_associated⟩
   ext <;> norm_num [i, Zsqrtd.re_mul, Zsqrtd.im_mul]
+
 
 theorem q6_euclidean_algorithm :
     (3 - i : GaussianInt) = (-1 - i) * (2 * i) + (1 + i) ∧
@@ -124,6 +136,7 @@ theorem q6_euclidean_algorithm :
     ext <;> norm_num [i, Zsqrtd.re_mul, Zsqrtd.im_mul]
   · refine ⟨1 + i, ?_⟩
     ext <;> norm_num [i, Zsqrtd.re_mul, Zsqrtd.im_mul]
+
 
 theorem q7_bezout_and_principal_ideal :
     (1 + i : GaussianInt) = (3 - i) + (1 + i) * (2 * i) ∧
@@ -150,6 +163,7 @@ theorem q7_bezout_and_principal_ideal :
     exact (Ideal.span ({(3 - i : GaussianInt), 2 * i} : Set GaussianInt)).add_mem h₁
       ((Ideal.span ({(3 - i : GaussianInt), 2 * i} : Set GaussianInt)).mul_mem_left _ h₂)
 
+
 private theorem no_norm_three : ∀ z : GaussianInt, z.norm ≠ 3 := by
   intro z h
   rw [Zsqrtd.norm_def] at h
@@ -159,6 +173,7 @@ private theorem no_norm_three : ∀ z : GaussianInt, z.norm ≠ 3 := by
   have himhi : z.im ≤ 1 := by nlinarith [sq_nonneg (z.im - 2), sq_nonneg z.re]
   interval_cases z.re <;> interval_cases z.im <;> norm_num at h
 
+
 theorem q8_three_is_irreducible_and_prime :
     (∀ z : GaussianInt, z.norm ≠ 3) ∧ Irreducible (3 : GaussianInt) ∧ Prime (3 : GaussianInt) := by
   have hirr : Irreducible (3 : GaussianInt) := by
@@ -167,7 +182,7 @@ theorem q8_three_is_irreducible_and_prime :
     · exact not_unit_of_norm_ne_one (by norm_num [Zsqrtd.norm])
     · intro a b hab
       by_contra h
-      push_neg at h
+      push Not at h
       have ha0 : a ≠ 0 := by intro ha; subst a; norm_num at hab
       have hb0 : b ≠ 0 := by intro hb; subst b; norm_num at hab
       have hpa : 0 < a.norm := lt_of_le_of_ne (Zsqrtd.norm_nonneg (by norm_num) a)

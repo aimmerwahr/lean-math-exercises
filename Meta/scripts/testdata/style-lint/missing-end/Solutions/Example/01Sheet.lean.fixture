@@ -1,0 +1,5 @@
+namespace Solutions.Example.Sheet
+
+
+theorem q1 : True := by
+  trivial

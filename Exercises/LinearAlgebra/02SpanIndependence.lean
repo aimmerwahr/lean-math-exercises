@@ -58,6 +58,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Show that `(2,5)` belongs to the span of `(1,0)` and `(0,1)` in `ℝ²`. -/
@@ -96,6 +97,7 @@ theorem q4_span_idempotent (W : Submodule K V) : Submodule.span K (W : Set V) = 
 
 
 /-- **Question 5.**
+
 To prove that a family is dependent, one can exhibit a nonzero coefficient function whose linear
 combination is zero. Let `δᵢ` be the coefficient function that is `1` at `i` and `0` elsewhere.
 First show that `δᵢ` is nonzero. -/

@@ -10,6 +10,7 @@ open Module LinearMap
 variable {K : Type*} [Field K] {V W : Type*}
   [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
 
+
 theorem q1_fiber_coset (f : V →ₗ[K] W) (x₀ : V) (w : W) (h : f x₀ = w) (x : V) :
     f x = w ↔ x - x₀ ∈ ker f := by
   -- `x - x₀ ∈ ker f` means `f x - f x₀ = 0`, i.e. `f x = f x₀ = w`.
@@ -83,6 +84,7 @@ theorem q6_no_inj_to_smaller [FiniteDimensional K V] [FiniteDimensional K W]
   have hle : finrank K ↥(range f) ≤ finrank K W := Submodule.finrank_le _
   omega
 
+
 def proj₁ : (Fin 2 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
   toFun v := ![v 0, 0]
   map_add' a b := by funext i; fin_cases i <;> simp
@@ -91,6 +93,7 @@ def proj₁ : (Fin 2 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
 -- Labels "projecting to the first coordinate" as a simp lemma so that `simp` can
 -- automatically unfold `proj₁ v` to `![v 0, 0]` in later proofs.
 @[simp] theorem proj₁_apply (v : Fin 2 → ℝ) : proj₁ v = ![v 0, 0] := rfl
+
 
 def proj₃₂ : (Fin 3 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
   toFun v := ![v 0, v 1]

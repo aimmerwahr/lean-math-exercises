@@ -1,0 +1,7 @@
+#check @Nat.add
+
+
+/-- **Question 1.**
+A fixture without a blank line after its heading. -/
+theorem q1 : True := by
+  sorry

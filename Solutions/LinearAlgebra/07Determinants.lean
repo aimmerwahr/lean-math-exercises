@@ -7,6 +7,7 @@ namespace Solutions.LinearAlgebra.Determinants
 
 open Matrix
 
+
 theorem q1_det_2x2 : (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ).det = -2 := by
   norm_num [Matrix.det_fin_two_of]
 
@@ -54,6 +55,8 @@ theorem q7_det_row_scale :
 
 
 open Equiv Equiv.Perm in
+
+
 theorem q8_det_transpose {m : Type*} [Fintype m] [DecidableEq m] (A : Matrix m m ℝ) :
     Aᵀ.det = A.det := by
   -- In the permutation-sum `det = ∑_σ sign σ · ∏ᵢ A_{σ(i), i}`, reindex the sum by `σ ↦ σ⁻¹`:
@@ -80,3 +83,5 @@ theorem q10_skew_odd_singular (A : Matrix (Fin 3) (Fin 3) ℝ) (h : Aᵀ = -A) :
   rw [Matrix.det_neg, Fintype.card_fin] at h1
   have h2 : (2 : ℝ) * A.det = 0 := by linear_combination h1
   linarith
+
+end Solutions.LinearAlgebra.Determinants

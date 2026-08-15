@@ -1,4 +1,3 @@
-import Solutions.Analysis.«05Differentiation»
 import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 import Mathlib.Analysis.SpecialFunctions.Log.Deriv
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
@@ -9,6 +8,7 @@ import Mathlib.Tactic
 namespace Solutions.Analysis.ElementaryFunctions
 
 open Set
+
 
 theorem q1_exp_tangent_bound (x : ℝ) :
     1 + x ≤ Real.exp x := by

@@ -11,9 +11,11 @@ open Subgroup
 
 variable {G : Type*} [Group G]
 
+
 theorem q1_powerOf_pow_eq_one_iff [Finite G] (g : G) (k m : ℕ) :
     (g ^ k) ^ m = 1 ↔ orderOf g ∣ k * m := by
   rw [← pow_mul, orderOf_dvd_iff_pow_eq_one]
+
 
 theorem q2_orderOf_pow [Finite G] (g : G) (k : ℕ) :
     orderOf (g ^ k) = orderOf g / (orderOf g).gcd k := by

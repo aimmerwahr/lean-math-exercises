@@ -44,10 +44,13 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Every nonempty space with the indiscrete topology is connected. In particular, a two-point
-indiscrete space is connected but not metrizable. -/
+indiscrete space is connected but not metrizable.
+
+Prove without using `isConnected_univ`. -/
 theorem q1_indiscrete_connected [Nonempty X] [IndiscreteTopology X] :
     IsConnected (Set.univ : Set X) := by
   sorry
@@ -86,7 +89,9 @@ theorem q4_quotient_connected {q : X → Y} (hq : Topology.IsQuotientMap q)
 /-- **Question 5.**
 
 If two closed real intervals have a common point, then their union is an interval and is
-connected. -/
+connected.
+
+Prove without using `Set.Icc_union_Icc'`. -/
 theorem q5_union_intervals_connected {a b c d : ℝ}
     (hcommon : (Set.Icc a b ∩ Set.Icc c d).Nonempty) :
     (Set.Icc a b ∪ Set.Icc c d).OrdConnected ∧ IsConnected (Set.Icc a b ∪ Set.Icc c d) := by
@@ -95,7 +100,9 @@ theorem q5_union_intervals_connected {a b c d : ℝ}
 
 /-- **Question 6.**
 
-The punctured interval `(-1, 0) ∪ (0, 1)` is not connected. -/
+The punctured interval `(-1, 0) ∪ (0, 1)` is not connected.
+
+Prove without using `IsPreconnected.ordConnected`. -/
 theorem q6_punctured_interval_disconnected :
     ¬ IsConnected (Set.Ioo (-1 : ℝ) 0 ∪ Set.Ioo 0 1) := by
   sorry
@@ -103,7 +110,9 @@ theorem q6_punctured_interval_disconnected :
 
 /-- **Question 7.**
 
-Every connected subset of `ℝ` is an interval. -/
+Every connected subset of `ℝ` is an interval.
+
+Prove without using `IsPreconnected.ordConnected`. -/
 theorem q7_connected_real_is_interval {s : Set ℝ} (hs : IsConnected s) : s.OrdConnected := by
   sorry
 
@@ -113,7 +122,9 @@ theorem q7_connected_real_is_interval {s : Set ℝ} (hs : IsConnected s) : s.Ord
 If `f : ℝ → ℝ` is continuous on `[a,b]`, `a ≤ b`, and `u` lies between `f a` and `f b`, then
 there is `c ∈ [a,b]` with `f c = u`.
 
-Hint: apply Question 2 to the connected interval `[a,b]`. -/
+Hint: apply Question 2 to the connected interval `[a,b]`.
+
+Prove without using `intermediate_value_Icc` or `intermediate_value_Icc'`. -/
 theorem q8_intermediate_value {a b u : ℝ} (hab : a ≤ b) {f : ℝ → ℝ}
     (hf : ContinuousOn f (Set.Icc a b)) (hu : u ∈ Set.Icc (f a) (f b)) :
     ∃ c ∈ Set.Icc a b, f c = u := by
@@ -125,7 +136,9 @@ theorem q8_intermediate_value {a b u : ℝ} (hab : a ≤ b) {f : ℝ → ℝ}
 If `f` is continuous on `[a,b]`, `a ≤ b`, `f a < 0`, and `0 < f b`, then `f` vanishes at a
 point of `[a,b]`.
 
-Hint: specialize Question 8 at `u = 0`. -/
+Hint: specialize Question 8 at `u = 0`.
+
+Prove without using `intermediate_value_Icc` or `intermediate_value_Icc'`. -/
 theorem q9_sign_change_zero {a b : ℝ} (hab : a ≤ b) {f : ℝ → ℝ}
     (hf : ContinuousOn f (Set.Icc a b)) (hfa : f a < 0) (hfb : 0 < f b) :
     ∃ c ∈ Set.Icc a b, f c = 0 := by

@@ -13,6 +13,7 @@ open Pointwise
 
 variable {G : Type*} [Group G]
 
+
 theorem q1_coset_card (g : G) (H : Subgroup G) :
     (g • (H : Set G)).ncard = (H : Set G).ncard := by
   -- Left multiplication by `g` is a bijection `G → G`, so it carries `H` onto the coset `gH`

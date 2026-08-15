@@ -11,7 +11,7 @@ invariant: the **dimension** `dim V`. Dimension controls subspaces tightly — a
 dimension at most that of the whole space, with equality only when it *is* the whole space — and
 the two operations `+` and `∩` on subspaces are linked by the **dimension formula**
 `dim(U + W) + dim(U ∩ W) = dim U + dim W`. From this one identity flow both the direct-sum count
-and geometric facts like "two planes in `ℝ³` must meet in a line".
+and useful numerical consequences for intersecting subspaces.
 
 Throughout, `dim` is `Module.finrank K`, a natural number (finite-dimensional `V`).
 
@@ -52,6 +52,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 If `U ≤ W` and `dim U = dim W` (finite dimension), then `U = W`.
@@ -87,6 +88,8 @@ theorem q4_numeric_formula (hU : finrank K U = 3) (hW : finrank K W = 4)
 
 
 omit [FiniteDimensional K V] in
+
+
 /-- **Question 5.**
 
 The line spanned by a nonzero vector has dimension `1`. -/

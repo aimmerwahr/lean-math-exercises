@@ -10,6 +10,7 @@ open Set
 
 variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 
+
 theorem q1_indiscrete_connected [Nonempty X] [IndiscreteTopology X] :
     IsConnected (Set.univ : Set X) := by
   refine ⟨univ_nonempty, ?_⟩

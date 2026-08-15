@@ -9,16 +9,21 @@ namespace Solutions.Analysis.FunctionSequences
 
 open Filter Set
 
+
 def UniformlyConvergesOn (u : ℕ → ℝ → ℝ) (f : ℝ → ℝ) (s : Set ℝ) : Prop :=
   ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, ∀ x ∈ s, |u n x - f x| < ε
 
+
 noncomputable def powersLimit (x : ℝ) : ℝ := if x = 1 then 1 else 0
+
 
 noncomputable def geometricPartialSum (n : ℕ) (x : ℝ) : ℝ :=
   ∑ k ∈ Finset.range n, x ^ k
 
+
 noncomputable def smoothAbs (n : ℕ) (x : ℝ) : ℝ :=
   √(x ^ 2 + 1 / ((n : ℝ) + 1))
+
 
 theorem q1_powers_uniform_on_smaller_interval {a : ℝ} (ha₀ : 0 ≤ a) (ha₁ : a < 1) :
     UniformlyConvergesOn (fun n x => x ^ n) (fun _ => 0) (Icc 0 a) := by

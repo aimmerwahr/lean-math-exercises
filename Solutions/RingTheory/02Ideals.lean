@@ -9,6 +9,7 @@ open scoped Polynomial
 
 variable {R S : Type*} [CommRing R] [CommRing S]
 
+
 theorem q1_span_six_fifteen :
     Ideal.span ({(6 : ℤ), 15} : Set ℤ) = Ideal.span ({3} : Set ℤ) := by
   apply le_antisymm

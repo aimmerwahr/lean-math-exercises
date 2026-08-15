@@ -8,6 +8,7 @@ namespace Solutions.Analysis.OrderCompleteness
 
 open Filter Set
 
+
 theorem q1_integer_fractional_decomposition (x : ℝ) :
     ∃! p : ℤ × ℝ, x = (p.1 : ℝ) + p.2 ∧ 0 ≤ p.2 ∧ p.2 < 1 := by
   -- The integer part fixes the only possible unit interval containing `x`.
@@ -169,6 +170,7 @@ theorem q8_sup_sumset {A B : Set ℝ} (hA : A.Nonempty) (hB : B.Nonempty) (hAb :
 
 
 def sqrtTwoSet : Set ℝ := {x | 0 ≤ x ∧ x ^ 2 < 2}
+
 
 theorem q9_sqrtTwoSet_nonempty_bddAbove : sqrtTwoSet.Nonempty ∧ BddAbove sqrtTwoSet := by
   -- Zero lies in the set, while the elementary inequality `x² < 2` keeps every member below two.

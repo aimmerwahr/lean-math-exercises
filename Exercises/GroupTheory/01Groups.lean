@@ -65,6 +65,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Inverses are unique: if `a * b = 1` and `a * c = 1`, then `b = c`. -/
@@ -149,7 +150,8 @@ Given any family of subgroups `(Hᵢ)`, their intersection `⋂ᵢ Hᵢ` is a su
 `Hᵢ` lies below it. (Together with the dual least upper bound, this is what makes the subgroups of
 `G` a complete lattice.)
 
-Prove without using the packaged `CompleteLattice (Subgroup G)` structure or `Subgroup.instInfSet`. -/
+Prove without using the packaged `CompleteLattice (Subgroup G)` structure
+(`Subgroup.instCompleteLattice`) or `Subgroup.instInfSet`. -/
 theorem q9_subgroup_inter_glb {ι : Type*} (H : ι → Subgroup G) :
     ∃ K : Subgroup G, (∀ i, K ≤ H i) ∧ (∀ L : Subgroup G, (∀ i, L ≤ H i) → L ≤ K) := by
   sorry

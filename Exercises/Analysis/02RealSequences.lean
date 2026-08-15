@@ -11,6 +11,10 @@ give particularly strong convergence principles for real sequences.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/Analysis/02RealSequences.lean`. Do **not** commit your proofs into this file.
+
+Some exercises ask you to prove *without using* a particular theorem. These bans are enforced
+automatically when you build the project: if a proof uses a banned theorem (directly or through
+automation), the build fails. You don't need to do anything to enable it.
 -/
 
 namespace Exercises.Analysis.RealSequences
@@ -44,6 +48,7 @@ section
 #check @le_of_tendsto'
 
 end
+
 
 /-- **Question 1.**
 
@@ -101,7 +106,9 @@ theorem q5_even_odd_subsequence_limits :
 
 Let `u` be a sequence in a metric space. If every subsequence of `u` has a further subsequence
 converging to `p`, then `u` converges to `p`. Here a subsequence is indexed by a strictly
-increasing map `ℕ → ℕ`. -/
+increasing map `ℕ → ℕ`.
+
+Prove without using `Filter.tendsto_of_subseq_tendsto`. -/
 theorem q6_subsequence_criterion_for_convergence {X : Type*} [MetricSpace X]
     {u : ℕ → X} {p : X}
     (h : ∀ φ : ℕ → ℕ, StrictMono φ →

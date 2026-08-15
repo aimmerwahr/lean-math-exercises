@@ -8,7 +8,9 @@ namespace Solutions.Analysis.ContinuousFunctions
 
 open Filter Set
 
+
 noncomputable def matchingPiecewise (x : ℝ) : ℝ := if x ≤ 0 then x ^ 2 else x
+
 
 theorem q1_matching_piecewise_continuous : Continuous matchingPiecewise := by
   rw [continuous_iff_continuousAt]
@@ -125,6 +127,7 @@ theorem q4_shifted_equal_values (f : ℝ → ℝ) (hf : Continuous f) (hends : f
 
 noncomputable def dampedOscillation (n : ℕ) (x : ℝ) : ℝ :=
   if x = 0 then 0 else x ^ n * Real.sin (1 / x)
+
 
 theorem q5_damped_oscillation_continuous : ContinuousAt (dampedOscillation 1) 0 := by
   -- The sine factor is always between `-1` and `1`, so the oscillation has size at most `|x|`.

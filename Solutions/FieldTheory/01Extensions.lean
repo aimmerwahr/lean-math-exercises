@@ -11,6 +11,7 @@ namespace Solutions.FieldTheory.Extensions
 
 open scoped IntermediateField Polynomial
 
+
 theorem q1_complex_coordinates (z : ℂ) :
     ∃! ab : ℝ × ℝ, z = (ab.1 : ℂ) + ab.2 * Complex.I := by
   refine ⟨(z.re, z.im), ?_, ?_⟩

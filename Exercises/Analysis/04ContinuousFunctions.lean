@@ -35,29 +35,30 @@ on the `#check` line and read the infoview) to see its exact statement.
 section
 
 -- Epsilon--delta continuity in a metric space.
-#check Metric.continuousAt_iff
+#check @Metric.continuousAt_iff
 
 -- Functions that agree with a familiar formula in a neighborhood.
-#check eventually_lt_nhds
-#check eventually_gt_nhds
-#check continuousAt_pow
+#check @eventually_lt_nhds
+#check @eventually_gt_nhds
+#check @continuousAt_pow
 
 -- Continuity of algebraic combinations on a set.
-#check ContinuousOn.sub
-#check continuousOn_id
+#check @ContinuousOn.sub
+#check @continuousOn_id
 
 -- The intermediate-value principle on a closed interval.
-#check intermediate_value_Icc
+#check @intermediate_value_Icc
 
 -- Elementary bounds for sine.
-#check Real.neg_one_le_sin
-#check Real.sin_le_one
+#check @Real.neg_one_le_sin
+#check @Real.sin_le_one
 
 end
 
 /-- The function which agrees with `x²` on the nonpositive half-line and with `x` on the positive
 half-line. The two formulas have the same value at `0`. -/
 noncomputable def matchingPiecewise (x : ℝ) : ℝ := if x ≤ 0 then x ^ 2 else x
+
 
 /-- **Question 1.**
 
@@ -110,6 +111,7 @@ The definition also accepts `n = 0`, which is the undamped and discontinuous cas
 in these sheets. In particular, `dampedOscillation 1` is `x sin(1/x)`. -/
 noncomputable def dampedOscillation (n : ℕ) (x : ℝ) : ℝ :=
   if x = 0 then 0 else x ^ n * Real.sin (1 / x)
+
 
 /-- **Question 5.**
 

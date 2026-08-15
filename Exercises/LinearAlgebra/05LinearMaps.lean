@@ -49,6 +49,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 The solution set of `f x = w` is a coset of the kernel: if `f x₀ = w`, then `f x = w` holds iff
@@ -125,6 +126,7 @@ def proj₃₂ : (Fin 3 → ℝ) →ₗ[ℝ] (Fin 2 → ℝ) where
 -- Labels "projecting to the first two coordinates" as a simp lemma so that `simp` can
 -- automatically unfold `proj₃₂ v` to `![v 0, v 1]` in later proofs.
 @[simp] theorem proj₃₂_apply (v : Fin 3 → ℝ) : proj₃₂ v = ![v 0, v 1] := rfl
+
 
 /-- **Question 7.**
 

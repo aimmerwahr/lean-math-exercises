@@ -25,53 +25,67 @@ def i : GaussianInt := ⟨0, 1⟩
 section
 
 -- Coordinate arithmetic and norms.
-#check Zsqrtd.re_mul
-#check Zsqrtd.im_mul
-#check Zsqrtd.norm_def
-#check Zsqrtd.norm_nonneg
+#check @Zsqrtd.re_mul
+#check @Zsqrtd.im_mul
+#check @Zsqrtd.norm_def
+#check @Zsqrtd.norm_nonneg
 
 -- Irreducibility, associates, and generated ideals.
-#check irreducible_iff
-#check Ideal.span_le
-#check Ideal.mem_span_singleton
+#check @irreducible_iff
+#check @Ideal.span_le
+#check @Ideal.mem_span_singleton
 
 end
+
 
 /-- **Question 1.**
 
 Derive the conjugate/norm product and norm multiplicativity directly from coordinates. Then
-compute the norms needed for the splitting examples. -/
+compute the norms needed for the splitting examples.
+
+Prove without using `Zsqrtd.norm_mul`. -/
 theorem q1_conjugate_norm_product (z w : GaussianInt) :
     z * star z = (z.norm : GaussianInt) ∧ (z * w).norm = z.norm * w.norm ∧
-      (1 + i).norm = 2 ∧ (2 + i).norm = 5 ∧ (3 + 2 * i).norm = 13 := by sorry
+      (1 + i).norm = 2 ∧ (2 + i).norm = 5 ∧ (3 + 2 * i).norm = 13 := by
+  sorry
+
 
 /-- **Question 2.**
 
 A Gaussian integer with prime ordinary norm is irreducible. Construct a norm-one unit using its
-conjugate; do not use a packaged norm/unit equivalence. -/
+conjugate; use Question 1's norm identity rather than `Zsqrtd.norm_mul`, and do not use the
+packaged equivalence `Zsqrtd.norm_eq_one_iff'`. -/
 theorem q2_norm_prime_irreducible (p : ℕ) (hp : p.Prime) (z : GaussianInt)
-    (hz : z.norm = p) : Irreducible z := by sorry
+    (hz : z.norm = p) : Irreducible z := by
+  sorry
+
 
 /-- **Question 3.**
 
 The rational prime `2` ramifies: exhibit its factorization, prove `1+i` irreducible, and show
 that `2` itself is reducible. -/
 theorem q3_two_ramifies :
-    (2 : GaussianInt) = -i * (1 + i) ^ 2 ∧ Irreducible (1 + i) ∧ ¬ Irreducible (2 : GaussianInt) := by sorry
+    (2 : GaussianInt) = -i * (1 + i) ^ 2 ∧ Irreducible (1 + i) ∧ ¬ Irreducible (2 : GaussianInt) := by
+  sorry
+
 
 /-- **Question 4.**
 
 The rational prime `5` splits into two nonassociate irreducible Gaussian factors. -/
 theorem q4_five_splits :
     (5 : GaussianInt) = (2 + i) * (2 - i) ∧ Irreducible (2 + i) ∧ Irreducible (2 - i) ∧
-      ¬ Associated (2 + i) (2 - i) := by sorry
+      ¬ Associated (2 + i) (2 - i) := by
+  sorry
+
 
 /-- **Question 5.**
 
 Repeat the splitting analysis for `13`, and distinguish the factors up to associates. -/
 theorem q5_thirteen_splits :
     (13 : GaussianInt) = (3 + 2 * i) * (3 - 2 * i) ∧
-      Irreducible (3 + 2 * i) ∧ Irreducible (3 - 2 * i) ∧ ¬ Associated (3 + 2 * i) (3 - 2 * i) := by sorry
+      Irreducible (3 + 2 * i) ∧ Irreducible (3 - 2 * i) ∧ ¬ Associated (3 + 2 * i) (3 - 2 * i) := by
+  sorry
+
 
 /-- **Question 6.**
 
@@ -80,7 +94,9 @@ exhibit. -/
 theorem q6_euclidean_algorithm :
     (3 - i : GaussianInt) = (-1 - i) * (2 * i) + (1 + i) ∧
       (2 * i : GaussianInt) = (1 + i) * (1 + i) ∧ (1 + i).norm < (2 * i).norm ∧
-      (1 + i : GaussianInt) ∣ 3 - i ∧ (1 + i : GaussianInt) ∣ 2 * i := by sorry
+      (1 + i : GaussianInt) ∣ 3 - i ∧ (1 + i : GaussianInt) ∣ 2 * i := by
+  sorry
+
 
 /-- **Question 7.**
 
@@ -88,13 +104,16 @@ Turn the Euclidean computation into an explicit Bézout identity and an equality
 generated principal ideals. -/
 theorem q7_bezout_and_principal_ideal :
     (1 + i : GaussianInt) = (3 - i) + (1 + i) * (2 * i) ∧
-      Ideal.span ({(3 - i : GaussianInt), 2 * i} : Set GaussianInt) = Ideal.span ({1 + i} : Set GaussianInt) := by sorry
+      Ideal.span ({(3 - i : GaussianInt), 2 * i} : Set GaussianInt) = Ideal.span ({1 + i} : Set GaussianInt) := by
+  sorry
+
 
 /-- **Question 8.**
 
 Challenge: use the absence of a Gaussian integer of norm `3` to prove that `3` is irreducible,
 then prime. -/
 theorem q8_three_is_irreducible_and_prime :
-    (∀ z : GaussianInt, z.norm ≠ 3) ∧ Irreducible (3 : GaussianInt) ∧ Prime (3 : GaussianInt) := by sorry
+    (∀ z : GaussianInt, z.norm ≠ 3) ∧ Irreducible (3 : GaussianInt) ∧ Prime (3 : GaussianInt) := by
+  sorry
 
 end Exercises.RingTheory.GaussianIntegers

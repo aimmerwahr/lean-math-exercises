@@ -15,6 +15,7 @@ open CategoryTheory
 
 variable {G H : Type*} [Group G] [Group H]
 
+
 theorem q1_map_inv (f : G →* H) (a : G) : f a⁻¹ = (f a)⁻¹ := by
   -- The image of an inverse undoes the image of the original element.
   apply eq_inv_of_mul_eq_one_left
@@ -98,6 +99,7 @@ theorem q8_zmod_six_generated_by_one : AddSubgroup.zmultiples (1 : ZMod 6) = ⊤
   refine ⟨n, ?_⟩
   simp
 
+
 structure GrpObj where
   carrier : Type
   group : Group carrier
@@ -113,6 +115,7 @@ theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
             id_comp := by intro X Y f; ext x; rfl
             comp_id := by intro X Y f; ext x; rfl
             assoc := by intro W X Y Z f g h; ext x; rfl }⟩
+
 
 inductive OneObj where
   | star

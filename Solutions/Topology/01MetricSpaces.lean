@@ -7,6 +7,7 @@ namespace Solutions.Topology.MetricSpaces
 
 open Filter Set
 
+
 theorem q1_open_ball {X : Type*} [PseudoMetricSpace X] (x : X) (r : ℝ) :
     IsOpen (Metric.ball x r) := by
   -- Around a point already inside the ball, the unused part of the radius is positive.

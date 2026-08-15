@@ -57,6 +57,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Every left coset `gH` has the same size as `H`: the coset `g • ↑H` and `↑H` have equal cardinality

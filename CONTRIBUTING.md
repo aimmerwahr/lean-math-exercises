@@ -18,9 +18,10 @@ Both trees mirror Mathlib's directory hierarchy.
 - Place files by Mathlib area: the area is a folder, the topic is a file under it —
   e.g. `Exercises/LinearAlgebra/07Determinants.lean`. Group by course topic, not by
   Mathlib source file. Create an area folder only when you add an exercise for it.
-- Each area folder has one overview: `Exercises/<Area>/<Area>.md` (scope, references,
-  corresponding Mathlib modules, topic dependency graph). Committed under `Exercises/`
-  only.
+- Each subject overview in an area folder is `00`-prefixed:
+  `Exercises/<Area>/00<Subject>.md` (scope, references, corresponding Mathlib modules, topic
+  dependency graph). An area with multiple subjects gives **every** overview this prefix. These
+  files sort before the numbered sheets and are committed under `Exercises/` only.
 
 ## Conventions
 
@@ -51,6 +52,9 @@ past it. The check runs on `lake build`.
 - Every exercise must come with a solution, to confirm it is solvable.
 - `lake build` passes (exercise sheets build with only `sorry` warnings; solutions
   build clean).
+- `bash Meta/scripts/style-lint.sh` passes. It enforces the mechanical formatting conventions,
+  including explicit `@` toolbox checks, standalone exercise `sorry`s, question spacing, and
+  solution independence from exercise files.
 - Solutions are sorry-free. Check hygiene with `#print axioms <decl>` — expect only
   `propext` / `Classical.choice` / `Quot.sound`, never `sorryAx`.
 - You are encouraged to use AI to check against the conventions above.

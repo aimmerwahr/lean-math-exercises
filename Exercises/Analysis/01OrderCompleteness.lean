@@ -14,6 +14,10 @@ of rationals give the accompanying discrete approximations to a continuous line.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/Analysis/01OrderCompleteness.lean`. Do **not** commit your proofs into this file.
+
+Some exercises ask you to prove *without using* a particular theorem. These bans are enforced
+automatically when you build the project: if a proof uses a banned theorem (directly or through
+automation), the build fails. You don't need to do anything to enable it.
 -/
 
 namespace Exercises.Analysis.OrderCompleteness
@@ -40,6 +44,7 @@ section
 #check @Metric.tendsto_atTop
 
 end
+
 
 /-- **Question 1.**
 
@@ -124,6 +129,7 @@ theorem q8_sup_sumset {A B : Set ℝ} (hA : A.Nonempty) (hB : B.Nonempty) (hAb :
 
 /-- The nonnegative real numbers whose square is strictly below `2`. -/
 def sqrtTwoSet : Set ℝ := {x | 0 ≤ x ∧ x ^ 2 < 2}
+
 
 /-- **Question 9.**
 

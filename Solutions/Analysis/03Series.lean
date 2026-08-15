@@ -1,10 +1,13 @@
-import Exercises.Analysis.«03Series»
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+import Mathlib.Analysis.PSeries
+import Mathlib.Analysis.SpecificLimits.Normed
 import Solutions.Analysis.«02RealSequences»
 import Mathlib.Tactic
 
 namespace Solutions.Analysis.Series
 
 open Filter BigOperators Finset
+
 
 theorem q1_geometric_partial_sum {r : ℝ} (hr : r ≠ 1) (n : ℕ) :
     ∑ k ∈ Finset.range (n + 1), r ^ k = (1 - r ^ (n + 1)) / (1 - r) := by

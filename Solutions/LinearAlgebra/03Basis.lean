@@ -13,6 +13,7 @@ variable {K : Type*} [Field K] {V W : Type*}
   [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
   {n : ℕ} (b : Basis (Fin n) K V)
 
+
 theorem q1_coords_unique (c d : Fin n → K)
     (h : ∑ i, c i • b i = ∑ i, d i • b i) : c = d := by
   -- Linear independence says: a combination of the basis vectors that equals `0` has every

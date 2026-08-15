@@ -5,17 +5,73 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.NumberTheory.Zsqrtd.GaussianInt
 import Mathlib.Algebra.Module.Basic
 import Mathlib.Tactic
-import Exercises.RingTheory.«01Rings»
 
 namespace Solutions.RingTheory.Rings
 
 variable {R : Type*} [CommRing R]
 
-open Exercises.RingTheory.Rings
-open Exercises.RingTheory.Rings.Hamilton
+/-- The coordinate model of Hamilton quaternions used in Question 11. -/
+@[ext]
+
+
+structure Hamilton where
+  re : ℝ
+  i : ℝ
+  j : ℝ
+  k : ℝ
+
+namespace Hamilton
+
+
+def zero : Hamilton := ⟨0, 0, 0, 0⟩
+
+
+def one : Hamilton := ⟨1, 0, 0, 0⟩
+
+
+def mul (q r : Hamilton) : Hamilton :=
+  ⟨q.re * r.re - q.i * r.i - q.j * r.j - q.k * r.k,
+    q.re * r.i + q.i * r.re + q.j * r.k - q.k * r.j,
+    q.re * r.j - q.i * r.k + q.j * r.re + q.k * r.i,
+    q.re * r.k + q.i * r.j - q.j * r.i + q.k * r.re⟩
+
+
+def conj (q : Hamilton) : Hamilton := ⟨q.re, -q.i, -q.j, -q.k⟩
+
+
+def normSq (q : Hamilton) : ℝ := q.re ^ 2 + q.i ^ 2 + q.j ^ 2 + q.k ^ 2
+
+
+def scale (t : ℝ) (q : Hamilton) : Hamilton := ⟨t * q.re, t * q.i, t * q.j, t * q.k⟩
+
+
+noncomputable def inv (q : Hamilton) : Hamilton := scale (normSq q)⁻¹ (conj q)
+
+
+def neg (q : Hamilton) : Hamilton := ⟨-q.re, -q.i, -q.j, -q.k⟩
+
+
+def qi : Hamilton := ⟨0, 1, 0, 0⟩
+
+
+def qj : Hamilton := ⟨0, 0, 1, 0⟩
+
+end Hamilton
+
+/-- An integer action characterized by zero, one, and additivity in the integer argument. -/
+
+
+def IsIntScalarAction {A : Type*} [AddCommGroup A] (act : ℤ → A → A) : Prop :=
+  (∀ a, act 0 a = 0) ∧ (∀ a, act 1 a = a) ∧
+    ∀ m n a, act (m + n) a = act m a + act n a
+
+open Hamilton
+
+
 
 theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) ∧ 0 * a = 0 := by
   exact ⟨neg_mul a b, zero_mul a⟩
+
 
 
 theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b = 0 := by
@@ -23,6 +79,7 @@ theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b
   -- Multiplying by the inverse of a unit cancels its nonzero factor.
   have h := congrArg (fun x : R => (↑(u⁻¹) : R) * x) hab
   simpa [mul_assoc] using h
+
 
 
 theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p = 0 := by
@@ -65,14 +122,17 @@ theorem q3_char_prime_or_zero (p : ℕ) [IsDomain R] [CharP R p] : p.Prime ∨ p
       omega
 
 
+
 theorem q4_zmod12_unit : IsUnit (5 : ZMod 12) := by
   -- The residue 5 is coprime to 12, so multiplication by it is reversible modulo 12.
   exact ZMod.isUnit_iff_coprime 5 12 |>.mpr (by decide)
 
 
+
 theorem q5_int_initial (f : ℤ →+* R) : f = Int.castRingHom R := by
   -- A ring map must preserve both `1` and repeated addition, so its value on every integer is fixed.
   exact RingHom.ext_int f (Int.castRingHom R)
+
 
 
 theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : IsUnit a := by
@@ -91,6 +151,7 @@ theorem q6_finite_domain_units [Finite R] [IsDomain R] {a : R} (ha : a ≠ 0) : 
   rw [mul_comm, hb]
 
 
+
 theorem q7_zmod12_two_zero_divisor :
     ¬ IsUnit (2 : ZMod 12) ∧ (2 : ZMod 12) * 6 = 0 ∧ (6 : ZMod 12) ≠ 0 := by
   constructor
@@ -107,6 +168,7 @@ theorem q7_zmod12_two_zero_divisor :
     norm_num at hdiv
 
 
+
 theorem q8_zmod12_unit_iff (a : ZMod 12) :
     IsUnit a ↔ ∃ n : ℕ, a = n ∧ n.Coprime 12 := by
   constructor
@@ -115,6 +177,7 @@ theorem q8_zmod12_unit_iff (a : ZMod 12) :
     exact ⟨n, rfl, ZMod.isUnit_iff_coprime n 12 |>.mp ha⟩
   · rintro ⟨n, rfl, hn⟩
     exact ZMod.isUnit_iff_coprime n 12 |>.mpr hn
+
 
 
 theorem q9_boolean_two_torsion_and_comm {S : Type*} [Ring S]
@@ -149,6 +212,7 @@ theorem q9_boolean_two_torsion_and_comm {S : Type*} [Ring S]
       _ = b * a := by rw [hcross, zero_add]
 
 
+
 theorem q10_gaussian_no_zero_divisors (z w : GaussianInt) (hzw : z * w = 0) : z = 0 ∨ w = 0 := by
   -- Norms multiply.  Since an integer product is zero only when one factor is zero, one of the
   -- two Gaussian norms vanishes, and hence one of the two Gaussian integers vanishes.
@@ -156,6 +220,8 @@ theorem q10_gaussian_no_zero_divisors (z w : GaussianInt) (hzw : z * w = 0) : z 
     rw [← Zsqrtd.norm_mul, hzw]
     rfl
   exact (Int.mul_eq_zero.mp hnorm).imp GaussianInt.norm_eq_zero.mp GaussianInt.norm_eq_zero.mp
+
+
 
 private theorem hamilton_normSq_ne_zero (q : Hamilton) (hq : q ≠ zero) : normSq q ≠ 0 := by
   rintro h
@@ -172,6 +238,8 @@ private theorem hamilton_normSq_ne_zero (q : Hamilton) (hq : q ≠ zero) : normS
   apply hq
   simp [zero, ha, hb, hc, hd]
 
+
+
 private theorem hamilton_mul_inv (q : Hamilton) (hq : q ≠ zero) : mul q (inv q) = one := by
   rcases q with ⟨a, b, c, d⟩
   have hnorm : a ^ 2 + b ^ 2 + c ^ 2 + d ^ 2 ≠ 0 := by
@@ -180,6 +248,8 @@ private theorem hamilton_mul_inv (q : Hamilton) (hq : q ≠ zero) : mul q (inv q
   all_goals
     field_simp [hnorm]
     ring
+
+
 
 private theorem hamilton_inv_mul (q : Hamilton) (hq : q ≠ zero) : mul (inv q) q = one := by
   rcases q with ⟨a, b, c, d⟩
@@ -191,12 +261,14 @@ private theorem hamilton_inv_mul (q : Hamilton) (hq : q ≠ zero) : mul (inv q) 
     ring
 
 
+
 theorem q11_hamilton_inverse_and_noncommutative (q : Hamilton) (hq : q ≠ zero) :
     (∃ r, mul q r = one ∧ mul r q = one) ∧ mul qi qj = neg (mul qj qi) := by
   -- Conjugation reverses the imaginary coordinates, and division by the positive squared norm
   -- makes it a two-sided inverse.  The coordinate multiplication also gives `ij = -ji`.
   refine ⟨⟨inv q, hamilton_mul_inv q hq, hamilton_inv_mul q hq⟩, ?_⟩
   simp [mul, qi, qj, neg]
+
 
 
 theorem q12_int_scalar_action_unique {A : Type*} [AddCommGroup A] (act : ℤ → A → A)
@@ -215,6 +287,8 @@ theorem q12_int_scalar_action_unique {A : Type*} [AddCommGroup A] (act : ℤ →
       calc
         act (-↑n - 1) a = (-↑n : ℤ) • a - a := eq_sub_iff_add_eq.mpr hsum.symm
         _ = (-↑n - 1 : ℤ) • a := by rw [sub_eq_add_neg, sub_zsmul]; simp
+
+
 
 private theorem zmod_prime_iff_cast_no_zero_divisors (n : ℕ) (hn : 2 ≤ n) :
     n.Prime ↔ ∀ a b : ℕ, (a : ZMod n) * b = 0 → (a : ZMod n) = 0 ∨ (b : ZMod n) = 0 := by
@@ -260,6 +334,7 @@ private theorem zmod_prime_iff_cast_no_zero_divisors (n : ℕ) (hn : 2 ≤ n) :
       omega
 
 
+
 theorem q13_zmod_no_zero_divisors_iff_prime (n : ℕ) (hn : 2 ≤ n) :
     n.Prime ↔ ∀ a b : ZMod n, a * b = 0 → a = 0 ∨ b = 0 := by
   constructor
@@ -274,6 +349,7 @@ theorem q13_zmod_no_zero_divisors_iff_prime (n : ℕ) (hn : 2 ≤ n) :
     apply zmod_prime_iff_cast_no_zero_divisors n hn |>.mpr
     intro a b hab
     exact h a b hab
+
 
 
 theorem q14_gaussian_units_exactly_four (z : GaussianInt) :

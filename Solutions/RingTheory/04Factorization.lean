@@ -7,10 +7,12 @@ namespace Solutions.RingTheory.Factorization
 
 open scoped Polynomial
 
+
 theorem q1_polynomial_bezout :
     27 * (Polynomial.X ^ 3 + 2 * Polynomial.X ^ 2 - 4 * Polynomial.X + 6 : ℤ[X]) +
       (-9 * Polynomial.X ^ 2 - 12 * Polynomial.X + 44) * (3 * Polynomial.X + 2) = 250 := by
   ring
+
 
 private theorem x5_small_degree :
     (Polynomial.C 4 * Polynomial.X - Polynomial.C 2 : ℤ[X]).degree < 5 := by
@@ -24,9 +26,11 @@ private theorem x5_small_degree :
       norm_num
     _ < 5 := by norm_num
 
+
 private theorem x5_monic :
     (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]).Monic :=
   Polynomial.monic_X_pow_sub x5_small_degree
+
 
 private theorem x5_natDegree :
     (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]).natDegree = 5 := by
@@ -34,6 +38,7 @@ private theorem x5_natDegree :
   rw [Polynomial.degree_sub_eq_left_of_degree_lt]
   · simp
   · simpa using x5_small_degree
+
 
 theorem q2_eisenstein_x5_sub_fourX_add_two :
     Irreducible (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) := by
@@ -54,6 +59,7 @@ theorem q2_eisenstein_x5_sub_fourX_add_two :
     norm_num [f])
   exact he.irreducible hP hf.isPrimitive (by rw [hdeg]; norm_num)
 
+
 private theorem cubic_small_degree :
     (Polynomial.C 6 * Polynomial.X ^ 2 + Polynomial.C 9 * Polynomial.X + Polynomial.C 12 : ℤ[X]).degree < 3 := by
   calc
@@ -66,6 +72,7 @@ private theorem cubic_small_degree :
         Polynomial.degree_C (by norm_num : (12 : ℤ) ≠ 0)]
       norm_num
     _ < 3 := by norm_num
+
 
 theorem q3_eisenstein_cubic :
     Irreducible (Polynomial.X ^ 3 +
@@ -95,11 +102,13 @@ theorem q3_eisenstein_cubic :
     norm_num [f])
   exact he.irreducible hP hf.isPrimitive (by rw [hdeg]; norm_num)
 
+
 theorem q4_prime_divides_a_factor (g h : ℤ[X]) :
     (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g * h →
       (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g ∨
         (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ h := by
   exact (irreducible_iff_prime.mp q2_eisenstein_x5_sub_fourX_add_two).dvd_mul.mp
+
 
 private theorem zsqrt5_norm_ge_two_of_nonunit {z : ℤ√(-5)} (hz : z ≠ 0) (hu : ¬ IsUnit z) :
     2 ≤ z.norm := by
@@ -108,6 +117,7 @@ private theorem zsqrt5_norm_ge_two_of_nonunit {z : ℤ√(-5)} (hz : z ≠ 0) (h
     (Ne.symm ((Zsqrtd.norm_eq_zero_iff (by norm_num) z).not.mpr hz))
   have hne : z.norm ≠ 1 := fun h => hu ((Zsqrtd.norm_eq_one_iff' (by norm_num) z).mp h)
   omega
+
 
 private theorem irreducible_of_norm_four {z : ℤ√(-5)} (hz : z.norm = 4)
     (hno2 : ∀ w : ℤ√(-5), w.norm ≠ 2) : Irreducible z := by
@@ -118,7 +128,7 @@ private theorem irreducible_of_norm_four {z : ℤ√(-5)} (hz : z.norm = 4)
     omega
   · intro a b hab
     by_contra h
-    push_neg at h
+    push Not at h
     have hz0 : z ≠ 0 := by intro hz0; rw [hz0, Zsqrtd.norm_zero] at hz; norm_num at hz
     have ha0 : a ≠ 0 := by intro ha; subst a; simp at hab; exact hz0 hab
     have hb0 : b ≠ 0 := by intro hb; subst b; simp at hab; exact hz0 hab
@@ -128,6 +138,7 @@ private theorem irreducible_of_norm_four {z : ℤ√(-5)} (hz : z.norm = 4)
     have hale : a.norm ≤ 2 := by nlinarith
     have ha : a.norm = 2 := by omega
     exact hno2 a ha
+
 
 theorem q5_zsqrt5_two_factorizations :
     let s : ℤ√(-5) := ⟨0, 1⟩

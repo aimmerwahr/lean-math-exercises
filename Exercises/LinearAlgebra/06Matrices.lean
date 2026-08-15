@@ -55,6 +55,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Compute the product of the `2 × 2` matrices
@@ -100,7 +101,7 @@ theorem q4_comp_eq_mul (A B : Matrix (Fin 2) (Fin 2) ℝ) :
 For square matrices, a one-sided inverse is automatically two-sided: if `A * B = 1`, then
 `B * A = 1`. (Pass to the associated maps and use `injective ↔ surjective` in finite dimension)
 
-Prove without using `Matrix.mul_eq_one_comm`. -/
+Prove without using `mul_eq_one_comm`. -/
 theorem q5_one_sided_inverse (A B : Matrix (Fin 2) (Fin 2) ℝ) (hAB : A * B = 1) : B * A = 1 := by
   sorry
 

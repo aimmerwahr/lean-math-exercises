@@ -1,9 +1,10 @@
-import Mathlib.GroupTheory.Sylow
+import Mathlib.GroupTheory.Transfer
 import Mathlib.Tactic
 
 namespace Solutions.GroupTheory.Sylow
 
 variable {G : Type*} [Group G]
+
 
 theorem q1_np_one_iff_normal {p : ℕ} [Fact p.Prime] [Finite G] [Finite (Sylow p G)]
     (P : Sylow p G) : Nat.card (Sylow p G) = 1 ↔ (P : Subgroup G).Normal := by
@@ -77,5 +78,42 @@ theorem q6_count_n3_order_30 (n : ℕ) (hmod : n ≡ 1 [MOD 3]) (hdvd : n ∣ 10
   · exact (by omega : False).elim
   · exact (by omega : False).elim
   · exact Or.inr rfl
+
+
+theorem q7_normal_subgroup_and_not_simple_order_30 [Finite G] (hcard : Nat.card G = 30) :
+    (∃ N : Subgroup G, N.Normal ∧ Nat.card N = 15) ∧ ¬ IsSimpleGroup G := by
+  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let P : Sylow 2 G := Sylow.nonempty.some
+  have hPcard : Nat.card (P : Subgroup G) = 2 := by
+    have hfac : (30 : ℕ).factorization 2 = 1 := by native_decide
+    rw [Sylow.card_eq_multiplicity, hcard]
+    simp [hfac]
+  have hindex : P.index = 15 := by
+    have hmul := P.card_mul_index
+    rw [hPcard, hcard] at hmul
+    omega
+  have hcyclic : IsCyclic P := isCyclic_of_prime_card hPcard
+  have hmin : (Nat.card G).minFac = 2 := by
+    rw [hcard]
+    native_decide
+  let f := MonoidHom.transferSylow P (hcyclic.normalizer_le_centralizer hmin)
+  have hNcard : Nat.card f.ker = 15 := by
+    rw [← (MonoidHom.ker_transferSylow_isComplement' P
+      (hcyclic.normalizer_le_centralizer hmin)).index_eq_card, hindex]
+  have hNbot : f.ker ≠ ⊥ := by
+    intro hbot
+    rw [hbot, Subgroup.card_bot] at hNcard
+    omega
+  have hNtop : f.ker ≠ ⊤ := by
+    intro htop
+    rw [htop, Subgroup.card_top, hcard] at hNcard
+    omega
+  constructor
+  · exact ⟨f.ker, inferInstance, hNcard⟩
+  · intro hsimple
+    letI : IsSimpleGroup G := hsimple
+    rcases Subgroup.Normal.eq_bot_or_eq_top (inferInstance : f.ker.Normal) with hbot | htop
+    · exact hNbot hbot
+    · exact hNtop htop
 
 end Solutions.GroupTheory.Sylow

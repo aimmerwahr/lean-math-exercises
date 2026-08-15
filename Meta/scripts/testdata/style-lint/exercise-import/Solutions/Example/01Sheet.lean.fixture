@@ -1,0 +1,9 @@
+import Exercises.Example.«01Sheet»
+
+namespace Solutions.Example.Sheet
+
+
+theorem q1 : True := by
+  trivial
+
+end Solutions.Example.Sheet

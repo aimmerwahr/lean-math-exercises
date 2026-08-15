@@ -28,21 +28,22 @@ on the `#check` line and read the infoview) to see its exact statement.
 section
 
 -- Open sets and the triangle inequality.
-#check Metric.isOpen_iff
-#check dist_triangle
+#check @Metric.isOpen_iff
+#check @dist_triangle
 
 -- Epsilon descriptions of sequential convergence and the Cauchy property.
-#check Metric.tendsto_atTop
-#check Metric.cauchySeq_iff
+#check @Metric.tendsto_atTop
+#check @Metric.cauchySeq_iff
 
 -- Converting a distance estimate into continuity.
-#check LipschitzWith.of_dist_le_mul
-#check LipschitzWith.continuous
+#check @LipschitzWith.of_dist_le_mul
+#check @LipschitzWith.continuous
 
 -- The metric formulation of uniform continuity.
-#check Metric.uniformContinuous_iff
+#check @Metric.uniformContinuous_iff
 
 end
+
 
 /-- **Question 1.**
 

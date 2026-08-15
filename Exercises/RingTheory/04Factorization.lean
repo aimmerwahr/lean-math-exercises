@@ -21,16 +21,17 @@ open scoped Polynomial
 section
 
 -- Eisenstein's criterion and its concrete principal-ideal hypotheses.
-#check Polynomial.Monic.isEisensteinAt_of_mem_of_notMem
-#check Ideal.span_singleton_prime
-#check Ideal.mem_span_singleton
+#check @Polynomial.Monic.isEisensteinAt_of_mem_of_notMem
+#check @Ideal.span_singleton_prime
+#check @Ideal.mem_span_singleton
 
 -- Norms in `ℤ[√-5]`.
-#check Zsqrtd.norm_mul
-#check Zsqrtd.norm_def
-#check Zsqrtd.norm_eq_zero_iff
+#check @Zsqrtd.norm_mul
+#check @Zsqrtd.norm_def
+#check @Zsqrtd.norm_eq_zero_iff
 
 end
+
 
 /-- **Question 1.**
 
@@ -38,7 +39,9 @@ Derive and verify the cleared-denominator Bézout identity in `ℤ[X]`.  Dividin
 shows that the class of `3X + 2` is invertible modulo `X³ + 2X² - 4X + 6`. -/
 theorem q1_polynomial_bezout :
     27 * (Polynomial.X ^ 3 + 2 * Polynomial.X ^ 2 - 4 * Polynomial.X + 6 : ℤ[X]) +
-      (-9 * Polynomial.X ^ 2 - 12 * Polynomial.X + 44) * (3 * Polynomial.X + 2) = 250 := by sorry
+      (-9 * Polynomial.X ^ 2 - 12 * Polynomial.X + 44) * (3 * Polynomial.X + 2) = 250 := by
+  sorry
+
 
 /-- **Question 2.**
 
@@ -46,7 +49,9 @@ Check Eisenstein at `(2)` coefficient by coefficient, then conclude that `X⁵ -
 irreducible over `ℤ`. Coefficients are written with `C` explicitly so the integer coefficient
 ring is visible. -/
 theorem q2_eisenstein_x5_sub_fourX_add_two :
-    Irreducible (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) := by sorry
+    Irreducible (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) := by
+  sorry
+
 
 /-- **Question 3.**
 
@@ -54,7 +59,9 @@ A second Eisenstein calculation, this time at `(3)`. Identify why the constant c
 the decisive condition. -/
 theorem q3_eisenstein_cubic :
     Irreducible (Polynomial.X ^ 3 +
-      (Polynomial.C 6 * Polynomial.X ^ 2 + Polynomial.C 9 * Polynomial.X + Polynomial.C 12) : ℤ[X]) := by sorry
+      (Polynomial.C 6 * Polynomial.X ^ 2 + Polynomial.C 9 * Polynomial.X + Polynomial.C 12) : ℤ[X]) := by
+  sorry
+
 
 /-- **Question 4.**
 
@@ -63,7 +70,9 @@ divides a product, it divides one factor. -/
 theorem q4_prime_divides_a_factor (g h : ℤ[X]) :
     (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g * h →
       (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g ∨
-        (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ h := by sorry
+        (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ h := by
+  sorry
+
 
 /-- **Question 5.**
 
@@ -78,6 +87,7 @@ theorem q5_zsqrt5_two_factorizations :
       (6 : ℤ√(-5)) = α * β ∧
       (2 : ℤ√(-5)).norm = 4 ∧ (3 : ℤ√(-5)).norm = 9 ∧
       α.norm = 6 ∧ β.norm = 6 ∧
-      (∀ z : ℤ√(-5), z.norm ≠ 2) ∧ (∀ z : ℤ√(-5), z.norm ≠ 3) := by sorry
+      (∀ z : ℤ√(-5), z.norm ≠ 2) ∧ (∀ z : ℤ√(-5), z.norm ≠ 3) := by
+  sorry
 
 end Exercises.RingTheory.Factorization

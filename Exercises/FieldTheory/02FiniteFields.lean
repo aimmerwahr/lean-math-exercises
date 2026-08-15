@@ -47,6 +47,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Let `F` be a field with a chosen basis of `n` elements over `𝔽ₚ = ZMod p`.  Show that `F` has
@@ -55,7 +56,8 @@ Let `F` be a field with a chosen basis of `n` elements over `𝔽ₚ = ZMod p`. 
 Prove without using `FiniteField.card`. -/
 theorem q1_card_of_basis (p n : ℕ) [Fact p.Prime] (F : Type*) [Field F] [Fintype F]
     [Algebra (ZMod p) F] (b : Module.Basis (Fin n) (ZMod p) F) :
-    Fintype.card F = p ^ n := by sorry
+    Fintype.card F = p ^ n := by
+  sorry
 
 
 /-- **Question 2.**
@@ -65,7 +67,8 @@ A finite field containing `𝔽ₚ` has prime-power cardinality: there is an `n`
 
 Prove without using `FiniteField.card`. -/
 theorem q2_card_prime_power (p : ℕ) [Fact p.Prime] (F : Type*) [Field F] [Fintype F]
-    [Algebra (ZMod p) F] : ∃ n : ℕ, Fintype.card F = p ^ n := by sorry
+    [Algebra (ZMod p) F] : ∃ n : ℕ, Fintype.card F = p ^ n := by
+  sorry
 
 
 /-- **Question 3.**
@@ -75,7 +78,8 @@ that degree and show that it has `p^n` elements.
 
 Prove without using `GaloisField.card`. -/
 theorem q3_galois_field_card (p n : ℕ) [Fact p.Prime] (hn : n ≠ 0) :
-    Nat.card (GaloisField p n) = p ^ n := by sorry
+    Nat.card (GaloisField p n) = p ^ n := by
+  sorry
 
 
 /-- **Question 4.**
@@ -83,7 +87,8 @@ theorem q3_galois_field_card (p n : ℕ) [Fact p.Prime] (hn : n ≠ 0) :
 The element `3` is a primitive root modulo `7`: every nonzero residue is a power `3^n` with
 `0 ≤ n < 6`. -/
 theorem q4_three_generates_f7 (x : ZMod 7) (hx : x ≠ 0) :
-    ∃ n : Fin 6, x = (3 : ZMod 7) ^ n.val := by sorry
+    ∃ n : Fin 6, x = (3 : ZMod 7) ^ n.val := by
+  sorry
 
 
 /-- **Question 5.**
@@ -92,7 +97,8 @@ Use the preceding primitive-root computation to prove Fermat's equation `x⁷ = 
 `x ∈ 𝔽₇`.
 
 Prove without using `ZMod.pow_card`. -/
-theorem q5_fermat_f7 (x : ZMod 7) : x ^ 7 = x := by sorry
+theorem q5_fermat_f7 (x : ZMod 7) : x ^ 7 = x := by
+  sorry
 
 
 /-- **Question 6.**
@@ -100,14 +106,16 @@ theorem q5_fermat_f7 (x : ZMod 7) : x ^ 7 = x := by sorry
 If two elements are fixed by Frobenius in a commutative ring of prime characteristic `p`, then
 their sum is fixed by Frobenius as well. -/
 theorem q6_frobenius_fixed_add (p : ℕ) [Fact p.Prime] (R : Type*) [CommRing R] [CharP R p]
-    (x y : R) (hx : x ^ p = x) (hy : y ^ p = y) : (x + y) ^ p = x + y := by sorry
+    (x y : R) (hx : x ^ p = x) (hy : y ^ p = y) : (x + y) ^ p = x + y := by
+  sorry
 
 
 /-- **Question 7.**
 
 If two elements are fixed by Frobenius in characteristic `p`, then so is their product. -/
 theorem q7_frobenius_fixed_mul (p : ℕ) (R : Type*) [CommRing R] [CharP R p]
-    (x y : R) (hx : x ^ p = x) (hy : y ^ p = y) : (x * y) ^ p = x * y := by sorry
+    (x y : R) (hx : x ^ p = x) (hy : y ^ p = y) : (x * y) ^ p = x * y := by
+  sorry
 
 
 /-- **Question 8.**
@@ -116,7 +124,8 @@ The product ring `𝔽₂ × 𝔽₂` has nonzero zero divisors.  Thus a ring ca
 cardinality without being a field. -/
 theorem q8_four_elements_not_field :
     ((1 : ZMod 2), (0 : ZMod 2)) * ((0 : ZMod 2), (1 : ZMod 2)) = 0 ∧
-      ((1 : ZMod 2), (0 : ZMod 2)) ≠ 0 ∧ ((0 : ZMod 2), (1 : ZMod 2)) ≠ 0 := by sorry
+      ((1 : ZMod 2), (0 : ZMod 2)) ≠ 0 ∧ ((0 : ZMod 2), (1 : ZMod 2)) ≠ 0 := by
+  sorry
 
 
 /-- **Question 9.**
@@ -124,6 +133,7 @@ theorem q8_four_elements_not_field :
 An element is a *quadratic residue* modulo `p` when it is a square in `𝔽ₚ`.  Show concretely
 that `-1` is a quadratic residue modulo `5` but not modulo `3`. -/
 theorem q9_neg_one_square_examples :
-    IsSquare (-1 : ZMod 5) ∧ ¬ IsSquare (-1 : ZMod 3) := by sorry
+    IsSquare (-1 : ZMod 5) ∧ ¬ IsSquare (-1 : ZMod 3) := by
+  sorry
 
 end Exercises.FieldTheory.FiniteFields

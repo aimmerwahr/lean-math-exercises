@@ -6,6 +6,7 @@ import Mathlib.Tactic
 
 namespace Solutions.FieldTheory.FiniteFields
 
+
 theorem q1_card_of_basis (p n : ℕ) [Fact p.Prime] (F : Type*) [Field F] [Fintype F]
     [Algebra (ZMod p) F] (b : Module.Basis (Fin n) (ZMod p) F) :
     Fintype.card F = p ^ n := by
@@ -87,8 +88,7 @@ theorem q9_neg_one_square_examples :
     have hval : x.val < 3 := x.val_lt
     rw [← ZMod.natCast_zmod_val x] at hx
     interval_cases h : x.val
-    · have hne : (-1 : ZMod 3) ≠ 0 := by decide
-      exact hne (by simpa [h] using hx)
+    · simp at hx
     · have hne : (-1 : ZMod 3) ≠ 1 := by decide
       exact hne (by simpa [h] using hx)
     · have hsq : ((2 : ℕ) : ZMod 3) * ((2 : ℕ) : ZMod 3) = 1 := by decide

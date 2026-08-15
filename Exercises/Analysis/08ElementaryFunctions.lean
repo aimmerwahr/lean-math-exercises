@@ -61,11 +61,12 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 For every real `x`, prove `1 + x ≤ exp x`.
 
-Prove without using `add_one_le_exp`. -/
+Prove without using `Real.add_one_le_exp`. -/
 theorem q1_exp_tangent_bound (x : ℝ) :
     1 + x ≤ Real.exp x := by
   sorry

@@ -13,6 +13,7 @@ open scoped Polynomial
 
 variable {K : Type*} [Field K]
 
+
 theorem q1_factor_theorem (p : K[X]) (a : K) :
     Polynomial.X - Polynomial.C a ∣ p ↔ p.eval a = 0 := by
   constructor

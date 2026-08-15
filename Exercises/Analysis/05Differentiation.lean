@@ -37,32 +37,37 @@ on the `#check` line and read the infoview) to see its exact statement.
 section
 
 -- Building derivatives from elementary functions.
-#check hasDerivAt_id
-#check HasDerivAt.add
-#check HasDerivAt.sub
-#check HasDerivAt.mul
-#check HasDerivAt.pow
-#check Real.hasDerivAt_exp
-#check Real.hasDerivAt_sin
-#check Real.hasDerivAt_cos
+#check @hasDerivAt_id
+#check @HasDerivAt.add
+#check @HasDerivAt.sub
+#check @HasDerivAt.mul
+#check @HasDerivAt.pow
+#check @Real.hasDerivAt_exp
+#check @Real.hasDerivAt_sin
+#check @Real.hasDerivAt_cos
 
 -- Turning a derivative estimate into a statement about an interval.
-#check exists_deriv_eq_slope
-#check Differentiable.continuous
-#check Differentiable.differentiableOn
-#check Continuous.continuousOn
+#check @exists_deriv_eq_slope
+#check @Differentiable.continuous
+#check @Differentiable.differentiableOn
+#check @Continuous.continuousOn
 
 -- Packaging a contraction and using its fixed point.
-#check LipschitzWith.of_dist_le_mul
-#check ContractingWith.fixedPoint_isFixedPt
-#check ContractingWith.fixedPoint_unique
-#check ContractingWith.tendsto_iterate_fixedPoint
+#check @LipschitzWith.of_dist_le_mul
+#check @ContractingWith.fixedPoint_isFixedPt
+#check @ContractingWith.fixedPoint_unique
+#check @ContractingWith.tendsto_iterate_fixedPoint
 
 -- The difference-quotient formulation of a derivative.
-#check hasDerivAt_iff_tendsto_slope_zero
-#check Metric.tendsto_nhds
+#check @hasDerivAt_iff_tendsto_slope_zero
+#check @Metric.tendsto_nhds
+
+-- Supplying facts about an increment in the punctured neighborhood used by a derivative limit.
+#check @mem_nhdsWithin_of_mem_nhds
+#check @self_mem_nhdsWithin
 
 end
+
 
 /-- **Question 1.**
 
@@ -147,7 +152,8 @@ theorem q7_three_zeros_two_critical_points {f : ℝ → ℝ} {a b c : ℝ} (hab 
 Let `f : ℝ → ℝ` be differentiable and suppose `0 ≤ q < 1` and `|f'(x)| ≤ q` for every `x`.
 Then `f` is a contraction with constant `q`.
 
-Prove without using `lipschitzWith_of_nnnorm_deriv_le`. -/
+Prove without using `lipschitzWith_of_nnnorm_deriv_le` or
+`Convex.lipschitzOnWith_of_nnnorm_deriv_le`. -/
 theorem q8_deriv_bound_is_contracting {f : ℝ → ℝ} {q : ℝ} (hf : Differentiable ℝ f)
     (hq0 : 0 ≤ q) (hq1 : q < 1) (hderiv : ∀ x : ℝ, |deriv f x| ≤ q) :
     ContractingWith q.toNNReal f := by

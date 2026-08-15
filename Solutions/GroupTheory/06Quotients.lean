@@ -9,6 +9,7 @@ namespace Solutions.GroupTheory.Quotients
 
 variable {G H : Type*} [Group G] [Group H]
 
+
 theorem q1_normal_iff_conjugates (N : Subgroup G) :
     N.Normal ↔ ∀ n, n ∈ N → ∀ g : G, g * n * g⁻¹ ∈ N := by
   constructor
@@ -49,6 +50,8 @@ theorem q4_normal_iff_kernel (f : G →* H) (N : Subgroup G) [N.Normal] :
 
 
 set_option backward.isDefEq.respectTransparency false in
+
+
 theorem q5_third_iso (N M : Subgroup G) [N.Normal] [M.Normal] (hNM : N ≤ M) :
     Nonempty ((G ⧸ N) ⧸ Subgroup.map (QuotientGroup.mk' N) M ≃* G ⧸ M) := by
   -- The map is induced by the projection `G / N → G / M`; construct its inverse as well.
@@ -134,10 +137,12 @@ theorem q10_quotient_center_cyclic_abelian [IsCyclic (G ⧸ Subgroup.center G)] 
       rw [Subgroup.mem_center_iff.mp hb]
     _ = b * a := by group
 
+
 def firstFactor (A B : Type*) [Group A] [Group B] : A →* A × B where
   toFun := fun a => (a, 1)
   map_one' := rfl
   map_mul' _ _ := by ext <;> simp
+
 
 def secondProjection (A B : Type*) [Group A] [Group B] : A × B →* B where
   toFun := Prod.snd
@@ -169,5 +174,24 @@ theorem q11_short_exact_sequence (A B : Type*) [Group A] [Group B] :
       refine ⟨x.1, ?_⟩
       cases x
       simpa [firstFactor, secondProjection] using hx.symm
+
+
+theorem q12_cyclic_automorphism_group_abelian [IsCyclic (MulAut G)] (a b : G) :
+    a * b = b * a := by
+  -- Inner automorphisms form a cyclic subgroup of `Aut(G)`. Its kernel consists of central
+  -- elements, so the cyclic-quotient criterion applies to the conjugation homomorphism.
+  let conjHom : G →* MulAut G := MulAut.conj
+  letI : IsCyclic conjHom.range := Subgroup.isCyclic conjHom.range
+  have hker : conjHom.ker ≤ Subgroup.center G := by
+    intro x hx
+    rw [MonoidHom.mem_ker] at hx
+    rw [Subgroup.mem_center_iff]
+    intro y
+    have hxy := DFunLike.congr_fun hx y
+    change x * y * x⁻¹ = y at hxy
+    calc
+      y * x = (x * y * x⁻¹) * x := by rw [hxy]
+      _ = x * y := by group
+  exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center conjHom hker).is_comm.comm a b
 
 end Solutions.GroupTheory.Quotients

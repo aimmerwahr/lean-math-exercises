@@ -1,0 +1,8 @@
+#check Nat.add
+
+
+/-- **Question 1.**
+
+A fixture with an implicit toolbox check. -/
+theorem q1 : True := by
+  sorry

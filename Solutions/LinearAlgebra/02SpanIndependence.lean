@@ -8,6 +8,7 @@ namespace Solutions.LinearAlgebra.SpanIndependence
 
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
+
 theorem q1_mem_span_explicit : (![2, 5] : Fin 2 → ℝ) ∈
     Submodule.span ℝ {(![1, 0] : Fin 2 → ℝ), ![0, 1]} := by
   -- Write the target vector as a linear combination of the two coordinate vectors.

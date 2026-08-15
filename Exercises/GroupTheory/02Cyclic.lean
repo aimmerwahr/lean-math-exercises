@@ -64,6 +64,7 @@ section
 
 end
 
+
 /-- **Question 1.**
 
 Before finding the order of `g^k`, translate the question into arithmetic: a power of `g^k` is the

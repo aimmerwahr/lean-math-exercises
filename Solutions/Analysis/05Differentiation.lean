@@ -11,6 +11,7 @@ namespace Solutions.Analysis.Differentiation
 open Filter Set
 open Solutions.Analysis.ContinuousFunctions
 
+
 theorem q1_deriv_cubic (x : ℝ) :
     deriv (fun y : ℝ => y ^ 3 - 3 * y ^ 2 + 2 * y) x = 3 * x ^ 2 - 6 * x + 2 := by
   -- Assemble the polynomial derivative from the power and scalar-multiple rules.

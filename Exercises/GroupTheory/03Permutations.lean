@@ -22,6 +22,9 @@ Prove each statement yourself; the canonical proofs live in
 
 Some exercises ask you to prove *without using* a particular lemma — the point is to rebuild that
 result from more primitive facts. These bans are enforced when you build the project.
+
+For the concrete calculations in Questions 1--3 and 5, 7--10, give the coordinate or sign
+calculation rather than closing the proposition with `decide`; this restriction is enforced too.
 -/
 
 namespace Exercises.GroupTheory.Permutations
@@ -50,6 +53,7 @@ section
 #check @Equiv.Perm.lcm_cycleType
 
 end
+
 
 /-- **Question 1.**
 

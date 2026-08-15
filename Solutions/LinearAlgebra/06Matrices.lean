@@ -6,6 +6,7 @@ import Mathlib.Tactic
 
 namespace Solutions.LinearAlgebra.Matrices
 
+
 theorem q1_matmul_concrete :
     (!![1, 2; 3, 4] : Matrix (Fin 2) (Fin 2) ℝ) * !![5, 6; 7, 8] = !![19, 22; 43, 50] := by
   norm_num [Matrix.mul_fin_two]

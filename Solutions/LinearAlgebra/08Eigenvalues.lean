@@ -11,6 +11,7 @@ namespace Solutions.LinearAlgebra.Eigenvalues
 
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
+
 theorem q1_eigen_iff_ker (f : Module.End K V) (l : K) (v : V) :
     f v = l • v ↔ v ∈ LinearMap.ker (f - l • 1) := by
   -- `(f - λ·id) v = f v - λ • v`, which is `0` exactly when `f v = λ • v`.
@@ -117,6 +118,8 @@ theorem q8_distinct_independent_concrete :
 
 
 open scoped ComplexOrder in
+
+
 theorem q9_hermitian_eigenvalue_real {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
     (hA : A.conjTranspose = A) (l : ℂ) (v : Fin n → ℂ) (hv : v ≠ 0)
     (hAv : A.mulVec v = l • v) :

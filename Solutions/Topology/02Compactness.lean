@@ -11,6 +11,7 @@ open _root_.Topology
 
 variable {X Y : Type*} [MetricSpace X] [MetricSpace Y]
 
+
 theorem q1_finite_compact {Z : Type*} [TopologicalSpace Z] {s : Set Z} (hs : s.Finite) :
     IsCompact s := by
   induction s, hs using Set.Finite.induction_on with

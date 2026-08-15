@@ -6,6 +6,7 @@ namespace Solutions.LinearAlgebra.Subspaces
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
+
 theorem q1_sup_le_iff (U W X : Submodule K V) :
     U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
   constructor

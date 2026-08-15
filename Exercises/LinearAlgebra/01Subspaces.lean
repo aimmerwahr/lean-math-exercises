@@ -66,7 +66,9 @@ section
 
 end
 
+
 /-- **Question 1.**
+
 For a subspace `X`, the sum `U ⊔ W` is contained in `X` iff both `U` and `W` are. This is the
 universal property that characterizes `U ⊔ W` as the least subspace containing both.
 
@@ -77,6 +79,7 @@ theorem q1_sup_le_iff (U W X : Submodule K V) :
 
 
 /-- **Question 2.**
+
 A vector lies in the sum `U ⊔ W` iff it can be written as `u + w` with `u ∈ U` and `w ∈ W`.
 
 For the forward implication, define the subspace `S` of vectors that have such a presentation.

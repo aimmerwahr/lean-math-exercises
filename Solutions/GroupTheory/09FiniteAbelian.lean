@@ -6,6 +6,7 @@ import Mathlib.Tactic
 
 namespace Solutions.GroupTheory.FiniteAbelian
 
+
 theorem q1_zmod4_not_prod : ¬ Nonempty (ZMod 4 ≃+ ZMod 2 × ZMod 2) := by
   -- Doubling any pair of residues mod 2 gives zero.
   rintro ⟨e⟩
