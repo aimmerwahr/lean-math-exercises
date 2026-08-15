@@ -1,0 +1,29 @@
+import Exercises.Analysis.«05Differentiation»
+import Solutions.Analysis.«05Differentiation»
+import Meta.BanCheck
+
+open Meta
+
+assert_not_uses Exercises.Analysis.Differentiation.q3_deriv_sin_square_plus_cos_square
+  [Real.sin_sq_add_cos_sq]
+assert_not_uses Exercises.Analysis.Differentiation.q4_zero_deriv_constant_on_interval
+  [constant_of_derivWithin_zero]
+assert_not_uses Exercises.Analysis.Differentiation.q5_deriv_comparison_on_ray
+  [image_sub_le_mul_sub_of_deriv_le, Convex.image_sub_le_mul_sub_of_deriv_le,
+    monotoneOn_of_deriv_nonneg, monotone_of_deriv_nonneg]
+assert_not_uses Exercises.Analysis.Differentiation.q7_three_zeros_two_critical_points
+  [exists_deriv_eq_zero, exists_hasDerivAt_eq_zero]
+assert_not_uses Exercises.Analysis.Differentiation.q8_deriv_bound_is_contracting
+  [lipschitzWith_of_nnnorm_deriv_le, Convex.lipschitzOnWith_of_nnnorm_deriv_le]
+
+assert_not_uses Solutions.Analysis.Differentiation.q3_deriv_sin_square_plus_cos_square
+  [Real.sin_sq_add_cos_sq]
+assert_not_uses Solutions.Analysis.Differentiation.q4_zero_deriv_constant_on_interval
+  [constant_of_derivWithin_zero]
+assert_not_uses Solutions.Analysis.Differentiation.q5_deriv_comparison_on_ray
+  [image_sub_le_mul_sub_of_deriv_le, Convex.image_sub_le_mul_sub_of_deriv_le,
+    monotoneOn_of_deriv_nonneg, monotone_of_deriv_nonneg]
+assert_not_uses Solutions.Analysis.Differentiation.q7_three_zeros_two_critical_points
+  [exists_deriv_eq_zero, exists_hasDerivAt_eq_zero]
+assert_not_uses Solutions.Analysis.Differentiation.q8_deriv_bound_is_contracting
+  [lipschitzWith_of_nnnorm_deriv_le, Convex.lipschitzOnWith_of_nnnorm_deriv_le]

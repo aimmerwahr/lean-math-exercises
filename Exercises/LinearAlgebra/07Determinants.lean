@@ -133,7 +133,9 @@ theorem q9_det_inv (A B : Matrix (Fin 2) (Fin 2) ℝ) (h : A * B = 1) :
 /-- **Question 10.**
 
 A matrix is **skew-symmetric** when `Aᵀ = -A`. Show that a skew-symmetric matrix of **odd** size is
-singular: for `A : ℝ³ˣ³` with `Aᵀ = -A`, `det A = 0`. -/
+singular: for `A : ℝ³ˣ³` with `Aᵀ = -A`, `det A = 0`.
+
+Use Question 8 for transpose invariance; do not use `Matrix.det_transpose` directly. -/
 theorem q10_skew_odd_singular (A : Matrix (Fin 3) (Fin 3) ℝ) (h : Aᵀ = -A) :
     A.det = 0 := by
   sorry

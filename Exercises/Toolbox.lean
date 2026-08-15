@@ -37,6 +37,54 @@ example (a b : Nat) (h : a = b) : a + a = a + b := by
   nth_rw 2 [h]
 ```
 
+Use `calc` for a calculational proof: Lean combines a chain of equalities or inequalities into a
+proof of the first expression's relation to the last. Each line proves one step after `:=`, and
+the `_` on a later line stands for the right-hand expression from the preceding line. It is
+especially readable when the intermediate expressions are mathematically meaningful:
+```lean
+example (a b c : Nat) (hab : a = b) (hbc : b = c) : a + 1 = c + 1 := by
+  calc
+    a + 1 = b + 1 := by rw [hab]
+    _ = c + 1 := by rw [hbc]
+```
+
+Use `trans b` when the goal is a transitive relation and you want to introduce `b` as an
+intermediate expression. For example, on a goal `a = c`, it creates the two goals `a = b` and
+`b = c`:
+```lean
+example (a b c : Nat) (hab : a = b) (hbc : b = c) : a = c := by
+  trans b
+  · exact hab
+  · exact hbc
+```
+
+It also works naturally for inequalities and other relations with a registered transitivity rule:
+```lean
+example (a b c : Nat) (hab : a ≤ b) (hbc : b ≤ c) : a ≤ c := by
+  trans b
+  · exact hab
+  · exact hbc
+```
+
+The two subgoals can themselves be split with another `trans` step:
+```lean
+example (a b c d : Nat) (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d) : a ≤ d := by
+  trans b
+  · exact hab
+  · trans c
+    · exact hbc
+    · exact hcd
+```
+
+The intermediate expression can be a compound term. Here, `trans` breaks an arithmetic comparison
+into two simpler ones:
+```lean
+example (x : Nat) : x + 2 ≤ x + 5 := by
+  trans x + 3
+  · omega
+  · omega
+```
+
 Use `constructor` when the goal is a conjunction or an equivalence:
 ```lean
 example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := by

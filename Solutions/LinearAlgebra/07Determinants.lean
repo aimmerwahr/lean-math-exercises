@@ -76,7 +76,7 @@ theorem q9_det_inv (A B : Matrix (Fin 2) (Fin 2) ℝ) (h : A * B = 1) :
 theorem q10_skew_odd_singular (A : Matrix (Fin 3) (Fin 3) ℝ) (h : Aᵀ = -A) :
     A.det = 0 := by
   -- `det A = det Aᵀ = det (-A) = (-1)³ · det A = -det A`, so `2 · det A = 0`, hence `det A = 0`.
-  have h1 : A.det = (-A).det := by rw [← h, Matrix.det_transpose]
+  have h1 : A.det = (-A).det := by rw [← h, q8_det_transpose]
   rw [Matrix.det_neg, Fintype.card_fin] at h1
   have h2 : (2 : ℝ) * A.det = 0 := by linear_combination h1
   linarith

@@ -13,37 +13,43 @@ open scoped Polynomial
 
 variable {K : Type*} [Field K]
 
-theorem q1_degree_mul (p q : K[X]) :
-    (p * q).degree = p.degree + q.degree := by
-  exact Polynomial.degree_mul
-
-
-theorem q2_factor_theorem (p : K[X]) (a : K) :
+theorem q1_factor_theorem (p : K[X]) (a : K) :
     Polynomial.X - Polynomial.C a ∣ p ↔ p.eval a = 0 := by
   constructor
   · rintro ⟨q, rfl⟩
     simp
   · intro h
+    -- Division by `X - C a` has constant remainder `p(a)`.  When `a` is a root, that remainder
+    -- is zero, so the division identity is the required factorization.
     refine ⟨p /ₘ (Polynomial.X - Polynomial.C a), ?_⟩
-    exact (Polynomial.mul_divByMonic_eq_iff_isRoot.mpr h).symm
+    have hmod : p %ₘ (Polynomial.X - Polynomial.C a) = 0 := by
+      rw [Polynomial.modByMonic_X_sub_C_eq_C_eval, h, Polynomial.C_0]
+    symm
+    calc
+      (Polynomial.X - Polynomial.C a) * (p /ₘ (Polynomial.X - Polynomial.C a)) =
+          0 + (Polynomial.X - Polynomial.C a) * (p /ₘ (Polynomial.X - Polynomial.C a)) := by simp
+      _ = p %ₘ (Polynomial.X - Polynomial.C a) +
+          (Polynomial.X - Polynomial.C a) * (p /ₘ (Polynomial.X - Polynomial.C a)) := by rw [hmod]
+      _ = p := Polynomial.modByMonic_add_div p _
 
 
-theorem q3_cubic_root :
+theorem q2_cubic_root :
     ((Polynomial.X ^ 3 - 2 * Polynomial.X + 1 : ℚ[X]).eval 1) = 0 := by
   norm_num
 
 
-theorem q4_cubic_factor :
+theorem q3_cubic_factor :
     (Polynomial.X - 1 : ℚ[X]) ∣ Polynomial.X ^ 3 - 2 * Polynomial.X + 1 := by
-  exact q2_factor_theorem _ 1 |>.mpr q3_cubic_root
+  exact q1_factor_theorem _ 1 |>.mpr q2_cubic_root
 
 
-theorem q5_roots_le_degree (p : K[X]) : p.roots.card ≤ p.natDegree := by
-  obtain ⟨q, _, hdegree, _⟩ := Polynomial.exists_prod_multiset_X_sub_C_mul p
-  exact Nat.le.intro hdegree
+theorem q4_cubic_full_factorization :
+    (Polynomial.X ^ 3 - 2 * Polynomial.X + 1 : ℚ[X]) =
+      (Polynomial.X - 1) * (Polynomial.X ^ 2 + Polynomial.X - 1) := by
+  ring
 
 
-theorem q6_x_sq_plus_one_factor :
+theorem q5_x_sq_plus_one_factor :
     (Polynomial.X ^ 2 + 1 : (ZMod 5)[X]) =
       (Polynomial.X - 2) * (Polynomial.X + 2) := by
   ring_nf
@@ -59,19 +65,5 @@ theorem q6_x_sq_plus_one_factor :
       _ = -4 := by rw [map_ofNat]
   rw [hpoly]
 
-
-theorem q7_zero_function_poly [Infinite K] (p : K[X]) (h : ∀ x : K, p.eval x = 0) : p = 0 := by
-  exact Polynomial.zero_of_eval_zero p h
-
-
-theorem q8_irreducible_no_root (p : K[X]) (hp : p.Monic) (hdeg2 : 2 ≤ p.natDegree)
-    (hdeg3 : p.natDegree ≤ 3) :
-    Irreducible p ↔ p.roots = 0 := by
-  exact hp.irreducible_iff_roots_eq_zero_of_degree_le_three hdeg2 hdeg3
-
-
-theorem q9_derivative_repeated_root (p : K[X]) (a : K) (hp : p ≠ 0) :
-    1 < p.rootMultiplicity a ↔ p.IsRoot a ∧ p.derivative.IsRoot a := by
-  exact Polynomial.one_lt_rootMultiplicity_iff_isRoot hp
 
 end Solutions.RingTheory.Polynomials

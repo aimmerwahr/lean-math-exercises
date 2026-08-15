@@ -16,7 +16,9 @@ open Meta
 -- Exercise proofs (checks the reader's own attempts).
 assert_not_uses Exercises.LinearAlgebra.Determinants.q3_det_mul_concrete [Matrix.det_mul]
 assert_not_uses Exercises.LinearAlgebra.Determinants.q8_det_transpose [Matrix.det_transpose]
+assert_not_uses Exercises.LinearAlgebra.Determinants.q10_skew_odd_singular [Matrix.det_transpose]
 
 -- Solution proofs (regression guard on the shipped canonical proofs).
 assert_not_uses Solutions.LinearAlgebra.Determinants.q3_det_mul_concrete [Matrix.det_mul]
 assert_not_uses Solutions.LinearAlgebra.Determinants.q8_det_transpose [Matrix.det_transpose]
+assert_not_uses Solutions.LinearAlgebra.Determinants.q10_skew_odd_singular [Matrix.det_transpose]

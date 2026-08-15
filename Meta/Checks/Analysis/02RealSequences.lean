@@ -1,0 +1,46 @@
+import Exercises.Analysis.«02RealSequences»
+import Solutions.Analysis.«02RealSequences»
+import Mathlib.Analysis.SpecificLimits.Normed
+import Mathlib.Topology.MetricSpace.Sequences
+import Meta.BanCheck
+
+open Meta
+
+assert_not_uses Exercises.Analysis.RealSequences.q1_reciprocal_tends_to_zero
+  [tendsto_one_div_add_atTop_nhds_zero_nat]
+assert_not_uses Solutions.Analysis.RealSequences.q1_reciprocal_tends_to_zero
+  [tendsto_one_div_add_atTop_nhds_zero_nat]
+
+assert_not_uses Exercises.Analysis.RealSequences.q3_geometric_tends_to_zero
+  [tendsto_pow_atTop_nhds_zero_of_lt_one, tendsto_pow_atTop_nhds_zero_of_norm_lt_one,
+    tendsto_pow_atTop_nhds_zero_of_abs_lt_one]
+assert_not_uses Solutions.Analysis.RealSequences.q3_geometric_tends_to_zero
+  [tendsto_pow_atTop_nhds_zero_of_lt_one, tendsto_pow_atTop_nhds_zero_of_norm_lt_one,
+    tendsto_pow_atTop_nhds_zero_of_abs_lt_one]
+
+assert_not_uses Exercises.Analysis.RealSequences.q4_monotone_tends_to_sup
+  [tendsto_atTop_ciSup]
+assert_not_uses Solutions.Analysis.RealSequences.q4_monotone_tends_to_sup
+  [tendsto_atTop_ciSup]
+
+assert_not_uses Exercises.Analysis.RealSequences.q6_subsequence_criterion_for_convergence
+  [Filter.tendsto_of_subseq_tendsto]
+assert_not_uses Solutions.Analysis.RealSequences.q6_subsequence_criterion_for_convergence
+  [Filter.tendsto_of_subseq_tendsto]
+
+assert_not_uses Exercises.Analysis.RealSequences.q8_cauchy_real_converges
+  [cauchySeq_tendsto_of_complete, CauchySeq.tendsto_limUnder, cauchySeq_tendsto_of_isComplete,
+    tendsto_nhds_of_cauchySeq_of_subseq]
+assert_not_uses Solutions.Analysis.RealSequences.q8_cauchy_real_converges
+  [cauchySeq_tendsto_of_complete, CauchySeq.tendsto_limUnder, cauchySeq_tendsto_of_isComplete,
+    tendsto_nhds_of_cauchySeq_of_subseq]
+
+assert_not_uses Exercises.Analysis.RealSequences.q10_bolzano_weierstrass
+  [tendsto_subseq_of_bounded, tendsto_subseq_of_frequently_bounded]
+assert_not_uses Solutions.Analysis.RealSequences.q10_bolzano_weierstrass
+  [tendsto_subseq_of_bounded, tendsto_subseq_of_frequently_bounded]
+
+assert_not_uses Exercises.Analysis.RealSequences.q11_closed_interval_sequentially_compact
+  [IsCompact.tendsto_subseq, IsCompact.tendsto_subseq', IsSeqCompact.exists_tendsto]
+assert_not_uses Solutions.Analysis.RealSequences.q11_closed_interval_sequentially_compact
+  [IsCompact.tendsto_subseq, IsCompact.tendsto_subseq', IsSeqCompact.exists_tendsto]

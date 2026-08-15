@@ -1,0 +1,31 @@
+import Exercises.Analysis.«06RiemannIntegration»
+import Solutions.Analysis.«06RiemannIntegration»
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.MeanValue
+import Meta.BanCheck
+
+open Meta
+
+assert_not_uses Exercises.Analysis.RiemannIntegration.q1_integral_triangle_inequality
+  [intervalIntegral.norm_integral_le_integral_norm]
+assert_not_uses Exercises.Analysis.RiemannIntegration.q3_integration_by_parts
+  [intervalIntegral.integral_mul_deriv_eq_deriv_mul, intervalIntegral.integral_deriv_mul_eq_sub]
+assert_not_uses Exercises.Analysis.RiemannIntegration.q5_continuous_nonneg_integral_eq_zero
+  [intervalIntegral.integral_eq_zero_iff_of_nonneg_ae, intervalIntegral.integral_pos]
+assert_not_uses Exercises.Analysis.RiemannIntegration.q7_abs_integral_le_bound
+  [intervalIntegral.norm_integral_le_of_norm_le]
+assert_not_uses Exercises.Analysis.RiemannIntegration.q9_weighted_integral_mean_value
+  [exists_eq_const_mul_intervalIntegral_of_ae_nonneg,
+    exists_eq_const_mul_intervalIntegral_of_nonneg]
+
+assert_not_uses Solutions.Analysis.RiemannIntegration.q1_integral_triangle_inequality
+  [intervalIntegral.norm_integral_le_integral_norm]
+assert_not_uses Solutions.Analysis.RiemannIntegration.q3_integration_by_parts
+  [intervalIntegral.integral_mul_deriv_eq_deriv_mul, intervalIntegral.integral_deriv_mul_eq_sub]
+assert_not_uses Solutions.Analysis.RiemannIntegration.q5_continuous_nonneg_integral_eq_zero
+  [intervalIntegral.integral_eq_zero_iff_of_nonneg_ae, intervalIntegral.integral_pos]
+assert_not_uses Solutions.Analysis.RiemannIntegration.q7_abs_integral_le_bound
+  [intervalIntegral.norm_integral_le_of_norm_le]
+assert_not_uses Solutions.Analysis.RiemannIntegration.q9_weighted_integral_mean_value
+  [exists_eq_const_mul_intervalIntegral_of_ae_nonneg,
+    exists_eq_const_mul_intervalIntegral_of_nonneg]

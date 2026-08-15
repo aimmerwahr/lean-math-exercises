@@ -52,7 +52,9 @@ theorem q2_one_i_linear_independent (a b : ℝ) :
 
 /-- **Question 3.**
 
-The vectors `1` and `i` span `ℂ` as a real vector space. -/
+The vectors `1` and `i` span `ℂ` as a real vector space.
+
+Prove without using `Complex.basisOneI`. -/
 theorem q3_one_i_spans_complex :
     Submodule.span ℝ ({(1 : ℂ), Complex.I} : Set ℂ) = ⊤ := by sorry
 

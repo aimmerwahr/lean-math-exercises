@@ -102,8 +102,9 @@ section
 
 end
 
-/-- **Question 1.** Negation distributes across multiplication on the left. -/
-theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) := by sorry
+/-- **Question 1.** Negation distributes across multiplication on the left, and zero annihilates
+multiplication. -/
+theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) ∧ 0 * a = 0 := by sorry
 
 
 /-- **Question 2.** A unit cannot be a zero divisor: if `a` is a unit and `a*b = 0`, then `b = 0`. -/

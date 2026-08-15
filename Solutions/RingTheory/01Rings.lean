@@ -14,8 +14,8 @@ variable {R : Type*} [CommRing R]
 open Exercises.RingTheory.Rings
 open Exercises.RingTheory.Rings.Hamilton
 
-theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) := by
-  exact neg_mul a b
+theorem q1_neg_mul (a b : R) : (-a) * b = -(a * b) ∧ 0 * a = 0 := by
+  exact ⟨neg_mul a b, zero_mul a⟩
 
 
 theorem q2_unit_not_zero_divisor {a b : R} (ha : IsUnit a) (hab : a * b = 0) : b = 0 := by

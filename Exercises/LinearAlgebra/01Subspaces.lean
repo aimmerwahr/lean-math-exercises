@@ -68,7 +68,9 @@ end
 
 /-- **Question 1.**
 For a subspace `X`, the sum `U ⊔ W` is contained in `X` iff both `U` and `W` are. This is the
-universal property that characterizes `U ⊔ W` as the least subspace containing both. -/
+universal property that characterizes `U ⊔ W` as the least subspace containing both.
+
+Prove without using `sup_le_iff`. -/
 theorem q1_sup_le_iff (U W X : Submodule K V) :
     U ⊔ W ≤ X ↔ U ≤ X ∧ W ≤ X := by
   sorry

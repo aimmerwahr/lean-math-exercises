@@ -65,13 +65,18 @@ theorem q3_orbit_stabilizer [Fintype G] (x : X) :
 
 
 /-- **Question 4.** The first step of the class equation: conjugacy classes partition a group.
-The sigma type on the left records an element together with its conjugacy class. -/
+The sigma type on the left records an element together with its conjugacy class.
+
+Prove without using `Group.sum_card_conj_classes_eq_card` or
+`Group.nat_card_center_add_sum_card_noncenter_eq_card`. -/
 theorem q4_conjugacy_classes_partition :
     Nat.card (Σ x : ConjClasses G, x.carrier) = Nat.card G := by
   sorry
 
 
-/-- **Question 5.** A nontrivial finite `p`-group has nontrivial centre. -/
+/-- **Question 5.** A nontrivial finite `p`-group has nontrivial centre.
+
+Prove without using `IsPGroup.center_nontrivial`. -/
 theorem q5_pgroup_center_nontrivial {p : ℕ} [Fact p.Prime] [Finite G] [Nontrivial G]
     (hG : IsPGroup p G) : Nontrivial (Subgroup.center G) := by
   sorry
@@ -91,7 +96,9 @@ theorem q7_permutation_orbit :
 
 
 /-- **Question 8.** Every action of `G` gives a permutation representation: construct the
-homomorphism which sends `g` to the permutation `x ↦ g • x`. -/
+homomorphism which sends `g` to the permutation `x ↦ g • x`.
+
+Prove without using `MulAction.toPermHom`. -/
 theorem q8_permutation_representation :
     ∃ ρ : G →* Equiv.Perm X, ∀ (g : G) (x : X), ρ g x = g • x := by
   sorry

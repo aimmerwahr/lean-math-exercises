@@ -4,6 +4,9 @@ import Meta.BanCheck
 
 open Meta
 
+assert_not_uses Exercises.FieldTheory.Extensions.q3_one_i_spans_complex [Complex.basisOneI]
+assert_not_uses Solutions.FieldTheory.Extensions.q3_one_i_spans_complex [Complex.basisOneI]
+
 assert_not_uses Exercises.FieldTheory.Extensions.q4_degree_complex_real
   [Complex.finrank_real_complex, Complex.basisOneI]
 assert_not_uses Exercises.FieldTheory.Extensions.q8_every_complex_integral

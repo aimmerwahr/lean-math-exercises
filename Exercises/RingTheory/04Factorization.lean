@@ -1,18 +1,13 @@
-import Mathlib.Algebra.EuclideanDomain.Basic
-import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
 import Mathlib.Algebra.Polynomial.FieldDivision
-import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
-import Mathlib.NumberTheory.Real.Irrational
+import Mathlib.RingTheory.Polynomial.Eisenstein.Criterion
 import Mathlib.NumberTheory.Zsqrtd.Basic
 import Mathlib.Tactic
 
 /-!
 # Exercises — RingTheory / Factorization
 
-Euclidean division supplies greatest common divisors and Bézout identities.  The chain from
-Euclidean domains to unique factorization domains explains why irreducible elements are prime in
-`ℤ` and in polynomial rings over fields.  Eisenstein's criterion gives a practical route to
-irreducibility, while `ℤ[√−5]` shows that factorization need not be unique outside this setting.
+This sheet uses concrete calculations to make three factorization tools do real work:
+polynomial Bézout identities, Eisenstein's criterion, and norms in `ℤ[√-5]`.
 
 Prove each statement yourself; the canonical proofs live in
 `Solutions/RingTheory/04Factorization.lean`. Do **not** commit your proofs into this file.
@@ -25,80 +20,64 @@ open scoped Polynomial
 /-! ## Potentially helpful results -/
 section
 
-#check EuclideanDomain.gcdA
-#check EuclideanDomain.gcdB
-#check EuclideanDomain.gcd_eq_gcd_ab
-#check EuclideanDomain.div_add_mod
-#check UniqueFactorizationMonoid.irreducible_iff_prime
-#check eq_zero_or_eq_zero_of_mul_eq_zero
+-- Eisenstein's criterion and its concrete principal-ideal hypotheses.
+#check Polynomial.Monic.isEisensteinAt_of_mem_of_notMem
+#check Ideal.span_singleton_prime
+#check Ideal.mem_span_singleton
+
+-- Norms in `ℤ[√-5]`.
+#check Zsqrtd.norm_mul
+#check Zsqrtd.norm_def
+#check Zsqrtd.norm_eq_zero_iff
 
 end
 
 /-- **Question 1.**
 
-Bézout's identity expresses a Euclidean gcd as a linear combination.
-
-This is an application exercise: use the two Bézout coefficients supplied by Euclidean division. -/
-theorem q1_bezout {R : Type*} [EuclideanDomain R] [DecidableEq R] (a b : R) :
-    ∃ x y : R, EuclideanDomain.gcd a b = a * x + b * y := by sorry
-
+Derive and verify the cleared-denominator Bézout identity in `ℤ[X]`.  Dividing by `250` over `ℚ`
+shows that the class of `3X + 2` is invertible modulo `X³ + 2X² - 4X + 6`. -/
+theorem q1_polynomial_bezout :
+    27 * (Polynomial.X ^ 3 + 2 * Polynomial.X ^ 2 - 4 * Polynomial.X + 6 : ℤ[X]) +
+      (-9 * Polynomial.X ^ 2 - 12 * Polynomial.X + 44) * (3 * Polynomial.X + 2) = 250 := by sorry
 
 /-- **Question 2.**
 
-In a unique factorization domain, irreducible and prime elements coincide.
-
-This is an application exercise: use the irreducible–prime equivalence for unique factorization
-domains. -/
-theorem q2_irreducible_iff_prime {R : Type*} [CommMonoidWithZero R] [UniqueFactorizationMonoid R] (a : R) :
-    Irreducible a ↔ Prime a := by sorry
-
+Check Eisenstein at `(2)` coefficient by coefficient, then conclude that `X⁵ - 4X + 2` is
+irreducible over `ℤ`. Coefficients are written with `C` explicitly so the integer coefficient
+ring is visible. -/
+theorem q2_eisenstein_x5_sub_fourX_add_two :
+    Irreducible (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) := by sorry
 
 /-- **Question 3.**
 
-Euclidean division decomposes a dividend into quotient times divisor plus remainder.
-
-This is an application exercise: use the division-with-remainder identity. -/
-theorem q3_division_identity {R : Type*} [EuclideanDomain R] (a b : R) :
-    a % b + b * (a / b) = a := by sorry
-
+A second Eisenstein calculation, this time at `(3)`. Identify why the constant coefficient is
+the decisive condition. -/
+theorem q3_eisenstein_cubic :
+    Irreducible (Polynomial.X ^ 3 +
+      (Polynomial.C 6 * Polynomial.X ^ 2 + Polynomial.C 9 * Polynomial.X + Polynomial.C 12) : ℤ[X]) := by sorry
 
 /-- **Question 4.**
 
-A product of two polynomials over a field is zero only when one of its factors is zero. -/
-theorem q4_polynomial_zero_product (K : Type*) [Field K] (p q : K[X]) (hpq : p * q = 0) :
-    p = 0 ∨ q = 0 := by sorry
-
+Use Question 2 and unique factorization as an actual divisibility tool: when this polynomial
+divides a product, it divides one factor. -/
+theorem q4_prime_divides_a_factor (g h : ℤ[X]) :
+    (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g * h →
+      (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ g ∨
+        (Polynomial.X ^ 5 - (Polynomial.C 4 * Polynomial.X - Polynomial.C 2) : ℤ[X]) ∣ h := by sorry
 
 /-- **Question 5.**
 
-Eisenstein's criterion turns a primitive polynomial with the required coefficient divisibility
-into an irreducible polynomial.
-
-This is an application exercise: apply Eisenstein's criterion to the supplied hypotheses. -/
-theorem q5_eisenstein {f : ℤ[X]} {P : Ideal ℤ} (hE : f.IsEisensteinAt P)
-    (hP : P.IsPrime) (hprimitive : f.IsPrimitive) (hdeg : 0 < f.natDegree) : Irreducible f := by sorry
-
-
-/-- **Question 6.**
-
-The square root of two is irrational.
-
-This is an application exercise: use the irrationality theorem for `√2`. -/
-theorem q6_sqrt2_irrational : Irrational (Real.sqrt 2) := by sorry
-
-
-/-- **Question 7.**
-
-The Euclidean gcd of `12` and `18` is `6`. -/
-theorem q7_gcd_12_18 : EuclideanDomain.gcd (12 : ℤ) 18 = 6 := by sorry
-
-
-/-- **Question 8.**
-
-In `ℤ[√−5]`, `6 = 2·3 = (1 + √−5)(1 - √−5)`, the equality underlying the classical
-non-unique-factorization example. -/
-theorem q8_zsqrt5_factorization :
-    ((6 : ℤ) : ℤ√(-5)) = (2 : ℤ√(-5)) * 3 ∧
-      ((6 : ℤ) : ℤ√(-5)) = (⟨1, 1⟩ : ℤ√(-5)) * ⟨1, -1⟩ := by sorry
+In `ℤ[√-5]`, verify the two factorizations of `6`, compute the norms of all four nonunit factors,
+and prove the two small-norm obstructions on which the usual non-unique-factorization argument
+rests. -/
+theorem q5_zsqrt5_two_factorizations :
+    let s : ℤ√(-5) := ⟨0, 1⟩
+    let α : ℤ√(-5) := 1 + s
+    let β : ℤ√(-5) := 1 - s
+    (6 : ℤ√(-5)) = (2 : ℤ√(-5)) * 3 ∧
+      (6 : ℤ√(-5)) = α * β ∧
+      (2 : ℤ√(-5)).norm = 4 ∧ (3 : ℤ√(-5)).norm = 9 ∧
+      α.norm = 6 ∧ β.norm = 6 ∧
+      (∀ z : ℤ√(-5), z.norm ≠ 2) ∧ (∀ z : ℤ√(-5), z.norm ≠ 3) := by sorry
 
 end Exercises.RingTheory.Factorization
