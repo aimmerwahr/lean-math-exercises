@@ -5,6 +5,8 @@ agree to license it under the [Apache License, Version 2.0](LICENSE), unless you
 and the maintainer agree otherwise in writing. You must have the right to
 submit the contribution under these terms.
 
+## Guidelines
+
 - Corrections and improvements to existing exercises are always welcome.
 - Any new exercise must be created or approved by someone with adequate domain knowledge and qualifications. AI generation is fine as long as a human stays in the loop to maintain quality.
 - Prioritize standard undergraduate mathematics over advanced domains, and prefer areas with a solid foundation in Mathlib over those without.
@@ -20,7 +22,7 @@ Both trees mirror Mathlib's directory hierarchy.
   Mathlib source file. Create an area folder only when you add an exercise for it.
 - Each subject overview in an area folder is `00`-prefixed:
   `Exercises/<Area>/00<Subject>.md` (scope, references, corresponding Mathlib modules, topic
-  dependency graph). An area with multiple subjects gives **every** overview this prefix. These
+  dependency graph). An area with multiple subjects gives every overview this prefix. These
   files sort before the numbered sheets and are committed under `Exercises/` only.
 
 ## Conventions

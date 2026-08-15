@@ -1,3 +1,5 @@
+# lean-math-exercises
+
 This repository collects mathematical exercises grouped by area, loosely following Mathlib's structure. The author created it with the hope of making mathematics more open and accessible to everyone — practice and feedback are indispensable parts of learning. We hope it benefits both students learning mathematics and people familiar with mathematics who are learning Lean.
 
 ## Layout
