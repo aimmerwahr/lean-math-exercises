@@ -20,7 +20,4 @@ Gallian, *Contemporary Abstract Algebra*; Artin, *Algebra*, Ch. 11–12; Judson,
 graph TD
   Rings --> Ideals
   Rings --> Polynomials
-  Ideals --> Factorization
-  Polynomials --> Factorization
-  Factorization --> GaussianIntegers
 ```

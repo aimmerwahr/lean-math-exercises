@@ -4,7 +4,7 @@ import Mathlib.Tactic
 # Lean Toolbox
 
 This is a collection of small, general-purpose Lean facts and proof patterns used throughout the
-exercise sheets. It is not specific to one mathematical topic.
+exercise sheets.
 
 ## Basic proof steps
 

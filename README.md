@@ -1,8 +1,4 @@
-# lean-math-exercises
-
 This repository collects mathematical exercises grouped by area, loosely following Mathlib's structure. The author created it with the hope of making mathematics more open and accessible to everyone — practice and feedback are indispensable parts of learning. We hope it benefits both students learning mathematics and people familiar with mathematics who are learning Lean.
-
-Contributions are welcome.
 
 ## Layout
 
@@ -33,9 +29,6 @@ lake build         # build the project
 2. Each statement has its informal question in the docstring above it. Replace `sorry`
    with your proof.
 3. (Optional) When you finish — or if you get stuck — compare with the matching file under `Solutions/`.
-
-Keep two empty lines between consecutive exercise declarations in both `Exercises/` and
-`Solutions/` files.
 
 Each sheet opens with a **Potentially helpful results** section — hover any `#check`ed
 name to see its statement.

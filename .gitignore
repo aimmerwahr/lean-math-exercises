@@ -6,10 +6,8 @@
 *.ilean
 *.trace
 
-# Private working area: notes, scratchpads, pdf dumps (never committed)
-/Scratch/
-
 # macOS
 .DS_Store
 
 .claude
+/Scratch/
