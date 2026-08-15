@@ -107,34 +107,35 @@ structure GrpObj where
 attribute [instance] GrpObj.group
 
 
-theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
-  -- Homomorphisms compose as functions, with the identity homomorphism as a two-sided unit.
-  refine ⟨{ Hom := fun X Y => X.carrier →* Y.carrier
-            id := fun X => MonoidHom.id X.carrier
-            comp := fun f g => g.comp f
-            id_comp := by intro X Y f; ext x; rfl
-            comp_id := by intro X Y f; ext x; rfl
-            assoc := by intro W X Y Z f g h; ext x; rfl }⟩
+structure OneObjectGroupoid (K : Type) [Group K] where
+  identity : K
+  composition : K → K → K
+  inverse : K → K
+  identity_eq : identity = 1
+  composition_eq : ∀ f g, composition f g = g * f
+  inverse_eq : ∀ f, inverse f = f⁻¹
+  id_comp : ∀ f, composition identity f = f
+  comp_id : ∀ f, composition f identity = f
+  assoc : ∀ f g h, composition (composition f g) h = composition f (composition g h)
+  inv_comp : ∀ f, composition (inverse f) f = identity
+  comp_inv : ∀ f, composition f (inverse f) = identity
 
 
-inductive OneObj where
-  | star
+theorem q9_group_as_groupoid (K : Type) [Group K] : Nonempty (OneObjectGroupoid K) := by
+  refine ⟨{ identity := 1
+            composition := fun f g => g * f
+            inverse := fun f => f⁻¹
+            identity_eq := rfl
+            composition_eq := by intro f g; rfl
+            inverse_eq := by intro f; rfl
+            id_comp := by intro f; exact mul_one f
+            comp_id := by intro f; exact one_mul f
+            assoc := by intro f g h; exact (mul_assoc h g f).symm
+            inv_comp := by intro f; exact mul_inv_cancel f
+            comp_inv := by intro f; exact inv_mul_cancel f }⟩
 
 
-theorem q10_group_as_groupoid (K : Type) [Group K] : Nonempty (Groupoid.{0} OneObj) := by
-  -- Multiplication supplies composition, and the group inverse supplies an inverse arrow.
-  refine ⟨{ Hom := fun _ _ => K
-            id := fun _ => 1
-            comp := fun f g => f * g
-            id_comp := by intro X Y f; exact one_mul f
-            comp_id := by intro X Y f; exact mul_one f
-            assoc := by intro W X Y Z f g h; exact mul_assoc f g h
-            inv := fun f => f⁻¹
-            inv_comp := by intro X Y f; exact inv_mul_cancel f
-            comp_inv := by intro X Y f; exact mul_inv_cancel f }⟩
-
-
-theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
+theorem q10_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
   -- Isomorphisms carry the solution set of `x² = 1` bijectively to the corresponding solution set.
   rw [isEmpty_iff]
   intro e
@@ -151,7 +152,7 @@ theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := 
   exact absurd hcard (by decide)
 
 
-theorem q12_opposite_iso :
+theorem q11_opposite_iso :
     ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
   refine ⟨{ toFun := fun x => MulOpposite.op x⁻¹
             invFun := fun y => (MulOpposite.unop y)⁻¹

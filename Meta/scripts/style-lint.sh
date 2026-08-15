@@ -13,21 +13,29 @@ failed=0
 
 report_matches() {
   local label=$1
-  shift
   local matches
-  matches=$(rg "$@" || true)
+  matches=$2
   if [[ -n $matches ]]; then
     printf '%s\n%s\n' "$label" "$matches" >&2
     failed=1
   fi
 }
 
-report_matches 'Every toolbox check must use the explicit @ form:' \
-  --pcre2 -n '^#check (?!@)' Exercises -g '*.lean'
-report_matches 'Exercise placeholders must put sorry on its own line:' \
-  -n ':= by sorry$' Exercises -g '*.lean'
-report_matches 'Solutions must not import their exercise sheet:' \
-  -n '^import Exercises\.' Solutions -g '*.lean'
+report_matches 'Every toolbox check must use the explicit @ form:' "$(
+  find Exercises -type f -name '*.lean' -exec awk '
+    /^#check / && $2 !~ /^@/ { printf "%s:%d:%s\n", FILENAME, FNR, $0 }
+  ' {} +
+)"
+report_matches 'Exercise placeholders must put sorry on its own line:' "$(
+  find Exercises -type f -name '*.lean' -exec awk '
+    /:= by sorry$/ { printf "%s:%d:%s\n", FILENAME, FNR, $0 }
+  ' {} +
+)"
+report_matches 'Solutions must not import their exercise sheet:' "$(
+  find Solutions -type f -name '*.lean' -exec awk '
+    /^import Exercises\./ { printf "%s:%d:%s\n", FILENAME, FNR, $0 }
+  ' {} +
+)"
 
 while IFS= read -r -d '' file; do
   if ! awk '

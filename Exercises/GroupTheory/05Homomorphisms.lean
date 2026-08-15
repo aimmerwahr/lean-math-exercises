@@ -121,40 +121,43 @@ structure GrpObj where
 
 attribute [instance] GrpObj.group
 
+/-- The data and laws of the one-object groupoid attached to a group. -/
+structure OneObjectGroupoid (K : Type) [Group K] where
+  identity : K
+  composition : K → K → K
+  inverse : K → K
+  identity_eq : identity = 1
+  composition_eq : ∀ f g, composition f g = g * f
+  inverse_eq : ∀ f, inverse f = f⁻¹
+  id_comp : ∀ f, composition identity f = f
+  comp_id : ∀ f, composition f identity = f
+  assoc : ∀ f g h, composition (composition f g) h = composition f (composition g h)
+  inv_comp : ∀ f, composition (inverse f) f = identity
+  comp_inv : ∀ f, composition f (inverse f) = identity
+
 
 /-- **Question 9.**
 
-A category has objects, morphisms between objects, identities, and associative composition. Show
-that bundled groups are the objects of a category whose morphisms are group homomorphisms. -/
-theorem q9_groups_form_category : Nonempty (Category.{0} GrpObj) := by
+A group can be viewed as a category with one object: its elements are the arrows, multiplication is
+composition (in the category-theory order), and inverses make every arrow invertible. Construct
+that groupoid from `K`. -/
+theorem q9_group_as_groupoid (K : Type) [Group K] : Nonempty (OneObjectGroupoid K) := by
   sorry
-
-/-- A bespoke one-object type used to view a group as a groupoid. -/
-inductive OneObj where
-  | star
 
 
 /-- **Question 10.**
 
-A group can be viewed as a category with one object: its elements are the arrows, multiplication is
-composition, and inverses make every arrow invertible. Construct that groupoid. -/
-theorem q10_group_as_groupoid (K : Type) [Group K] : Nonempty (Groupoid.{0} OneObj) := by
+The quaternion group `Q₈` and the dihedral group `D₄` both have order `8`, but are not isomorphic.
+Use an isomorphism to transport the solutions of `x² = 1`, then compare their counts. -/
+theorem q10_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
   sorry
 
 
 /-- **Question 11.**
 
-The quaternion group `Q₈` and the dihedral group `D₄` both have order `8`, but are not isomorphic.
-Use an isomorphism to transport the solutions of `x² = 1`, then compare their counts. -/
-theorem q11_q8_not_iso_d4 : IsEmpty (QuaternionGroup 2 ≃* DihedralGroup 4) := by
-  sorry
-
-
-/-- **Question 12.**
-
 The opposite group reverses multiplication. Construct the isomorphism from `G` to `Gᵐᵒᵖ` that sends
 each element to its inverse. -/
-theorem q12_opposite_iso :
+theorem q11_opposite_iso :
     ∃ e : G ≃* Gᵐᵒᵖ, ∀ x, e x = MulOpposite.op x⁻¹ := by
   sorry
 
